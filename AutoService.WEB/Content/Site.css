@@ -1,0 +1,44 @@
+﻿.navbar-collapse {
+    justify-content:center;
+}
+.html {
+    padding: 0px;
+    margin: 0px;
+}
+.body {
+    padding: 0px;
+    margin: 0px;
+    
+}
+.card{
+    width:17rem;
+    height:18rem;
+    margin-top:20px;
+}
+h5{
+    text-align:center;
+}
+img.card-img-top {
+    width:128px;
+    height:128px;
+    margin-left:72px;
+    margin-top:30px;
+}
+
+.sponsors{
+    padding-left:40px;
+    padding-right:20px;
+}
+.page-footer{
+    margin-top:20px;
+    padding:20px;
+}
+.footerlable {
+    color: #fff;
+}
+.contactinfo{
+    color:#fff;
+}
+.main-services{
+    margin-top:100px;
+}
