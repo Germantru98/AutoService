@@ -203,6 +203,10 @@
     <Content Include="Img\ServicesIcon\tire_icon.png" />
     <Content Include="Img\ServicesIcon\TO_icon.png" />
     <Content Include="Img\ServicesIcon\wheel_icon.png" />
+    <Content Include="Img\SocialMediaIcons\iconfinder_1_Facebook_colored_svg_copy_5296499.png" />
+    <Content Include="Img\SocialMediaIcons\iconfinder_1_Instagram_colored_svg_1_5296765.png" />
+    <Content Include="Img\SocialMediaIcons\iconfinder_1_Twitter2_colored_svg_5296515.png" />
+    <Content Include="Img\SocialMediaIcons\vk-logo--fb.png" />
     <Content Include="Img\SponsorsLogo\bbs.jpg" />
     <Content Include="Img\SponsorsLogo\Continental.png" />
     <Content Include="Img\SponsorsLogo\forward.jpg" />
