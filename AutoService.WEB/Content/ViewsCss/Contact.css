@@ -1,0 +1,11 @@
+﻿.contact-header{
+    margin-top:100px;
+    color:black;
+    justify-content:center;
+}
+.info{
+    display:inline-block;
+}
+.yandex-map-card{
+    display:inline-block;
+}
