@@ -4,6 +4,7 @@ using AutoService.BLL.Interfaces;
 using AutoService.DAL.Entities;
 using AutoService.DAL.Interfaces;
 using CarService.BLL.Infrastructure;
+using System;
 using System.Collections.Generic;
 
 namespace AutoService.BLL.Services
@@ -37,6 +38,21 @@ namespace AutoService.BLL.Services
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ContactData, ContactDataDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<ContactData>, List<ContactDataDTO>>(Database.ContactDatas.GetAll());
+        }
+        public IEnumerable<ContactDataDTO> GetActiveMails()
+        {
+            return GetActiveContactDatas(x => x.Name == "mail" && x.isActive);
+        }
+
+        public IEnumerable<ContactDataDTO> GetActiveContactDatas(Func<ContactData, bool> predicate)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ContactData, ContactDataDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<ContactData>, List<ContactDataDTO>>(Database.ContactDatas.Find(predicate));
+        }
+
+        public IEnumerable<ContactDataDTO> GetActivePhones()
+        {
+            return GetActiveContactDatas(x => x.Name == "phone" && x.isActive);
         }
     }
 }

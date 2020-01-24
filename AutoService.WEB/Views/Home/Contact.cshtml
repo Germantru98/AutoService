@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "Contact";
 }
-
+@model AutoService.WEB.Utils.ContactDataUnit
 <link href="~/Content/ViewsCss/Contact.css" rel="stylesheet" type="text/css" />
 <div class="contact-header">
     <h1 class="text-center" style="margin-bottom:30px">Контакты</h1>
@@ -29,18 +29,13 @@
                 <tr>
                     <td>
                         <h2>Почта</h2>
-                        <address>
-                            <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
-                            <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
-                        </address>
+                        @Html.Partial("~/Views/PartialView/MailPartialView.cshtml", Model)
                     </td>
                 </tr>
                 <tr>
                     <td>
                         <h2>Телефон</h2>
-
-                        <p>+ 01 234 567 88</p>
-                        <p>+ 01 234 567 89</p>
+                        @Html.Partial("~/Views/PartialView/PhonePartialView.cshtml", Model)
                     </td>
                 </tr>
             </table>

@@ -1,0 +1,10 @@
+﻿@model AutoService.WEB.Utils.ContactDataUnit
+    <address>
+        @foreach (var t in Model.GetMails())
+        {
+
+            <a href="mailto:@t.Value">@t.Value</a><br />
+        }
+    </address>
+
+

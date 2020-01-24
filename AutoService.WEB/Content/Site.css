@@ -45,6 +45,8 @@ img.card-img-top {
 
 .contactinfo {
     color: #fff;
+    margin-top:20px;
+    background-color:red;
 }
 
 .main-services {
