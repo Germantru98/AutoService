@@ -21,7 +21,7 @@ namespace AutoService.WEB
             // внедрение зависимостей
             NinjectModule registrations = new NinjectRegistrations();
             NinjectModule bllRegistrations = new ServiceModule("DefaultConnection");
-            var kernel = new StandardKernel(registrations,bllRegistrations);
+            var kernel = new StandardKernel(registrations, bllRegistrations);
             DependencyResolver.SetResolver(new NinjectDependencyResolver(kernel));
         }
     }

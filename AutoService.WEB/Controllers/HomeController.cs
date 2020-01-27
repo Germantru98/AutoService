@@ -1,9 +1,5 @@
-﻿using AutoService.BLL.DTO;
-using AutoService.BLL.Interfaces;
-using AutoService.BLL.Services;
-using AutoService.WEB.Models;
+﻿using AutoService.BLL.Interfaces;
 using AutoService.WEB.Utils;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
@@ -11,11 +7,12 @@ namespace AutoService.WEB.Controllers
     public class HomeController : Controller
     {
         private ContactDataUnit _contactDataUnit;
+
         public HomeController(IContactData icd)
         {
             _contactDataUnit = new ContactDataUnit(icd);
         }
-        
+
         public ActionResult Index()
         {
             ViewData["cd"] = _contactDataUnit;
@@ -31,9 +28,7 @@ namespace AutoService.WEB.Controllers
 
         public ActionResult Contact()
         {
-            
             return View(_contactDataUnit);
         }
-        
     }
 }

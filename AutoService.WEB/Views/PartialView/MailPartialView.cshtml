@@ -1,8 +1,8 @@
 ﻿@model AutoService.WEB.Utils.ContactDataUnit
-    <div class="contactinfo">
-        @foreach (var t in Model.GetMails())
+<div class="contactinfo">
+    @foreach (var t in Model.GetMails())
         {
 
-            <a href="mailto:@t.Value">@t.Value</a><br />
+    <a href="mailto:@t.Value">@t.Value</a><br />
         }
-    </div>
+</div>

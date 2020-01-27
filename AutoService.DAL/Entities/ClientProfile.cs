@@ -8,8 +8,9 @@ namespace AutoService.DAL.Entities
     {
         [Key]
         [ForeignKey("ApplicationUser")]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
+        public string Name { get; set; }
         public IEnumerable<Car> ClientCars { get; set; }
         public virtual ApplicationUser ApplicationUser { get; set; }
     }

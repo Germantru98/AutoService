@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using Ninject.Modules;
+﻿using AutoService.BLL.Interfaces;
 using AutoService.BLL.Services;
-using AutoService.BLL.Interfaces;
+using Ninject.Modules;
 
 namespace AutoService.WEB.Utils
 {
-    public class NinjectRegistrations:NinjectModule
+    public class NinjectRegistrations : NinjectModule
     {
         public override void Load()
         {
             Bind<IContactData>().To<ContactDataService>();
+            Bind<IUserService>().To<UserService>();
         }
     }
 }

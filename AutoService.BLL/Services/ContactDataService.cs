@@ -39,6 +39,7 @@ namespace AutoService.BLL.Services
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ContactData, ContactDataDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<ContactData>, List<ContactDataDTO>>(Database.ContactDatas.GetAll());
         }
+
         public IEnumerable<ContactDataDTO> GetActiveMails()
         {
             return GetActiveContactDatas(x => x.Name == "mail" && x.isActive);

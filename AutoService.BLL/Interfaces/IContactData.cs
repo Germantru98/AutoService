@@ -10,9 +10,13 @@ namespace AutoService.BLL.Interfaces
         ContactDataDTO GetContactData(int? id);
 
         IEnumerable<ContactDataDTO> GetContactDatas();
+
         IEnumerable<ContactDataDTO> GetActiveContactDatas(Func<ContactData, Boolean> predicate);
+
         IEnumerable<ContactDataDTO> GetActiveMails();
+
         IEnumerable<ContactDataDTO> GetActivePhones();
+
         void Dispose();
     }
 }

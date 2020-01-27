@@ -3,30 +3,29 @@
 
 namespace AutoService.WEB.App_Start
 {
-    using System;
-    using System.Web;
     using AutoService.BLL.Interfaces;
     using AutoService.BLL.Services;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
-
     using Ninject;
     using Ninject.Web.Common;
     using Ninject.Web.Common.WebHost;
+    using System;
+    using System.Web;
 
-    public static class NinjectWebCommon 
+    public static class NinjectWebCommon
     {
         private static readonly Bootstrapper bootstrapper = new Bootstrapper();
 
         /// <summary>
         /// Starts the application
         /// </summary>
-        public static void Start() 
+        public static void Start()
         {
             DynamicModuleUtility.RegisterModule(typeof(OnePerRequestHttpModule));
             DynamicModuleUtility.RegisterModule(typeof(NinjectHttpModule));
             bootstrapper.Initialize(CreateKernel);
         }
-        
+
         /// <summary>
         /// Stops the application.
         /// </summary>
@@ -34,7 +33,7 @@ namespace AutoService.WEB.App_Start
         {
             bootstrapper.ShutDown();
         }
-        
+
         /// <summary>
         /// Creates the kernel that will manage your application.
         /// </summary>
@@ -63,6 +62,6 @@ namespace AutoService.WEB.App_Start
         private static void RegisterServices(IKernel kernel)
         {
             kernel.Bind<IContactData>().To<ContactDataService>();
-        }        
+        }
     }
 }

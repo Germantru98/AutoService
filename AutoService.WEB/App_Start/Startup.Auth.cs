@@ -5,7 +5,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using System;
-
+using AutoService.BLL.Interfaces;
+using AutoService.BLL.Services;
 namespace AutoService.WEB
 {
     public partial class Startup
