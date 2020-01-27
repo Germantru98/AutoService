@@ -1,10 +1,11 @@
-﻿.navbar-collapse {
-    justify-content: center;
-}
+﻿/*.navbar-collapse {
+    justify-content: left;
+}*/
 
 .html {
     padding: 0px;
     margin: 0px;
+    
 }
 
 .body {
@@ -46,9 +47,12 @@ img.card-img-top {
 .contactinfo {
     color: #fff;
     margin-top:20px;
-    background-color:red;
 }
 
 .main-services {
     margin-top: 100px;
+}
+.account{
+    margin-top:50px;
+    height:500px
 }

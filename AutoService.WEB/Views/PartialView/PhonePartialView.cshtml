@@ -1,7 +1,10 @@
 ﻿@model AutoService.WEB.Utils.ContactDataUnit
 
-@foreach (var t in Model.GetPhones())
-{
-    <a href=" tel:@t.Value">@t.Value</a>
-    <br />
-}
+    <div class="contactinfo">
+        @foreach (var t in Model.GetPhones())
+        {
+            <a href=" tel:@t.Value">@t.Value</a>
+            <br />
+        }
+    </div>
+

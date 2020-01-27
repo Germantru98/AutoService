@@ -10,15 +10,15 @@ namespace AutoService.WEB.Controllers
 {
     public class HomeController : Controller
     {
-        private ContactDataUnit contactDataUnit;
+        private ContactDataUnit _contactDataUnit;
         public HomeController(IContactData icd)
         {
-            contactDataUnit = new ContactDataUnit(icd);
+            _contactDataUnit = new ContactDataUnit(icd);
         }
         
         public ActionResult Index()
         {
-            ViewData["contactDataUnit"] = contactDataUnit;
+            ViewData["cd"] = _contactDataUnit;
             return View();
         }
 
@@ -32,7 +32,7 @@ namespace AutoService.WEB.Controllers
         public ActionResult Contact()
         {
             
-            return View(contactDataUnit);
+            return View(_contactDataUnit);
         }
         
     }
