@@ -10,16 +10,48 @@
     <h4>Изменение параметров учетной записи</h4>
     <hr />
     <dl class="dl-horizontal">
+        <dt>ФИО</dt>
+        <dd>
+            @Model.UserName
+        </dd>
+        <dt>Номер телефона</dt>
+        <dd>
+            @Model.PhoneNumber
+        </dd>
+        <dt>Почта:</dt>
+        <dd>
+            @Model.Email
+        </dd>
+        <dt>Cars</dt>
+        <dd>
+            @if (@Model.Cars.ToList().Count == 0)
+            {
+                <strong>[Пусто]</strong>
+            }
+            else
+            {
+
+                foreach (var car in @Model.Cars)
+                {
+                    <div>
+                        Модель: @car.Model<hr />
+                        Цвет: @car.Color<hr />
+                        Год выпуска: @car.Year.ToShortDateString()<hr />
+                    </div>
+                }
+
+            }
+        </dd>
         <dt>Пароль:</dt>
         <dd>
             [
             @if (Model.HasPassword)
             {
-            @Html.ActionLink("Смена пароля", "ChangePassword")
+                @Html.ActionLink("Смена пароля", "ChangePassword")
             }
             else
             {
-            @Html.ActionLink("Создать", "SetPassword")
+                @Html.ActionLink("Создать", "SetPassword")
             }
             ]
         </dd>

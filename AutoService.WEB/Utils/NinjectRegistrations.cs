@@ -9,7 +9,6 @@ namespace AutoService.WEB.Utils
         public override void Load()
         {
             Bind<IContactData>().To<ContactDataService>();
-            Bind<IUserService>().To<UserService>();
         }
     }
 }

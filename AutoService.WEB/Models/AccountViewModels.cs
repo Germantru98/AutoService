@@ -66,6 +66,15 @@ namespace AutoService.WEB.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "ФИО")]
+        public string UserName { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "Номер телефона")]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }

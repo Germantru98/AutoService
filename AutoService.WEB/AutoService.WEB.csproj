@@ -197,6 +197,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202001151318537_InitialCreate.cs" />
+    <Compile Include="Migrations\202001151318537_InitialCreate.Designer.cs">
+      <DependentUpon>202001151318537_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001290942585_DataMigration.cs" />
+    <Compile Include="Migrations\202001290942585_DataMigration.Designer.cs">
+      <DependentUpon>202001290942585_DataMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202001291549399_DataMigration1.cs" />
+    <Compile Include="Migrations\202001291549399_DataMigration1.Designer.cs">
+      <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -415,6 +428,17 @@
       <Project>{405586ff-c1ac-4f33-86ac-f66cbf37a307}</Project>
       <Name>AutoService.DAL</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202001151318537_InitialCreate.resx">
+      <DependentUpon>202001151318537_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001290942585_DataMigration.resx">
+      <DependentUpon>202001290942585_DataMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202001291549399_DataMigration1.resx">
+      <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
