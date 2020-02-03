@@ -7,13 +7,29 @@ namespace AutoService.WEB.Models
 {
     public class IndexViewModel
     {
+        [Display(Name = "ФИО")]
+        [UIHint("String")]
         public string UserName { get; set; }
+
+        [Display(Name = "Почта")]
+        [UIHint("EmailAddress")]
         public string Email { get; set; }
+
+        [ScaffoldColumn(false)]
         public bool HasPassword { get; set; }
+
         public IList<UserLoginInfo> Logins { get; set; }
+
+        [Display(Name = "Номер телефона")]
+        [UIHint("String")]
         public string PhoneNumber { get; set; }
+
+        [ScaffoldColumn(false)]
         public bool TwoFactor { get; set; }
+
+        [ScaffoldColumn(false)]
         public bool BrowserRemembered { get; set; }
+
         public IEnumerable<Car> Cars { get; set; }
     }
 
