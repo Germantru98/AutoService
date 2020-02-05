@@ -1,0 +1,38 @@
+﻿@model AutoService.WEB.Models.Car
+<h4>Вы уверенны что хотите удалить данный автомобиль?</h4>
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Model)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Model)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Color)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Color)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Year)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Year)
+        </dd>
+    </dl>
+    @using (Html.BeginForm())
+        {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color">
+        <input type="submit" value="Удалить" class="btn btn-danger" />
+        <a class="btn btn-info" href="/Manage" role="link">Назад</a>
+    </div>
+        }
+</div>

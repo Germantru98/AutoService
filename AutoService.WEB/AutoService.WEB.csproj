@@ -209,6 +209,10 @@
     <Compile Include="Migrations\202001291549399_DataMigration1.Designer.cs">
       <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002051244569_carupd.cs" />
+    <Compile Include="Migrations\202002051244569_carupd.Designer.cs">
+      <DependentUpon>202002051244569_carupd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
@@ -404,6 +408,9 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
+    <Content Include="Views\Manage\AddNewCar.cshtml" />
+    <Content Include="Views\Manage\RemoveCarView.cshtml" />
+    <Content Include="Views\Manage\EditCarView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -438,6 +445,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202001291549399_DataMigration1.resx">
       <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002051244569_carupd.resx">
+      <DependentUpon>202002051244569_carupd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

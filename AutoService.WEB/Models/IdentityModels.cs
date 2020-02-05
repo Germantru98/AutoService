@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Security.Claims;
@@ -33,7 +32,7 @@ namespace AutoService.WEB.Models
         public int Id { get; set; }
         public string Model { get; set; }
         public string Color { get; set; }
-        public DateTime Year { get; set; }
+        public string Year { get; set; }
 
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }

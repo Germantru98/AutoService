@@ -55,3 +55,7 @@ img.card-img-top {
 .account {
     height: 500px;
 }
+
+div {
+    display: block;
+}

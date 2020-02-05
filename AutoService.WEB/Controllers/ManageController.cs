@@ -2,7 +2,9 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -14,6 +16,7 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _dbContext = new ApplicationDbContext();
 
         public ManageController()
         {
@@ -61,7 +64,6 @@ namespace AutoService.WEB.Controllers
                 : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
                 : "";
-            var context = new ApplicationDbContext();
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
             var model = new IndexViewModel
@@ -70,7 +72,7 @@ namespace AutoService.WEB.Controllers
                 PhoneNumber = user.PhoneNumber,
                 Email = user.Email,
                 UserName = user.UserName,
-                Cars = context.Cars.Where(c => c.ApplicationUserId == user.Id),
+                Cars = _dbContext.Cars.Where(c => c.ApplicationUserId == user.Id),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
@@ -334,6 +336,73 @@ namespace AutoService.WEB.Controllers
             }
 
             base.Dispose(disposing);
+        }
+
+        public ActionResult AddNewCar()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNewCar(AddNewCarViewModel newCar)
+        {
+            var userId = User.Identity.GetUserId();
+            var car = new Car { Color = newCar.CarColor, Model = newCar.CarModel, Year = newCar.CarYear, ApplicationUserId = userId, };
+            _dbContext.Cars.Add(car);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index", "Manage");
+        }
+
+        public async Task<ActionResult> RemoveCar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Car car = await _dbContext.Cars.FindAsync(id);
+            if (car == null)
+            {
+                return HttpNotFound();
+            }
+            return View("RemoveCarView", car);
+        }
+
+        [HttpPost, ActionName("RemoveCar")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteConfirmed(int id)
+        {
+            Car car = await _dbContext.Cars.FindAsync(id);
+            _dbContext.Cars.Remove(car);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> EditCar(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Car car = await _dbContext.Cars.FindAsync(id);
+            if (car == null)
+            {
+                return HttpNotFound();
+            }
+            return View("EditCarView", car);
+        }
+
+        [HttpPost, ActionName("EditCar")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditCar(Car car)
+        {
+            if (ModelState.IsValid)
+            {
+                _dbContext.Entry(car).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View("EditCarView", car);
         }
 
         #region Вспомогательные приложения
