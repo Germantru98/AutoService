@@ -1,0 +1,50 @@
+﻿@model IEnumerable<AutoService.WEB.Models.UserRewiew>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Отзывы</h2>
+
+
+<p>
+    <a class="btn btn-success" href="/UserRewiews/Create" role="button">Добавить отзыв</a>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RewiewText)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RewiewText)
+            </td>
+            <td>
+                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                {
+                    @Html.ActionLink("Edit", "Edit", new { id = item.UserRewiewId })
+                    @Html.ActionLink("Details", "Details", new { id = item.UserRewiewId })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.UserRewiewId })
+                }
+                else if (item.ApplicationUserId == ViewBag.UserId)
+                {
+                    <a class="btn btn-outline-primary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
+                    <a class="btn btn-outline-danger" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
+                }
+            </td>
+        </tr>
+    }
+
+</table>

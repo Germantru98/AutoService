@@ -194,6 +194,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\UserRewiewsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -213,11 +214,16 @@
     <Compile Include="Migrations\202002051244569_carupd.Designer.cs">
       <DependentUpon>202002051244569_carupd.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002061229255_UsersRewiews.cs" />
+    <Compile Include="Migrations\202002061229255_UsersRewiews.Designer.cs">
+      <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\RewiewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ContactDataUnit.cs" />
@@ -411,6 +417,11 @@
     <Content Include="Views\Manage\AddNewCar.cshtml" />
     <Content Include="Views\Manage\RemoveCarView.cshtml" />
     <Content Include="Views\Manage\EditCarView.cshtml" />
+    <Content Include="Views\UserRewiews\Create.cshtml" />
+    <Content Include="Views\UserRewiews\Delete.cshtml" />
+    <Content Include="Views\UserRewiews\Details.cshtml" />
+    <Content Include="Views\UserRewiews\Edit.cshtml" />
+    <Content Include="Views\UserRewiews\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -448,6 +459,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002051244569_carupd.resx">
       <DependentUpon>202002051244569_carupd.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002061229255_UsersRewiews.resx">
+      <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

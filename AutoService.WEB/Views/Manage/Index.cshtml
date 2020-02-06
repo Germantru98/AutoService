@@ -17,21 +17,38 @@
         </div>
         <div class="tab-content col ">
             <div class="tab-pane fade show active" id="account">
-                <div class=" container">
-                    <h4>Изменение параметров учетной записи</h4>
-                    @Html.DisplayForModel()
-
-                    @if (Model.HasPassword)
-                    {
-                        <a class="btn btn-primary" href="/Manage/ChangePassword" role="button">Смена пароля</a>
-                    }
-                    else
-                    {
-                        @Html.ActionLink("Создать", "SetPassword")
-                    }
+                <div class=" container-fluid">
+                    <div class="row-cols-1 no-gutters">
+                        <div class="col-12 col-sm-6 col-md-4 col-xl">
+                            <p class="m-1">
+                                <strong>ФИО:</strong> @Model.UserName
+                            </p>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-xl">
+                            <p class="m-1">
+                                <strong>Email:</strong> @Model.Email
+                            </p>
+                        </div>
+                        <div class="col-12 col-sm-6 col-md-4 col-xl">
+                            <p class="m-1">
+                                <strong>Номер телефона:</strong>  @Model.PhoneNumber
+                            </p>
+                        </div>
+                        <div class="btn-block mb-1 mt-1">
+                            @if (Model.HasPassword)
+                            {
+                                <a class="btn btn-primary" href="/Manage/ChangePassword" role="button">Смена пароля</a>
+                            }
+                            else
+                            {
+                                @Html.ActionLink("Создать", "SetPassword")
+                            }
+                        </div>
+                    </div>
+                  
                 </div>
             </div>
-            <div class="tab-pane fade" id="cars">
+            <div class="tab-pane fade " id="cars">
                 <div class="album py-2">
                     <div class="container">
                         <div class="row">

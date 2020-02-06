@@ -11,7 +11,7 @@ namespace AutoService.WEB.Models
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Car> Cars { get; set; }
-
+        public ICollection<UserRewiew> UserRewiews { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
@@ -24,6 +24,7 @@ namespace AutoService.WEB.Models
             : base()
         {
             Cars = new List<Car>();
+            UserRewiews = new List<UserRewiew>();
         }
     }
 
@@ -51,5 +52,7 @@ namespace AutoService.WEB.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<AutoService.WEB.Models.UserRewiew> UserRewiews { get; set; }
     }
 }
