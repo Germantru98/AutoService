@@ -218,6 +218,14 @@
     <Compile Include="Migrations\202002061229255_UsersRewiews.Designer.cs">
       <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002071005122_Add date to rewiew.cs" />
+    <Compile Include="Migrations\202002071005122_Add date to rewiew.Designer.cs">
+      <DependentUpon>202002071005122_Add date to rewiew.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002071154395_textfixes.cs" />
+    <Compile Include="Migrations\202002071154395_textfixes.Designer.cs">
+      <DependentUpon>202002071154395_textfixes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
@@ -462,6 +470,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002061229255_UsersRewiews.resx">
       <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071005122_Add date to rewiew.resx">
+      <DependentUpon>202002071005122_Add date to rewiew.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002071154395_textfixes.resx">
+      <DependentUpon>202002071154395_textfixes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -30,6 +30,7 @@ namespace AutoService.WEB.Controllers
         }
 
         // GET: UserRewiews
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             var userRewiews = db.UserRewiews.Include(u => u.ApplicationUser);
@@ -38,6 +39,7 @@ namespace AutoService.WEB.Controllers
         }
 
         // GET: UserRewiews/Details/5
+       // [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -45,6 +47,8 @@ namespace AutoService.WEB.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
+            var userId = User.Identity.GetUserId();
+            userRewiew.ApplicationUser = await UserManager.FindByIdAsync(userId);
             if (userRewiew == null)
             {
                 return HttpNotFound();
@@ -67,9 +71,15 @@ namespace AutoService.WEB.Controllers
         public async Task<ActionResult> Create([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
         {
             userRewiew.ApplicationUserId = User.Identity.GetUserId();
-            db.UserRewiews.Add(userRewiew);
-            await db.SaveChangesAsync();
-            return RedirectToAction("Index", "UserRewiews");
+            userRewiew.Date = DateTime.Now;
+            if (ModelState.IsValid||!string.IsNullOrEmpty( userRewiew.RewiewText))
+            {
+                db.UserRewiews.Add(userRewiew);
+                await db.SaveChangesAsync();
+                return RedirectToAction("Index", "UserRewiews");
+            }
+            return View();
+            
         }
 
         // GET: UserRewiews/Edit/5

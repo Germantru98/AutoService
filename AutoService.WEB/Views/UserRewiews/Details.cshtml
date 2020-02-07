@@ -4,32 +4,37 @@
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<h2>Details</h2>
-
-<div>
-    <h4>UserRewiew</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.ApplicationUser.Email)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ApplicationUser.Email)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.RewiewText)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.RewiewText)
-        </dd>
-
-    </dl>
-</div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.UserRewiewId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+    <div class=" card-deck">
+        <div class="card">
+            <div class="card-header bg-dark " style="color:white">
+                <h3>Детали отзыва</h3>
+            </div>
+            <div class="card-body">
+                <table class="table table-borderless">
+                    <tr >
+                        <td><h5>Отзыв:</h5></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p>@Model.RewiewText</p>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header bg-dark" style="color:white">
+                <h3>Данные пользователя</h3>
+            </div>
+            <div class="card-body">
+                <strong>Имя пользователя: </strong> @Model.ApplicationUser.UserName <br />
+                <strong>Почта: </strong><a href="mailto:@Model.ApplicationUser.Email" style="color:black">@Model.ApplicationUser.Email</a> <br />
+                <strong>Телефон: </strong>@Model.ApplicationUser.PhoneNumber <br />
+                <strong> Дата и время отзыва: </strong> @Model.Date <br />
+            </div>
+        </div>
+    </div>
+    <div class="btn-group mb-2 mt-2">
+        <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@Model.UserRewiewId" role="button">Изменить</a>
+        <a class="btn btn-outline-secondary" href="/UserRewiews" role="button">Назад</a>
+    </div>
