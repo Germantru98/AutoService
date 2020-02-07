@@ -3,28 +3,27 @@
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-    <div class="row">
-        <div class="col-12 m-2"><h3>Вы уверенны что хотите удалить данный отзыв?</h3></div>
-        <table class="table col-sm-12 col-md-12 col-lg-12 col-xl-6 m-3">
-            <tr class="table-bordered table-dark" style="color:black">
-                <td><h5>Отзыв:</h5></td>
-                <td><h5>Дата отзыва:</h5></td>
-            </tr>
-            <tr >
-                <td>@Html.DisplayFor(m => m.RewiewText)</td>
-                <td>@Html.DisplayFor(m => m.Date)</td>
-            </tr>
-        </table>
-    </div>
-    <div class="btn-group m-1 mb-2">
-        @using (Html.BeginForm())
+<div class="row">
+    <div class="col-12 m-2"><h3>Вы уверенны что хотите удалить данный отзыв?</h3></div>
+    <table class="table col-sm-12 col-md-12 col-lg-12 col-xl-6 m-3">
+        <tr class="table-bordered table-dark" style="color:black">
+            <td><h5>Отзыв:</h5></td>
+            <td><h5>Дата отзыва:</h5></td>
+        </tr>
+        <tr>
+            <td>@Html.DisplayFor(m => m.RewiewText)</td>
+            <td>@Html.DisplayFor(m => m.Date)</td>
+        </tr>
+    </table>
+</div>
+<div class="btn-group m-1 mb-2">
+    @using (Html.BeginForm())
         {
-            @Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-danger" />
-            <a class="btn btn-outline-secondary" href="/UserRewiews" role="button">Назад</a>
-        </div>
-        }
+    <div class="form-actions no-color">
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a class="btn btn-outline-secondary" href="/UserRewiews" role="button">Назад</a>
     </div>
-
+        }
+</div>

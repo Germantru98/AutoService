@@ -37,15 +37,14 @@
                         <div class="btn-block mb-1 mt-1">
                             @if (Model.HasPassword)
                             {
-                                <a class="btn btn-primary" href="/Manage/ChangePassword" role="button">Смена пароля</a>
+                            <a class="btn btn-primary" href="/Manage/ChangePassword" role="button">Смена пароля</a>
                             }
                             else
                             {
-                                @Html.ActionLink("Создать", "SetPassword")
+                            @Html.ActionLink("Создать", "SetPassword")
                             }
                         </div>
                     </div>
-                  
                 </div>
             </div>
             <div class="tab-pane fade " id="cars">
@@ -55,46 +54,46 @@
 
                             @if (@Model.Cars.ToList().Count == 0)
                             {
-                                <strong>[Пусто]</strong>
+                            <strong>[Пусто]</strong>
                             }
                             else
                             {
                                 foreach (var car in @Model.Cars)
                                 {
 
-                                    <div class="col-md-4">
-                                        <div class="card mb-4 shadow-sm" style="height:24rem">
-                                            <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
-                                            <div class="card-body">
-                                                <p class="card-text">
-                                                    Модель: @car.Model<br />
-                                                    Цвет: @car.Color<br />
-                                                    Год: @car.Year<br />
-                                                </p>
-                                                <div class="d-flex justify-content-between align-items-center">
-                                                    <div class="btn-group">
-                                                        <a class="btn btn-sm btn-outline-secondary" href="/Manage/EditCar/@car.Id" role="link">Обновить</a>
-                                                        <a class="btn btn-sm btn-outline-secondary" href="/Manage/RemoveCar/@car.Id" role="link">Удалить</a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                }
-                                <div class="col-md-4">
-                                    <div class="card mb-4 shadow-sm" style="height:24rem">
-                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
-                                        <div class="card-body">
-                                            <p class="card-text">Добавить новый автомобиль</p>
-                                            <div class="d-flex justify-content-between align-items-center">
-                                                <div class="btn-group" style="margin-top:45px">
-                                                    <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
-                                                </div>
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm" style="height:24rem">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                                    <div class="card-body">
+                                        <p class="card-text">
+                                            Модель: @car.Model<br />
+                                            Цвет: @car.Color<br />
+                                            Год: @car.Year<br />
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group">
+                                                <a class="btn btn-sm btn-outline-secondary" href="/Manage/EditCar/@car.Id" role="link">Обновить</a>
+                                                <a class="btn btn-sm btn-outline-secondary" href="/Manage/RemoveCar/@car.Id" role="link">Удалить</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+
+                                }
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm" style="height:24rem">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                                    <div class="card-body">
+                                        <p class="card-text">Добавить новый автомобиль</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="margin-top:45px">
+                                                <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             }
                         </div>
                     </div>

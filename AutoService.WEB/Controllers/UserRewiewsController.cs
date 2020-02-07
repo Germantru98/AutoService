@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using AutoService.WEB.Models;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Data.Entity;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AutoService.WEB.Models;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.Identity;
 
 namespace AutoService.WEB.Controllers
 {
@@ -17,6 +14,7 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private ApplicationUserManager _userManager;
+
         public ApplicationUserManager UserManager
         {
             get
@@ -39,7 +37,7 @@ namespace AutoService.WEB.Controllers
         }
 
         // GET: UserRewiews/Details/5
-       // [Authorize(Roles ="Admin")]
+        // [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
@@ -59,12 +57,11 @@ namespace AutoService.WEB.Controllers
         // GET: UserRewiews/Create
         public ActionResult Create()
         {
-          
             return View();
         }
 
         // POST: UserRewiews/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -72,14 +69,13 @@ namespace AutoService.WEB.Controllers
         {
             userRewiew.ApplicationUserId = User.Identity.GetUserId();
             userRewiew.Date = DateTime.Now;
-            if (ModelState.IsValid||!string.IsNullOrEmpty( userRewiew.RewiewText))
+            if (ModelState.IsValid || !string.IsNullOrEmpty(userRewiew.RewiewText))
             {
                 db.UserRewiews.Add(userRewiew);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index", "UserRewiews");
             }
             return View();
-            
         }
 
         // GET: UserRewiews/Edit/5
@@ -94,24 +90,24 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", userRewiew.ApplicationUserId);
             return View(userRewiew);
         }
 
         // POST: UserRewiews/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
         {
+            userRewiew.ApplicationUserId = User.Identity.GetUserId();
+            userRewiew.Date = DateTime.Now;
             if (ModelState.IsValid)
             {
                 db.Entry(userRewiew).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewBag.ApplicationUserId = new SelectList(db.Users, "Id", "Email", userRewiew.ApplicationUserId);
             return View(userRewiew);
         }
 

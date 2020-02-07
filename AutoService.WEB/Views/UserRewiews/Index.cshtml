@@ -5,65 +5,63 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <div class="row">
-        <div class="col-12 m-2">
-            <h2>Отзывы</h2>
-        </div>
-        <div class="col-12 p-0">
-            <table class="table table-borderless table-responsive-xl">
-                <thead>
-                    <tr class="table-secondary justify-content-center">
-                        <th>
-                            <h4>Email</h4>
-                        </th>
-                        <th>
-                           <h4>Текст</h4>
-                        </th>
-                        <th>
-                            <h4>Дата отзыва</h4>
-                        </th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody class=" table-light">
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.RewiewText)
-                            </td>
-                            <td>
-                                @item.Date.ToShortDateString()
-                            </td>
-                            <td >
-                                @if (ViewContext.HttpContext.User.IsInRole("Admin"))
-                                {
-                                    <div class="btn-group m-1 jus">
-
-                                        <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
-                                        <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
-                                        <a class="btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
-                                    </div>
-                                }
-                                else if (item.ApplicationUserId == ViewBag.UserId)
-                                {
-                                    <div class="btn-group p-1 col-1">
-
-                                        <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
-                                        <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
-                                        <a class="btn btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+<div class="row">
+    <div class="col-12 m-2">
+        <h2>Отзывы</h2>
     </div>
+    <div class="col-12 p-0">
+        <table class="table table-borderless table-responsive-xl">
+            <thead>
+                <tr class="table-secondary justify-content-center">
+                    <th>
+                        <h4>Email</h4>
+                    </th>
+                    <th>
+                        <h4>Текст</h4>
+                    </th>
+                    <th>
+                        <h4>Дата отзыва</h4>
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class=" table-light">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.RewiewText)
+                        </td>
+                        <td>
+                            @item.Date.ToShortDateString()
+                        </td>
+                        <td>
+                            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                            {
+                                <div class="btn-group m-1 jus">
+
+                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
+                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
+                                    <a class="btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
+                                </div>
+                            }
+                            else if (item.ApplicationUserId == ViewBag.UserId)
+                            {
+                                <div class="btn-group p-1 col-1">
+                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
+                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
+                                </div>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
 <p>
     <a class="btn btn-success" href="/UserRewiews/Create" role="button">Добавить отзыв</a>
