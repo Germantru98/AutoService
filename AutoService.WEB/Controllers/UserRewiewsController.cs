@@ -7,6 +7,8 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
+using PagedList.Mvc;
 
 namespace AutoService.WEB.Controllers
 {
@@ -29,15 +31,17 @@ namespace AutoService.WEB.Controllers
 
         // GET: UserRewiews
         [Authorize]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(int?page)
         {
-            var userRewiews = db.UserRewiews.Include(u => u.ApplicationUser);
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            var userRewiewsList = await db.UserRewiews.Include(u => u.ApplicationUser).ToListAsync();
             ViewBag.UserId = User.Identity.GetUserId();
-            return View(await userRewiews.ToListAsync());
+            return View(userRewiewsList.ToPagedList(pageNumber,pageSize));
         }
 
         // GET: UserRewiews/Details/5
-        // [Authorize(Roles ="Admin")]
+        [Authorize(Roles ="Admin")]
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)

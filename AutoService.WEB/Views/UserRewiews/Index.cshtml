@@ -1,10 +1,10 @@
-﻿@model IEnumerable<AutoService.WEB.Models.UserRewiew>
-
+﻿@model PagedList.IPagedList<AutoService.WEB.Models.UserRewiew>
+@using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <div class="row">
     <div class="col-12 m-2">
         <h2>Отзывы</h2>
@@ -41,16 +41,16 @@
                         <td>
                             @if (ViewContext.HttpContext.User.IsInRole("Admin"))
                             {
-                                <div class="btn-group m-1 jus">
+                                <div class="btn-group p-0 col-1">
 
                                     <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
                                     <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
-                                    <a class="btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
+                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
                                 </div>
                             }
                             else if (item.ApplicationUserId == ViewBag.UserId)
                             {
-                                <div class="btn-group p-1 col-1">
+                                <div class="btn-group p-0 col-1">
                                     <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
                                     <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
                                 </div>
@@ -62,7 +62,9 @@
         </table>
     </div>
 </div>
-
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
 <p>
     <a class="btn btn-success" href="/UserRewiews/Create" role="button">Добавить отзыв</a>
 </p>
