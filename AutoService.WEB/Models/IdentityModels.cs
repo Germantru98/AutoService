@@ -54,6 +54,8 @@ namespace AutoService.WEB.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<AutoService.WEB.Models.UserRewiew> UserRewiews { get; set; }
+        public DbSet<AutoService.WEB.Models.UserRewiew> UserRewiews { get; set; }
+
+        public DbSet<AutoService.WEB.Models.JobVacancy> JobVacancies { get; set; }
     }
 }

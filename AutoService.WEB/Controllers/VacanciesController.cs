@@ -1,141 +1,118 @@
 ﻿using AutoService.WEB.Models;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
 using PagedList;
-using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
 {
-    public class UserRewiewsController : Controller
+    public class VacanciesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private ApplicationUserManager _userManager;
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
-
-        // GET: UserRewiews
+        // GET: Vacancies
         [Authorize]
         public async Task<ActionResult> Index(int? page)
         {
-            int pageSize = 10;
+            int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var userRewiewsList = await db.UserRewiews.Include(u => u.ApplicationUser).ToListAsync();
-            ViewBag.UserId = User.Identity.GetUserId();
-            return View(userRewiewsList.ToPagedList(pageNumber, pageSize));
+            var jobVacancies = await db.JobVacancies.ToListAsync();
+            return View(jobVacancies.ToPagedList(pageNumber, pageSize));
         }
 
-        // GET: UserRewiews/Details/5
-        [Authorize(Roles = "Admin")]
+        // GET: Vacancies/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            var userId = User.Identity.GetUserId();
-            userRewiew.ApplicationUser = await UserManager.FindByIdAsync(userId);
-            if (userRewiew == null)
+            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            if (jobVacancy == null)
             {
                 return HttpNotFound();
             }
-            return View(userRewiew);
+            return View(jobVacancy);
         }
 
-        // GET: UserRewiews/Create
+        // GET: Vacancies/Create
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: UserRewiews/Create
+        // POST: Vacancies/Create
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
+        public async Task<ActionResult> Create([Bind(Include = "VacancyName,VacancyDescription,Salary,Email,ContactPhone")] JobVacancy jobVacancy)
         {
-            userRewiew.ApplicationUserId = User.Identity.GetUserId();
-            userRewiew.Date = DateTime.Now;
-            if (ModelState.IsValid || !string.IsNullOrEmpty(userRewiew.RewiewText))
+            if (ModelState.IsValid || !string.IsNullOrEmpty(jobVacancy.VacancyDescription))
             {
-                db.UserRewiews.Add(userRewiew);
+                db.JobVacancies.Add(jobVacancy);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index", "UserRewiews");
+                return RedirectToAction("Index");
             }
-            return View();
+
+            return View(jobVacancy);
         }
 
-        // GET: UserRewiews/Edit/5
+        // GET: Vacancies/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            if (userRewiew == null)
+            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            if (jobVacancy == null)
             {
                 return HttpNotFound();
             }
-            return View(userRewiew);
+            return View(jobVacancy);
         }
 
-        // POST: UserRewiews/Edit/5
+        // POST: Vacancies/Edit/5
         // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,VacancyName,VacancyDescription,Salary,Email,ContactPhone")] JobVacancy jobVacancy)
         {
-            userRewiew.ApplicationUserId = User.Identity.GetUserId();
-            userRewiew.Date = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Entry(userRewiew).State = EntityState.Modified;
+                db.Entry(jobVacancy).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(userRewiew);
+            return View(jobVacancy);
         }
 
-        // GET: UserRewiews/Delete/5
+        // GET: Vacancies/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            if (userRewiew == null)
+            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            if (jobVacancy == null)
             {
                 return HttpNotFound();
             }
-            return View(userRewiew);
+            return View(jobVacancy);
         }
 
-        // POST: UserRewiews/Delete/5
+        // POST: Vacancies/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            db.UserRewiews.Remove(userRewiew);
+            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            db.JobVacancies.Remove(jobVacancy);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

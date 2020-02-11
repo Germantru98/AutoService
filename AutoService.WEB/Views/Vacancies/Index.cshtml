@@ -1,0 +1,46 @@
+﻿@model PagedList.IPagedList<AutoService.WEB.Models.JobVacancy>
+@using PagedList.Mvc
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+<h1 class="display-4 ">Вакансии</h1>
+@if (Model.Count>0)
+{
+    foreach (var vacancy in Model)
+    {
+<div class="jumbotron mb-3 ">
+    <h1 class="display-3">@vacancy.VacancyName</h1>
+    <hr class="my-4">
+    <div class="text-body">
+        <p><h4>Описание: </h4>@vacancy.VacancyDescription</p>
+        <p><b>Зарплата: </b> @vacancy.Salary</p>
+    </div>
+    <p class="text-right">
+        <a class="btn btn-dark btn-lg" href="/Vacancies/Details/@vacancy.Id" role="button">Подробнее</a>
+        @if (User.IsInRole("Admin"))
+                {
+        <a class="btn btn-outline-dark btn-lg" href="/Vacancies/Edit/@vacancy.Id" role="button">Изменить</a>
+        <a class="btn btn-outline-danger btn-lg" href="/Vacancies/Delete/@vacancy.Id" role="button">Удалить</a>
+                }
+    </p>
+</div>
+    }
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
+}
+else
+{
+<div class="jumbotron">
+    <h1 class="display-1">На данный момент список вакансий пуст</h1>
+</div>
+}
+@if (User.IsInRole("Admin"))
+{
+<div class="mb-3">
+    <a class="btn btn-dark btn-lg" href="/Vacancies/Create" role="button">Добавить вакансию</a>
+</div>
+}

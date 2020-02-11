@@ -1,0 +1,59 @@
+﻿@model AutoService.WEB.Models.JobVacancy
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="display-4 mt-3">Вы уверенны , что хотите удалить данную вакансию?</h2>
+<div>
+    <dl class="dl-horizontal m-2">
+        <dt>
+            Название вакансии:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VacancyName)
+        </dd>
+
+        <dt>
+            Описание вакансии:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.VacancyDescription)
+        </dd>
+
+        <dt>
+            Зарплата:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Salary)
+        </dd>
+
+        <dt>
+            Почта:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+
+        <dt>
+            Контактный телефон:
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactPhone)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+
+    <div class="form-actions no-color mb-2 mt-3">
+        <input type="submit" value="Удалить" class="btn btn-dark" />
+        <a class="btn btn-dark" href="/Vacancies" role="button">Назад</a>
+    </div>
+    }
+</div>

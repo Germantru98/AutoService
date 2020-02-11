@@ -201,41 +201,15 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\UserRewiewsController.cs" />
+    <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001151318537_InitialCreate.cs" />
-    <Compile Include="Migrations\202001151318537_InitialCreate.Designer.cs">
-      <DependentUpon>202001151318537_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001290942585_DataMigration.cs" />
-    <Compile Include="Migrations\202001290942585_DataMigration.Designer.cs">
-      <DependentUpon>202001290942585_DataMigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202001291549399_DataMigration1.cs" />
-    <Compile Include="Migrations\202001291549399_DataMigration1.Designer.cs">
-      <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002051244569_carupd.cs" />
-    <Compile Include="Migrations\202002051244569_carupd.Designer.cs">
-      <DependentUpon>202002051244569_carupd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002061229255_UsersRewiews.cs" />
-    <Compile Include="Migrations\202002061229255_UsersRewiews.Designer.cs">
-      <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002071005122_Add date to rewiew.cs" />
-    <Compile Include="Migrations\202002071005122_Add date to rewiew.Designer.cs">
-      <DependentUpon>202002071005122_Add date to rewiew.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002071154395_textfixes.cs" />
-    <Compile Include="Migrations\202002071154395_textfixes.Designer.cs">
-      <DependentUpon>202002071154395_textfixes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\JobVacancyModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RewiewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -437,6 +411,11 @@
     <Content Include="Views\UserRewiews\Details.cshtml" />
     <Content Include="Views\UserRewiews\Edit.cshtml" />
     <Content Include="Views\UserRewiews\Index.cshtml" />
+    <Content Include="Views\Vacancies\Index.cshtml" />
+    <Content Include="Views\Vacancies\Edit.cshtml" />
+    <Content Include="Views\Vacancies\Create.cshtml" />
+    <Content Include="Views\Vacancies\Delete.cshtml" />
+    <Content Include="Views\Vacancies\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -461,29 +440,6 @@
       <Project>{405586ff-c1ac-4f33-86ac-f66cbf37a307}</Project>
       <Name>AutoService.DAL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202001151318537_InitialCreate.resx">
-      <DependentUpon>202001151318537_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001290942585_DataMigration.resx">
-      <DependentUpon>202001290942585_DataMigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202001291549399_DataMigration1.resx">
-      <DependentUpon>202001291549399_DataMigration1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002051244569_carupd.resx">
-      <DependentUpon>202002051244569_carupd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002061229255_UsersRewiews.resx">
-      <DependentUpon>202002061229255_UsersRewiews.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002071005122_Add date to rewiew.resx">
-      <DependentUpon>202002071005122_Add date to rewiew.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002071154395_textfixes.resx">
-      <DependentUpon>202002071154395_textfixes.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
