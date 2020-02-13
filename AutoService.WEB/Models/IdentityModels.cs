@@ -42,7 +42,7 @@ namespace AutoService.WEB.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public DbSet<Car> Cars { get; set; }
+        
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -54,8 +54,9 @@ namespace AutoService.WEB.Models
             return new ApplicationDbContext();
         }
 
-        public DbSet<AutoService.WEB.Models.UserRewiew> UserRewiews { get; set; }
-
-        public DbSet<AutoService.WEB.Models.JobVacancy> JobVacancies { get; set; }
+        public DbSet<UserRewiew> UserRewiews { get; set; }
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<JobVacancy> JobVacancies { get; set; }
+        public DbSet<Service> Services { get; set; }
     }
 }
