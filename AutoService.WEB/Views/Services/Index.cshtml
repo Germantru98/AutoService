@@ -4,44 +4,45 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2 class="display-4">Услуги</h2>
-<div class=" row row-cols-3">
+<div class=" row  row-cols-xl-3 row-cols-md-2 row-cols-sm-1 ">
     @foreach (var service in Model)
-    {
-        <div class="card ml-3 border-dark " style="max-width: 540px;">
-            <div class="row no-gutters">
-                <div class="col-md-5 p-3 mt-5">
-                    <img src="@Url.Action("GetImage", "Services", new { service.ServiceId })" />
-                </div>
-                <div class="col-md-7">
-                    <div class="card-body">
-                        <h5 class="card-title">@service.ServiceName</h5>
+        {
+    <div class="card border-dark ml-xl-auto mr-xl-auto p-2 pt-3 mb-3" style="max-width:500px;max-height:200px">
+
+        <div class="row">
+            <div class="col-4 m-2">
+                <img src="@Url.Action("GetImage", "Services", new { service.ServiceId })" />
+            </div>
+            <div class="col-7">
+                <div class="card-body p-1 h-75">
+                    <h5 class="card-title text-left">@service.ServiceName</h5>
+                    <div class="mt-2">
                         <b>Цена(руб):</b>@service.Price
-                        @if (User.IsInRole("Admin"))
+                    </div>
+                </div>
+                <div class="h-25 text-right">
+                    @if (User.IsInRole("Admin"))
                         {
-                            <p>
-                                <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
-                                <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
-                            </p>
+                    <p class="m-1">
+                        <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
+                        <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
+                    </p>
 
                         }
                         else
                         {
-                            <p>
-                                <a class="btn btn-dark" href="#">Добавить в корзину</a>
-                            </p>
-
+                    <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
                         }
-                    </div>
                 </div>
             </div>
         </div>
-    }
+    </div>
+        }
 </div>
 
 @if (User.IsInRole("Admin"))
 {
-    <div class="mb-2 mt-2">
-        <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
-    </div>
+<div class="mb-2 mt-2">
+    <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
+</div>
 }
-

@@ -1,8 +1,7 @@
 namespace AutoService.WEB.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class service3 : DbMigration
     {
         public override void Up()
@@ -13,18 +12,18 @@ namespace AutoService.WEB.Migrations
             DropColumn("dbo.Services", "ServiceImageId");
             DropTable("dbo.ServiceImages");
         }
-        
+
         public override void Down()
         {
             CreateTable(
                 "dbo.ServiceImages",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Image = c.Binary(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    Image = c.Binary(),
+                })
                 .PrimaryKey(t => t.Id);
-            
+
             AddColumn("dbo.Services", "ServiceImageId", c => c.Int(nullable: false));
             DropColumn("dbo.Services", "Image");
             CreateIndex("dbo.Services", "ServiceImageId");

@@ -62,7 +62,9 @@
         </table>
     </div>
 </div>
-
+<div>
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+</div>
 <p>
     <a class="btn btn-dark" href="/UserRewiews/Create" role="button">Добавить отзыв</a>
 </p>

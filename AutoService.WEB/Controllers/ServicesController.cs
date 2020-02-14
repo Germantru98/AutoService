@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using AutoService.WEB.Models;
 using System.Data.Entity;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using AutoService.WEB.Models;
-using System.IO;
 
 namespace AutoService.WEB.Controllers
 {
@@ -29,7 +25,9 @@ namespace AutoService.WEB.Controllers
                 return null;
             }
         }
+
         // GET: Services
+        [Authorize]
         public async Task<ActionResult> Index()
         {
             return View(await db.Services.ToListAsync());
@@ -57,13 +55,13 @@ namespace AutoService.WEB.Controllers
         }
 
         // POST: Services/Create
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ServiceId,ServiceName,Price")] Service service, HttpPostedFileBase image)
+        public async Task<ActionResult> Create([Bind(Include = "ServiceId,ServiceName,Price")] Service service, HttpPostedFileBase image = null)
         {
-            if (ModelState.IsValid&& image != null)
+            if (ModelState.IsValid && image != null)
             {
                 service.ImageMimeType = image.ContentType;
                 service.ImageData = new byte[image.ContentLength];
@@ -92,17 +90,20 @@ namespace AutoService.WEB.Controllers
         }
 
         // POST: Services/Edit/5
-        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные 
+        // Чтобы защититься от атак чрезмерной передачи данных, включите определенные свойства, для которых следует установить привязку. Дополнительные
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Price")] Service service,HttpPostedFileBase image)
+        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Price")] Service service, HttpPostedFileBase image = null)
         {
-            if (ModelState.IsValid && image != null)
+            if (ModelState.IsValid)
             {
-                service.ImageMimeType = image.ContentType;
-                service.ImageData = new byte[image.ContentLength];
-                image.InputStream.Read(service.ImageData, 0, image.ContentLength);
+                if (image != null)
+                {
+                    service.ImageMimeType = image.ContentType;
+                    service.ImageData = new byte[image.ContentLength];
+                    image.InputStream.Read(service.ImageData, 0, image.ContentLength);
+                }
                 db.Entry(service).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
