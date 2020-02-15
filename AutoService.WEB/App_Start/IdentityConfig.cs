@@ -5,8 +5,14 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using System;
+using System.Configuration;
+using System.Diagnostics;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Twilio;
+using Twilio.Rest.Api.V2010.Account;
+using Twilio.Types;
 
 namespace AutoService.WEB
 {
@@ -14,8 +20,30 @@ namespace AutoService.WEB
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Подключите здесь службу электронной почты для отправки сообщения электронной почты.
-            return Task.FromResult(0);
+            // настройка логина, пароля отправителя
+            var from = "german.truhanov@yandex.ru";
+            var pass = "epehyzyrugerman98";
+
+            // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
+            SmtpClient client = new SmtpClient
+            {
+                Host = "smtp.yandex.ru",
+                Port = 465,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new System.Net.NetworkCredential(from, pass)
+            };
+
+            
+            // создаем письмо: message.Destination - адрес получателя
+            var mail = new MailMessage(from, message.Destination);
+
+            mail.Subject = message.Subject;
+            mail.Body = message.Body;
+            mail.IsBodyHtml = true;
+
+            return client.SendMailAsync(mail);
         }
     }
 
@@ -23,7 +51,20 @@ namespace AutoService.WEB
     {
         public Task SendAsync(IdentityMessage message)
         {
-            // Подключите здесь службу SMS, чтобы отправить текстовое сообщение.
+            var accountSid = ConfigurationManager.AppSettings["SMSAccountIdentification"];
+            var authToken = ConfigurationManager.AppSettings["SMSAccountPassword"];
+            var fromNumber = ConfigurationManager.AppSettings["SMSAccountFrom"];
+            TwilioClient.Init(accountSid, authToken);
+
+            MessageResource result = MessageResource.Create(
+            new PhoneNumber(message.Destination),
+            from: new PhoneNumber(fromNumber),
+            body: message.Body
+            );
+
+            //Status is one of Queued, Sending, Sent, Failed or null if the number is not valid
+            Trace.TraceInformation(result.Status.ToString());
+            //Twilio doesn't currently have an async API, so return success.
             return Task.FromResult(0);
         }
     }
