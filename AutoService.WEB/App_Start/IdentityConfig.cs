@@ -21,13 +21,13 @@ namespace AutoService.WEB
         public Task SendAsync(IdentityMessage message)
         {
             // настройка логина, пароля отправителя
-            var from = "german.truhanov@yandex.ru";
-            var pass = "epehyzyrugerman98";
+            var from = "germantruhanov@rambler.ru";
+            var pass = "Epehyzyru98!";
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
             SmtpClient client = new SmtpClient
             {
-                Host = "smtp.yandex.ru",
+                Host = "smtp.rambler.ru",
                 Port = 465,
                 EnableSsl = true,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
@@ -35,7 +35,6 @@ namespace AutoService.WEB
                 Credentials = new System.Net.NetworkCredential(from, pass)
             };
 
-            
             // создаем письмо: message.Destination - адрес получателя
             var mail = new MailMessage(from, message.Destination);
 

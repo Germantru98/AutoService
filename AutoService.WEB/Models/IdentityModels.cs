@@ -13,6 +13,8 @@ namespace AutoService.WEB.Models
         public ICollection<Car> Cars { get; set; }
         public ICollection<UserRewiew> UserRewiews { get; set; }
 
+        public string RealName { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType

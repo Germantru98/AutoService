@@ -239,6 +239,10 @@
     <Compile Include="Migrations\202002131612331_services4.Designer.cs">
       <DependentUpon>202002131612331_services4.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002152033339_realname.cs" />
+    <Compile Include="Migrations\202002152033339_realname.Designer.cs">
+      <DependentUpon>202002152033339_realname.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactDataView.cs" />
@@ -495,6 +499,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002131612331_services4.resx">
       <DependentUpon>202002131612331_services4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002152033339_realname.resx">
+      <DependentUpon>202002152033339_realname.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

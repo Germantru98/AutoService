@@ -4,6 +4,7 @@ using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
 {
+    [RequireHttps]
     public class HomeController : Controller
     {
         private ContactDataUnit _contactDataUnit;

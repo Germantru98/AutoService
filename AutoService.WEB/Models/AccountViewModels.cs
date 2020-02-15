@@ -8,6 +8,10 @@ namespace AutoService.WEB.Models
         [Required]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "ФИО")]
+        public string RealName { get; set; }
     }
 
     public class ExternalLoginListViewModel
@@ -67,7 +71,7 @@ namespace AutoService.WEB.Models
     {
         [Required]
         [Display(Name = "ФИО")]
-        public string UserName { get; set; }
+        public string RealName { get; set; }
 
         [Required]
         [EmailAddress]

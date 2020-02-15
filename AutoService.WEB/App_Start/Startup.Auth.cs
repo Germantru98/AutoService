@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using Owin;
 using System;
 
@@ -57,11 +58,11 @@ namespace AutoService.WEB
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "258426279502-dsip84rcc8d04vihq097e801u6qaj5b6.apps.googleusercontent.com",
+                ClientSecret = "WUHtUFQYdWpt2Rqgm9Ricrpe"
+            });
         }
     }
 }
