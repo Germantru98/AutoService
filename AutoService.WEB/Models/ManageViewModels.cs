@@ -9,7 +9,7 @@ namespace AutoService.WEB.Models
     {
         [Display(Name = "ФИО")]
         [UIHint("String")]
-        public string UserName { get; set; }
+        public string RealName { get; set; }
 
         [Display(Name = "Почта")]
         [UIHint("EmailAddress")]
@@ -23,6 +23,8 @@ namespace AutoService.WEB.Models
         [Display(Name = "Номер телефона")]
         [UIHint("String")]
         public string PhoneNumber { get; set; }
+        [ScaffoldColumn(false)]
+        public bool PhoneNumberConfirmed { get; set; }
 
         [ScaffoldColumn(false)]
         public bool TwoFactor { get; set; }

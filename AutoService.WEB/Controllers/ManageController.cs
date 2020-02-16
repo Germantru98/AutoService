@@ -70,8 +70,9 @@ namespace AutoService.WEB.Controllers
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 Email = user.Email,
-                UserName = user.UserName,
+                RealName = user.RealName,
                 Cars = _dbContext.Cars.Where(c => c.ApplicationUserId == user.Id),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
