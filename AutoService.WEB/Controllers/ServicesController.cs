@@ -27,7 +27,7 @@ namespace AutoService.WEB.Controllers
         }
 
         // GET: Services
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
             return View(await db.Services.ToListAsync());

@@ -22,17 +22,17 @@
                 </div>
                 <div class="h-25 text-right">
                     @if (User.IsInRole("Admin"))
-                        {
-                    <p class="m-1">
-                        <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
-                        <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
-                    </p>
+                    {
+                        <p class="m-1">
+                            <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
+                            <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
+                        </p>
 
-                        }
-                        else
-                        {
-                    <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
-                        }
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
+                    }
                 </div>
             </div>
         </div>

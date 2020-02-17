@@ -7,16 +7,11 @@ namespace AutoService.WEB.Controllers
     [RequireHttps]
     public class HomeController : Controller
     {
-        private ContactDataUnit _contactDataUnit;
 
-        public HomeController(IContactData icd)
-        {
-            _contactDataUnit = new ContactDataUnit(icd);
-        }
+      
 
         public ActionResult Index()
         {
-            ViewData["cd"] = _contactDataUnit;
             return View();
         }
 
@@ -25,11 +20,6 @@ namespace AutoService.WEB.Controllers
             ViewBag.Message = "Your application description page.";
 
             return View();
-        }
-
-        public ActionResult Contact()
-        {
-            return View(_contactDataUnit);
         }
     }
 }

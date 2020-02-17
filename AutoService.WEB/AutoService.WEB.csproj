@@ -215,6 +215,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ContactInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
@@ -243,9 +244,13 @@
     <Compile Include="Migrations\202002152033339_realname.Designer.cs">
       <DependentUpon>202002152033339_realname.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002161501034_contacts.cs" />
+    <Compile Include="Migrations\202002161501034_contacts.Designer.cs">
+      <DependentUpon>202002161501034_contacts.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\ContactDataView.cs" />
+    <Compile Include="Models\ContactViews.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JobVacancyModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -253,7 +258,6 @@
     <Compile Include="Models\ServiceModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Utils\ContactDataUnit.cs" />
     <Compile Include="Utils\NinjectRegistrations.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -408,7 +412,6 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
@@ -462,6 +465,7 @@
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Shared\DisplayEmail.cshtml" />
+    <Content Include="Views\ContactInfo\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -502,6 +506,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002152033339_realname.resx">
       <DependentUpon>202002152033339_realname.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002161501034_contacts.resx">
+      <DependentUpon>202002161501034_contacts.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

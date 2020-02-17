@@ -29,7 +29,7 @@
                         <dd>
                             @if (Model.PhoneNumber == null)
                             {
-                                <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")"></a>
+                                <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")">Добавить</a>
                             }
                             else if (Model.PhoneNumberConfirmed)
                             {
@@ -52,7 +52,7 @@
                             }
                             else
                             {
-                                @Html.ActionLink("Create", "SetPassword")
+                                <a class="btn btn-outline-dark btn-sm" href="@Url.Action("SetPassword")">Добавить</a>
                             }
 
                         </dd>

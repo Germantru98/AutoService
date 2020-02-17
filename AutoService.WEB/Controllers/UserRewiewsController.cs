@@ -29,7 +29,7 @@ namespace AutoService.WEB.Controllers
         }
 
         // GET: UserRewiews
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult> Index(int? page)
         {
             int pageSize = 10;

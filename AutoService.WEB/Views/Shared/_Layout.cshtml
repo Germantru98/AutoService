@@ -14,16 +14,15 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top py-1 position-relative">
+    <nav class="navbar navbar-expand-lg bg-dark navbar-dark p-3 ">
         <a class="navbar-brand" href="/">
-            <img src="~/Img/LogoTheMech.png" alt="Logo" width="50" height="50">
             AutoService
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="/">Главная</a>
                 </li>
@@ -37,11 +36,12 @@
                     <a class="nav-link" href="/Vacancies">Вакансии</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Home/Contact">Контакты</a>
+                    <a class="nav-link" href="/ContactInfo">Контакты</a>
                 </li>
                 <li>
                     <a class="nav-link" href="/UserRewiews">Отзывы</a>
                 </li>
+
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

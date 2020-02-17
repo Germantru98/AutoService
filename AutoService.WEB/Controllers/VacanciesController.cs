@@ -12,7 +12,7 @@ namespace AutoService.WEB.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: Vacancies
-        [Authorize]
+        [AllowAnonymous]
         public async Task<ActionResult> Index(int? page)
         {
             int pageSize = 3;
