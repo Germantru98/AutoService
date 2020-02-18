@@ -4,45 +4,40 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2 class="display-4">Услуги</h2>
-<div class=" row  row-cols-xl-3 row-cols-md-2 row-cols-sm-1 ">
+<div class=" row  row-cols-xl-3 row-cols-md-2 row-cols-sm-1 mb-4">
     @foreach (var service in Model)
-        {
-    <div class="card border-dark ml-xl-auto mr-xl-auto p-2 pt-3 mb-3" style="max-width:500px;max-height:200px">
-
-        <div class="row">
-            <div class="col-4 m-2">
-                <img src="@Url.Action("GetImage", "Services", new { service.ServiceId })" />
+    {
+    <div class="col-xs-6 col-sm-6 col-md-4 mt-3 text-center bg-light ml-sm-auto mr-sm-auto p-0" style="max-width:360px">
+        <div class="image position-relative overflow-hidden">
+            <img src="@service.ServiceImageHref" alt="..." width="360" height="250">
+        </div>
+        <div class="p-2">
+            <h3 class="title" style="height: 72px;">@service.ServiceName</h3>
+            <div class="text" style="height: 52px;">
+                Цена(руб): @service.Price
             </div>
-            <div class="col-7">
-                <div class="card-body p-1 h-75">
-                    <h5 class="card-title text-left">@service.ServiceName</h5>
-                    <div class="mt-2">
-                        <b>Цена(руб):</b>@service.Price
-                    </div>
-                </div>
-                <div class="h-25 text-right">
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <p class="m-1">
-                            <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
-                            <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
-                        </p>
+            <div>
+                @if (User.IsInRole("Admin"))
+                {
+                    <p class="m-1">
+                        <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
+                        <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
+                    </p>
 
-                    }
-                    else if (User.Identity.IsAuthenticated)
-                    {
-                        <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
-                    }
-                </div>
+                }
+                else if (User.Identity.IsAuthenticated)
+                {
+                    <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
+                }
             </div>
         </div>
     </div>
-        }
-</div>
 
+    }
+</div>
 @if (User.IsInRole("Admin"))
 {
-<div class="mb-2 mt-2">
-    <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
-</div>
+    <div class="mb-2 mt-2">
+        <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
+    </div>
 }

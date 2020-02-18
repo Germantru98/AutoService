@@ -12,20 +12,6 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public FileContentResult GetImage(int serviceId)
-        {
-            Service service = db.Services.FirstOrDefault(s => s.ServiceId == serviceId);
-
-            if (service != null)
-            {
-                return File(service.ImageData, service.ImageMimeType);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
         // GET: Services
         [AllowAnonymous]
         public async Task<ActionResult> Index()
@@ -59,13 +45,10 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ServiceId,ServiceName,Price")] Service service, HttpPostedFileBase image = null)
+        public async Task<ActionResult> Create([Bind(Include = "ServiceId,ServiceName,Price,ServiceImageHref")] Service service)
         {
-            if (ModelState.IsValid && image != null)
+            if (ModelState.IsValid)
             {
-                service.ImageMimeType = image.ContentType;
-                service.ImageData = new byte[image.ContentLength];
-                image.InputStream.Read(service.ImageData, 0, image.ContentLength);
                 db.Services.Add(service);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
@@ -94,16 +77,10 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Price")] Service service, HttpPostedFileBase image = null)
+        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Price,ServiceImageHref")] Service service)
         {
             if (ModelState.IsValid)
             {
-                if (image != null)
-                {
-                    service.ImageMimeType = image.ContentType;
-                    service.ImageData = new byte[image.ContentLength];
-                    image.InputStream.Read(service.ImageData, 0, image.ContentLength);
-                }
                 db.Entry(service).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

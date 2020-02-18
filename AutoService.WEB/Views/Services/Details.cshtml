@@ -1,14 +1,12 @@
 ﻿@model AutoService.WEB.Models.Service
 
 @{
-    ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details</h2>
+<h2 class="mt-3">Информация об услуге</h2>
 
 <div>
-    <h4>Service</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -28,15 +26,15 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Image)
+           Изображение:
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Image)
+            <img src="@Model.ServiceImageHref" class="m-2" height="300" width="450" />
         </dd>
     </dl>
+    <div class="mb-3">
+        <a href="/Services/Edit/@Model.ServiceId" class="btn btn-dark">Изменить</a>
+        <a href="/Services" class="btn btn-dark">Назад</a>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ServiceId }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

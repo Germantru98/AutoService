@@ -1,18 +1,16 @@
 ﻿@model AutoService.WEB.Models.Service
 
 @{
-    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create</h2>
+<h2 class="pl-3 mt-2">Новая услуга</h2>
 
 @using (Html.BeginForm("Create", "Services", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
 @Html.AntiForgeryToken()
 
 <div class="form-horizontal">
-    <h4>Service</h4>
     <hr />
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
@@ -32,21 +30,18 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(model => model.ImageData, htmlAttributes: new { @class = "control-label col-md-2" })
+        @Html.LabelFor(model => model.ServiceImageHref, htmlAttributes: new { @class = "control-label col-md-2" })
         <div class="col-md-10">
-            <input class="btn btn-dark" type="file" name="image" value="" />
-            @Html.ValidationMessageFor(model => model.ImageData, "", new { @class = "text-danger" })
+            @Html.EditorFor(model=>model.ServiceImageHref,new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.ServiceImageHref, "", new { @class = "text-danger" })
         </div>
     </div>
 
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Create" class="btn btn-dark" />
+            <input type="submit" value="Добавить" class="btn btn-dark" />
+            <a href="/Services/" class="btn btn-dark">Назад</a>
         </div>
     </div>
 </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index",new{ @class = "btn btn-dark"})
-</div>

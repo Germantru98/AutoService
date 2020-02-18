@@ -248,9 +248,14 @@
     <Compile Include="Migrations\202002161501034_contacts.Designer.cs">
       <DependentUpon>202002161501034_contacts.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002181406399_ServieImage.cs" />
+    <Compile Include="Migrations\202002181406399_ServieImage.Designer.cs">
+      <DependentUpon>202002181406399_ServieImage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactViews.cs" />
+    <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JobVacancyModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -509,6 +514,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002161501034_contacts.resx">
       <DependentUpon>202002161501034_contacts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002181406399_ServieImage.resx">
+      <DependentUpon>202002181406399_ServieImage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
