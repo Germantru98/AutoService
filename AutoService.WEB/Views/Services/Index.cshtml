@@ -12,22 +12,39 @@
             <img src="@service.ServiceImageHref" alt="..." width="360" height="250">
         </div>
         <div class="p-2">
-            <h3 class="title" style="height: 72px;">@service.ServiceName</h3>
+            <h3 class="title" style="height: 72px;">
+                @if (service.Discount == null)
+                {
+                @service.ServiceName
+                }
+                else if (service.Discount.Value <= 20)
+                {
+                @service.ServiceName  <span class="badge badge-success">-@service.Discount.Value%</span>
+                }
+                else if (service.Discount.Value > 20 && service.Discount.Value < 70)
+                {
+                @service.ServiceName  <span class="badge badge-warning">-@service.Discount.Value%</span>
+                }
+                else
+                {
+                @service.ServiceName  <span class="badge badge-danger">-@service.Discount.Value%</span>
+                }
+            </h3>
             <div class="text" style="height: 52px;">
                 Цена(руб): @service.Price
             </div>
             <div>
                 @if (User.IsInRole("Admin"))
                 {
-                    <p class="m-1">
-                        <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
-                        <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
-                    </p>
+                <p class="m-1">
+                    <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
+                    <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
+                </p>
 
                 }
                 else if (User.Identity.IsAuthenticated)
                 {
-                    <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
+                <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
                 }
             </div>
         </div>
@@ -37,7 +54,7 @@
 </div>
 @if (User.IsInRole("Admin"))
 {
-    <div class="mb-2 mt-2">
-        <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
-    </div>
+<div class="mb-2 mt-2">
+    <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
+</div>
 }

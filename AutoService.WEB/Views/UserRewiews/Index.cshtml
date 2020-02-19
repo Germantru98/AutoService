@@ -26,35 +26,35 @@
             <tbody class=" table-light">
                 @foreach (var item in Model)
                 {
-                    <tr>
-                        <td  style="background-color:#d7d7d7">
-                            @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
-                        </td>
-                        <td class="col-7">
-                            @Html.DisplayFor(modelItem => item.RewiewText)
-                        </td>
-                        <td>
-                            @item.Date.ToShortDateString()
-                        </td>
-                        <td>
-                            @if (ViewContext.HttpContext.User.IsInRole("Admin"))
+                <tr>
+                    <td style="background-color:#d7d7d7">
+                        @Html.DisplayFor(modelItem => item.ApplicationUser.Email)
+                    </td>
+                    <td class="col-7">
+                        @Html.DisplayFor(modelItem => item.RewiewText)
+                    </td>
+                    <td>
+                        @item.Date.ToShortDateString()
+                    </td>
+                    <td>
+                        @if (ViewContext.HttpContext.User.IsInRole("Admin"))
                             {
-                                <div class="btn-group p-0 col-1">
+                        <div class="btn-group p-0 col-1">
 
-                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
-                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
-                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
-                                </div>
+                            <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
+                            <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
+                            <a class="btn btn-outline-secondary" href="/UserRewiews/Details/@item.UserRewiewId" role="button">Инфо</a>
+                        </div>
                             }
                             else if (item.ApplicationUserId == ViewBag.UserId)
                             {
-                                <div class="btn-group p-0 col-1">
-                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
-                                    <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
-                                </div>
+                        <div class="btn-group p-0 col-1">
+                            <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
+                            <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
+                        </div>
                             }
-                        </td>
-                    </tr>
+                    </td>
+                </tr>
                 }
             </tbody>
         </table>

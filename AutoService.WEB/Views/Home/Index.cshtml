@@ -2,31 +2,46 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model AutoService.WEB.Models.HomeView
-    <div class="row">
-        <div class="card border-dark col-11 ml-auto mr-auto mt-3 mb-3 p-0 h-auto ">
+<div class="row">
+    <div class="card border-dark col-11 ml-auto mr-auto mt-3 mb-3 p-0 h-auto ">
 
-            <div class="card-header bg-dark text-white h4">
-                Популярные услуги
-            </div>
+        <div class="card-header bg-dark text-white h4">
+            Популярные услуги
+        </div>
 
-            <div class="card-body bg-secondary w-100 row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 p-3 m-0">
+        <div class="card-body bg-secondary w-100 row row-cols-xl-3 row-cols-lg-2 row-cols-md-2 row-cols-sm-1 p-3 m-0">
 
-                @foreach (var service in Model.PopularServices)
-                {
+            @foreach (var service in Model.PopularServices)
+            {
                 <div class="col-xs-6 col-sm-6 col-md-4 mt-3 text-center bg-light ml-sm-auto mr-sm-auto p-0" style="max-width:360px">
                     <div class="image position-relative overflow-hidden">
                         <img src="@service.ServiceImageHref" alt="..." width="360" height="250">
                     </div>
                     <div class="p-2">
-                        <h3 class="title" style="height: 72px;">@service.ServiceName</h3>
+                        <h3 class="title" style="height: 72px;">
+                            @if (service.Discount == null)
+                            {
+                                @service.ServiceName
+                            }
+                            else if (service.Discount.Value <= 20)
+                            {
+                                @service.ServiceName <span class="badge badge-success">-@service.Discount.Value%</span>
+                            }
+                            else if (service.Discount.Value > 20 && service.Discount.Value < 70)
+                            {
+                                @service.ServiceName <span class="badge badge-warning">-@service.Discount.Value%</span>
+                            }
+                            else
+                            {
+                                @service.ServiceName <span class="badge badge-danger">-@service.Discount.Value%</span>
+                            }
+                        </h3>
                         <div class="text" style="height: 52px;">
                             Brakes wear out over time requiring service
                         </div>
                     </div>
                 </div>
-                }
-
-            </div>
+            }
         </div>
-
     </div>
+</div>

@@ -53,7 +53,7 @@ namespace AutoService.WEB
             //app.UseTwitterAuthentication(
             //   consumerKey: "",
             //   consumerSecret: "");
-            
+
             app.UseFacebookAuthentication(
                appId: "637340237096825",
                appSecret: "24b60a5732cc72bb0784f3e9e5173b01");

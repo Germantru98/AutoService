@@ -59,5 +59,6 @@ namespace AutoService.WEB.Models
         public DbSet<JobVacancy> JobVacancies { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<ContactItem> Contacts { get; set; }
+        public DbSet<Discount> Discounts { get; set; }
     }
 }

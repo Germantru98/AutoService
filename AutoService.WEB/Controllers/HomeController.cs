@@ -1,7 +1,6 @@
-﻿using AutoService.BLL.Interfaces;
-using AutoService.WEB.Models;
-using AutoService.WEB.Utils;
-using System.Linq;
+﻿using AutoService.WEB.Models;
+using System.Data.Entity;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
@@ -11,11 +10,11 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        public ActionResult Index()
+        public async Task<ActionResult> Index()
         {
             HomeView homeView = new HomeView()
             {
-                PopularServices = db.Services.ToList()
+                PopularServices = await db.Services.Include(s => s.Discount).ToListAsync()
             };
             return View(homeView);
         }

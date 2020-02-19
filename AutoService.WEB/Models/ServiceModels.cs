@@ -6,6 +6,18 @@ namespace AutoService.WEB.Models
     {
         public int ServiceId { get; set; }
 
+        public string ServiceName { get; set; }
+
+        public int Price { get; set; }
+        public string ServiceImageHref { get; set; }
+        public int? DiscountId { get; set; }
+        public Discount Discount { get; set; }
+    }
+
+    public class ServiceView
+    {
+        public int ServiceId { get; set; }
+
         [Required]
         [Display(Name = "Название услуги")]
         public string ServiceName { get; set; }
@@ -13,8 +25,15 @@ namespace AutoService.WEB.Models
         [Required]
         [Display(Name = "Цена на услугу")]
         public int Price { get; set; }
+
         [Required]
-       [Display(Name ="Ссылка на изображение")]
+        [Display(Name = "Ссылка на изображение")]
         public string ServiceImageHref { get; set; }
+    }
+
+    public class Discount
+    {
+        public int DiscountId { get; set; }
+        public int Value { get; set; }
     }
 }

@@ -15,6 +15,7 @@ namespace AutoService.WEB.Models
         public List<string> ContactPhones { get; set; }
         public List<string> ContactEmails { get; set; }
     }
+
     public class ContactItem
     {
         public int Id { get; set; }

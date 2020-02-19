@@ -19,7 +19,7 @@
             <dd>
                 <a class="mr-2" href="@Model.VKHref"><img title="VK" src="@Model.VKImageHref" height="70" width="70"></a>
                 <a class="mr-2" href="@Model.FacebookHref"><img title="Facebook" src="@Model.FacebookImageHref" height="70" width="70"></a>
-                <a class="mr-2" href="@Model.InstagramHref"><img title="Instagram" src="@Model.InstagramImageHref"height="70" width="70"></a>
+                <a class="mr-2" href="@Model.InstagramHref"><img title="Instagram" src="@Model.InstagramImageHref" height="70" width="70"></a>
             </dd>
             <dt class="h4">
                 Телефоны
@@ -27,7 +27,7 @@
             <dd>
                 @foreach (var item in Model.ContactPhones)
                 {
-                    <p>@item</p>
+                <p>@item</p>
                 }
             </dd>
             <dt class="h4">
@@ -36,7 +36,7 @@
             <dd>
                 @foreach (var item in Model.ContactEmails)
                 {
-                    <a style="color:black" href="mailto:@item">@item</a><br />
+                <a style="color:black" href="mailto:@item">@item</a><br />
                 }
             </dd>
         </dl>

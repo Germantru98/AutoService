@@ -23,6 +23,7 @@ namespace AutoService.WEB.Models
         [Display(Name = "Номер телефона")]
         [UIHint("String")]
         public string PhoneNumber { get; set; }
+
         [ScaffoldColumn(false)]
         public bool PhoneNumberConfirmed { get; set; }
 

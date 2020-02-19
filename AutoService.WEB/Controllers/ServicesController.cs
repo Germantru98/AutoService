@@ -1,9 +1,7 @@
 ﻿using AutoService.WEB.Models;
 using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
@@ -16,7 +14,7 @@ namespace AutoService.WEB.Controllers
         [AllowAnonymous]
         public async Task<ActionResult> Index()
         {
-            return View(await db.Services.ToListAsync());
+            return View(await db.Services.Include(s => s.Discount).ToListAsync());
         }
 
         // GET: Services/Details/5
