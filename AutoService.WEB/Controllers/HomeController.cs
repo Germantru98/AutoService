@@ -14,7 +14,8 @@ namespace AutoService.WEB.Controllers
         {
             HomeView homeView = new HomeView()
             {
-                PopularServices = await db.Services.Include(s => s.Discount).ToListAsync()
+                PopularServices = await db.Services.Include(s => s.Discount).ToListAsync(),
+                CarBrands = await db.CarBrands.ToListAsync()
             };
             return View(homeView);
         }

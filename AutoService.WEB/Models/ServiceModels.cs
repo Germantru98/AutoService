@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoService.WEB.Models
 {
@@ -35,5 +36,8 @@ namespace AutoService.WEB.Models
     {
         public int DiscountId { get; set; }
         public int Value { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime FinishDate { get; set; }
+        public bool isActive { get; set; }
     }
 }

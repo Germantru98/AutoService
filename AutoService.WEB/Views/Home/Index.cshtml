@@ -2,7 +2,35 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @model AutoService.WEB.Models.HomeView
+<link href="~/Content/owl.carousel.css" rel="stylesheet" type="text/css" />
+<link href="~/Content/owl.theme.default.css" rel="stylesheet" type="text/css" />
 <div class="row">
+
+    <!-- Bootstrap 4 -->
+    <div class="col-sm-11 text-center ml-auto mr-auto mt-2">
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active  ">
+                    <img src="https://expert.ru/data/public/507185/507204/kopiya-17.jpg" alt="Alternate Text" />
+                </div>
+                <div class="carousel-item   ">
+                    <img src="https://expert.ru/data/public/507185/507204/kopiya-17.jpg" alt="Alternate Text" />
+                </div>
+                <div class="carousel-item">
+                    <img src="https://expert.ru/data/public/507185/507204/kopiya-17.jpg" alt="Alternate Text" />
+                </div>
+            </div>
+            <!-- Элементы управления -->
+            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Предыдущий</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Следующий</span>
+            </a>
+        </div>
+    </div>
     <div class="card border-dark col-11 ml-auto mr-auto mt-3 mb-3 p-0 h-auto ">
 
         <div class="card-header bg-dark text-white h4">
@@ -19,7 +47,7 @@
                     </div>
                     <div class="p-2">
                         <h3 class="title" style="height: 72px;">
-                            @if (service.Discount == null)
+                            @if (service.Discount == null || !service.Discount.isActive)
                             {
                                 @service.ServiceName
                             }
@@ -44,4 +72,26 @@
             }
         </div>
     </div>
+
 </div>
+
+<div>
+    <div class="owl-carousel owl-theme">
+        @foreach (var brand in Model.CarBrands)
+        {
+            <div class="carbrand">
+                <img width="150" height="150" src="@brand.ImageHref" alt="@brand.BrandName" />
+            </div>
+        }
+
+    </div>
+</div>
+
+
+
+
+
+@section Scripts {
+    @Scripts.Render("~/scripts/owl.carousel.js")
+    @Scripts.Render("~/scripts/Script.js")
+}
