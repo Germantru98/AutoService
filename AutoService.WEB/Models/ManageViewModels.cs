@@ -34,6 +34,7 @@ namespace AutoService.WEB.Models
         public bool BrowserRemembered { get; set; }
 
         public IEnumerable<Car> Cars { get; set; }
+        public Dictionary<int, Service> Basket { get; set; }
     }
 
     public class ManageLoginsViewModel

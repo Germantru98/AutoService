@@ -272,8 +272,18 @@
     <Compile Include="Migrations\202002201554239_cbrands.Designer.cs">
       <DependentUpon>202002201554239_cbrands.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202002240950541_addcountertoservices.cs" />
+    <Compile Include="Migrations\202002240950541_addcountertoservices.Designer.cs">
+      <DependentUpon>202002240950541_addcountertoservices.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202002241433014_basket_start.cs" />
+    <Compile Include="Migrations\202002241433014_basket_start.Designer.cs">
+      <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\BasketModels.cs" />
+    <Compile Include="Models\CarModels.cs" />
     <Compile Include="Models\ContactViews.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -495,6 +505,9 @@
     <Content Include="Views\Shared\Info.cshtml" />
     <Content Include="Views\Shared\DisplayEmail.cshtml" />
     <Content Include="Views\ContactInfo\Index.cshtml" />
+    <Content Include="Views\Home\DiscountCarousel.cshtml" />
+    <Content Include="Views\Shared\SuccessView.cshtml" />
+    <Content Include="Views\Manage\ModalDeleteConfirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -556,6 +569,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002201554239_cbrands.resx">
       <DependentUpon>202002201554239_cbrands.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002240950541_addcountertoservices.resx">
+      <DependentUpon>202002240950541_addcountertoservices.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202002241433014_basket_start.resx">
+      <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

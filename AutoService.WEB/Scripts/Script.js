@@ -5,7 +5,7 @@
         margin: 20,
         loop: true,
         nav: true,
-        items: 8,
+        //items: 8,
         mouseDrag: true,
         dots: false,
         navText: [
@@ -39,7 +39,7 @@
                 items: 7
             },
             1650: {
-                items:8
+                items: 8
             }
         }
     });

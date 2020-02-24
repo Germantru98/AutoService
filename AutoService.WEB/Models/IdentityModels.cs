@@ -12,7 +12,7 @@ namespace AutoService.WEB.Models
     {
         public ICollection<Car> Cars { get; set; }
         public ICollection<UserRewiew> UserRewiews { get; set; }
-
+        public ICollection<BasketItem> Basket { get; set; }
         public string RealName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -28,18 +28,8 @@ namespace AutoService.WEB.Models
         {
             Cars = new List<Car>();
             UserRewiews = new List<UserRewiew>();
+            Basket = new List<BasketItem>();
         }
-    }
-
-    public class Car
-    {
-        public int Id { get; set; }
-        public string Model { get; set; }
-        public string Color { get; set; }
-        public string Year { get; set; }
-
-        public string ApplicationUserId { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -61,5 +51,6 @@ namespace AutoService.WEB.Models
         public DbSet<ContactItem> Contacts { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<CarBrand> CarBrands { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
     }
 }

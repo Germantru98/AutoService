@@ -4,6 +4,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <h2 class="display-4">Услуги</h2>
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
 <div class=" row  row-cols-xl-3 row-cols-md-2 row-cols-sm-1 mb-4">
     @foreach (var service in Model)
     {
@@ -13,39 +16,46 @@
         </div>
         <div class="p-2">
             <h3 class="title" style="height: 72px;">
-                @if (service.Discount == null||!service.Discount.isActive)
-                {
+                @if (service.Discount == null || !service.Discount.isActive)
+                    {
                 @service.ServiceName
-                }
-                else if (service.Discount.Value <= 20)
-                {
+                    }
+                    else if (service.Discount.Value <= 20)
+                    {
                 @service.ServiceName  <span class="badge badge-success">-@service.Discount.Value%</span>
-                }
-                else if (service.Discount.Value > 20 && service.Discount.Value < 70)
-                {
+                    }
+                    else if (service.Discount.Value > 20 && service.Discount.Value < 70)
+                    {
                 @service.ServiceName  <span class="badge badge-warning">-@service.Discount.Value%</span>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                 @service.ServiceName  <span class="badge badge-danger">-@service.Discount.Value%</span>
-                }
+                    }
             </h3>
             <div class="text" style="height: 52px;">
-                Цена(руб): @service.Price
+                @if (service.Discount != null)
+                    {
+                <p>Цена(руб): @(service.Price - service.Price / 100 * (service.Discount.Value)) </p>
+                    }
+                    else
+                    {
+                <p>Цена(руб): @service.Price </p>
+                    }
             </div>
             <div>
                 @if (User.IsInRole("Admin"))
-                {
+                    {
                 <p class="m-1">
                     <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
                     <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
                 </p>
 
-                }
-                else if (User.Identity.IsAuthenticated)
-                {
-                <a class="btn btn-dark mt-3" href="#">Добавить в корзину</a>
-                }
+                    }
+                    else if (User.Identity.IsAuthenticated)
+                    {
+                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { id = service.ServiceId }, new { @class = " compItem btn btn-dark" })
+                    }
             </div>
         </div>
     </div>
@@ -57,4 +67,22 @@
 <div class="mb-2 mt-2">
     <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
 </div>
+}
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".compItem").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
 }

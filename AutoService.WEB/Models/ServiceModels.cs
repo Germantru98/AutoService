@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoService.WEB.Models
 {
-    public class Service
+    public class Service : IComparable<Service>
     {
         public int ServiceId { get; set; }
 
@@ -13,6 +13,24 @@ namespace AutoService.WEB.Models
         public string ServiceImageHref { get; set; }
         public int? DiscountId { get; set; }
         public Discount Discount { get; set; }
+
+        public int Counter { get; set; }
+
+        public int CompareTo(Service other)
+        {
+            if (Counter < other.Counter)
+            {
+                return 1;
+            }
+            else if (Counter > other.Counter)
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
 
     public class ServiceView

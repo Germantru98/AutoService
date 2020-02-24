@@ -1,4 +1,5 @@
 ﻿using AutoService.WEB.Models;
+using Microsoft.AspNet.Identity;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
@@ -110,6 +111,27 @@ namespace AutoService.WEB.Controllers
             db.Services.Remove(service);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> AddToBasket(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            Service service = await db.Services.FindAsync(id);
+            if (service == null)
+            {
+                return HttpNotFound();
+            }
+            var basketItem = new BasketItem()
+            {
+                ServiceId = service.ServiceId,
+                UserId = User.Identity.GetUserId()
+            };
+            db.BasketItems.Add(basketItem);
+            await db.SaveChangesAsync();
+            return PartialView("SuccessView");
         }
 
         protected override void Dispose(bool disposing)

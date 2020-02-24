@@ -1,5 +1,6 @@
 ﻿using AutoService.WEB.Models;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -15,8 +16,10 @@ namespace AutoService.WEB.Controllers
             HomeView homeView = new HomeView()
             {
                 PopularServices = await db.Services.Include(s => s.Discount).ToListAsync(),
-                CarBrands = await db.CarBrands.ToListAsync()
+                CarBrands = await db.CarBrands.ToListAsync(),
+                Discounts = await db.Services.Where(s => s.Discount.isActive).ToListAsync()
             };
+            homeView.PopularServices.Sort();
             return View(homeView);
         }
 

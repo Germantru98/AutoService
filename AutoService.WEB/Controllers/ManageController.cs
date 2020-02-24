@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -76,9 +77,21 @@ namespace AutoService.WEB.Controllers
                 Cars = _dbContext.Cars.Where(c => c.ApplicationUserId == user.Id),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Basket = await GetServicesFromBasketItem(_dbContext.BasketItems.Where(item => item.UserId == userId).ToList())
             };
             return View(model);
+        }
+
+        public async Task<Dictionary<int, Service>> GetServicesFromBasketItem(List<BasketItem> items)
+        {
+            var result = new Dictionary<int, Service>();
+            foreach (var item in items)
+            {
+                var service = await _dbContext.Services.FindAsync(item.ServiceId);
+                result.Add(item.Id, service);
+            }
+            return result;
         }
 
         //
@@ -404,6 +417,31 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index");
             }
             return View("EditCarView", car);
+        }
+
+        public async Task<ActionResult> RemoveFromBasket(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            BasketItem item = await _dbContext.BasketItems.FindAsync(id);
+            if (item == null)
+            {
+                return HttpNotFound();
+            }
+            var service = await _dbContext.Services.FindAsync(item.ServiceId);
+            return PartialView("ModalDeleteConfirm", service);
+        }
+
+        [HttpPost, ActionName("RemoveFromBasket")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveFromBasketConfirmed(int? id)
+        {
+            BasketItem item = await _dbContext.BasketItems.FindAsync(id);
+            _dbContext.BasketItems.Remove(item);
+            await _dbContext.SaveChangesAsync();
+            return RedirectToAction("Index");
         }
 
         #region Вспомогательные приложения

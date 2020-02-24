@@ -154,9 +154,47 @@
                 <div class="container">
                     <div class="py-1">
                         <h4>Корзина</h4>
+                        <div id="modDialog" class="modal fade">
+                            <div id="dialogContent" class="modal-dialog"></div>
+                        </div>
+                        <div class="row row-cols-3">
+                            @foreach (var item in Model.Basket)
+                            {
+                            <div class="col-sm-4 border border-dark p-0 ml-auto mr-auto mb-2" style="max-width:350px">
+                                <div class="position-relative">
+                                    <img src="@item.Value.ServiceImageHref" class="w-100" alt="Alternate Text" height="250" />
+                                </div>
+                                <div class="text-center" style="min-height:100px">
+                                    <h3>@item.Value.ServiceName</h3>
+                                    <p>@item.Value.Price</p>
+                                </div>
+                                <div class="text-right m-1">
+                                    @Html.ActionLink("Удалить", "RemoveFromBasket", new { id = item.Key }, new { @class = "service btn btn-outline-dark" })
+                                </div>
+                            </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+
+        $(function () {
+            $.ajaxSetup({ cache: false });
+            $(".service").click(function (e) {
+
+                e.preventDefault();
+                $.get(this.href, function (data) {
+                    $('#dialogContent').html(data);
+                    $('#modDialog').modal('show');
+                });
+            });
+        })
+    </script>
+}

@@ -30,9 +30,6 @@
                     <a class="nav-link" href="/Services">Услуги</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Discounts">Акции</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/Vacancies">Вакансии</a>
                 </li>
                 <li class="nav-item">
@@ -41,6 +38,14 @@
                 <li>
                     <a class="nav-link" href="/UserRewiews">Отзывы</a>
                 </li>
+
+                @if (User.IsInRole("Admin"))
+                {
+                <li>
+                    <a class="nav-link" href="/#">Настройки</a>
+                </li>
+
+                }
             </ul>
             @Html.Partial("_LoginPartial")
         </div>

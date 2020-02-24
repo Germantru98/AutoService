@@ -7,11 +7,14 @@ namespace AutoService.WEB.Models
     {
         public List<Service> PopularServices { get; set; }
         public List<CarBrand> CarBrands { get; set; }
+        public List<Service> Discounts { get; set; }
     }
+
     public class CarBrand
     {
         [Key]
         public int BrandId { get; set; }
+
         public string BrandName { get; set; }
         public string ImageHref { get; set; }
     }
