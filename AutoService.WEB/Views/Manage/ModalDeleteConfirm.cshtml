@@ -10,17 +10,35 @@
     <!-- Основное содержимое модального окна -->
     <div class="modal-body">
         <h5>@Model.ServiceName</h5>
-        <p>Цена: @Model.Price</p>
+        @{
+            if (Model.Discount != null)
+            {
+                if (Model.Discount.isActive)
+                {
+                    <p>Цена(руб): @(Model.Price - Model.Price / 100 * (Model.Discount.Value))</p>
+                }
+                else
+                {
+                    <p>Цена(руб): @Model.Price</p>
+                }
+
+            }
+            else
+            {
+                <p>Цена(руб): @Model.Price</p>
+            }
+        }
+
     </div>
     <!-- Футер модального окна -->
     <div class="modal-footer">
         @using (Html.BeginForm())
         {
-        @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-        </div>
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+            </div>
         }
         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
     </div>

@@ -89,6 +89,7 @@ namespace AutoService.WEB.Controllers
             foreach (var item in items)
             {
                 var service = await _dbContext.Services.FindAsync(item.ServiceId);
+                service.Discount = await _dbContext.Discounts.FindAsync(service.DiscountId);
                 result.Add(item.Id, service);
             }
             return result;
@@ -431,6 +432,7 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
             var service = await _dbContext.Services.FindAsync(item.ServiceId);
+            service.Discount = await _dbContext.Discounts.FindAsync(service.DiscountId);
             return PartialView("ModalDeleteConfirm", service);
         }
 
