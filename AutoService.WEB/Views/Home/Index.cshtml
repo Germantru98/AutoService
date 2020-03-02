@@ -95,18 +95,5 @@
 @section Scripts {
     @Scripts.Render("~/scripts/owl.carousel.js")
     @Scripts.Render("~/scripts/Script.js")
-    <script type="text/javascript">
-
-        $(function () {
-            $.ajaxSetup({ cache: false });
-            $(".service").click(function (e) {
-
-                e.preventDefault();
-                $.get(this.href, function (data) {
-                    $('#dialogContent').html(data);
-                    $('#modDialog').modal('show');
-                });
-            });
-        })
-    </script>
+   @Scripts.Render("~/scripts/InvokeModalDialog.js")
 }

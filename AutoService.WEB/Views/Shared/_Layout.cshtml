@@ -50,16 +50,12 @@
             @Html.Partial("_LoginPartial")
         </div>
     </nav>
-    <div class="container-fluid">
+    <div class="container-fluid" style="min-height:100%">
         @RenderBody()
     </div>
     <!-- Footer -->
-    <footer class="footer mt-auto py-3 bg-dark">
-        <div class="container">
-            <div class="footer-copyright text-center py-3" style="color:aliceblue">
-                &copy;2019 - 2020 Все права защищены.
-            </div>
-        </div>
+    <footer class="bg-dark text-center p-2 text-white">
+        &copy;2019 - 2020 Все права защищены.
     </footer>
 
     @RenderSection("scripts", required: false)

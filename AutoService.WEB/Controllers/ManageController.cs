@@ -55,8 +55,29 @@ namespace AutoService.WEB.Controllers
 
         //
         // GET: /Manage/Index
+        [Authorize(Roles ="Admin")]
+        public async Task<ActionResult> AdminMenu()
+        {
+            var adminView = new AdminMenuView()
+            {
+                Users = new List<UserAdminView>()
+            };
+            var admin = _dbContext.Users.Find(User.Identity.GetUserId());
+            foreach (var user in await _dbContext.Users.ToListAsync())
+            {
+                if (user.UserName!=admin.UserName)
+                {
+                    adminView.Users.Add(new UserAdminView(user.RealName, user.Email, user.PhoneNumber));
+                }
+            }
+            return View("AdminMenu",adminView);
+        }
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction("AdminMenu");
+            }
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
                 : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
@@ -445,7 +466,6 @@ namespace AutoService.WEB.Controllers
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-
         #region Вспомогательные приложения
 
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа

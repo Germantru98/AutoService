@@ -2,15 +2,15 @@
 @using PagedList.Mvc
 @{
     ViewBag.Title = "Index";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<div class="row">
+
+<div class="row w-100 m-0">
     <h2 class="col-12 p-0 m-2 mb-3">Отзывы</h2>
     <div class="col-12 p-0">
         <table class="table  table-responsive-xl">
             <thead>
-                <tr class=" justify-content-center " style="background-color:#343a40;color:white">
+                <tr style="background-color:#343a40;color:white;">
                     <th>
                         <h4>Email</h4>
                     </th>
@@ -48,7 +48,7 @@
                             }
                             else if (item.ApplicationUserId == ViewBag.UserId)
                             {
-                        <div class="btn-group p-0 col-1">
+                        <div class="btn-group p-0">
                             <a class="btn btn-outline-secondary" href="/UserRewiews/Edit/@item.UserRewiewId" role="button">Изменить</a>
                             <a class="btn btn-outline-secondary" href="/UserRewiews/Delete/@item.UserRewiewId" role="button">Удалить</a>
                         </div>

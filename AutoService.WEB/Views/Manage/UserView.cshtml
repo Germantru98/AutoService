@@ -1,0 +1,31 @@
+﻿@model AutoService.WEB.Models.UserAdminView
+<div class=" border border-dark m-2 p-2" style="min-height:200px">
+    <dl>
+        <dt>ФИО: <a title="удалить пользователя" href="#" class=" btn btn-danger btn-sm pb-2 close">&times;</a> </dt>
+        <dd>
+            @Model.UserRealName
+        </dd>
+        <dt>Почта:</dt>
+        <dd>
+            <a style="color:black" href="mailto:@Model.UserMail">@Model.UserMail</a>
+        </dd>
+        <dt>Номер телефона:</dt>
+
+        @if (Model.PhoneNumber != null)
+        {
+            <dd>
+                @Model.PhoneNumber
+            </dd>
+
+        }
+        else
+        {
+            <dd>
+                Отсутствует
+            </dd>
+
+        }
+
+    </dl>
+
+</div>
