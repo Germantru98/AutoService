@@ -52,5 +52,6 @@ namespace AutoService.WEB.Models
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<CarBrand> CarBrands { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
+        public DbSet<HomeMainCarouserlItem> HomeMainCarouserlItems { get; set; }
     }
 }

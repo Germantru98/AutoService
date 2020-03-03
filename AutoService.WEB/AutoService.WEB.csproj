@@ -280,6 +280,10 @@
     <Compile Include="Migrations\202002241433014_basket_start.Designer.cs">
       <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003031056110_mcarouselver1.cs" />
+    <Compile Include="Migrations\202003031056110_mcarouselver1.Designer.cs">
+      <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -513,6 +517,9 @@
     <Content Include="Views\Manage\UserAccountMenu.cshtml" />
     <Content Include="Views\Manage\AdminMenu.cshtml" />
     <Content Include="Views\Manage\UserView.cshtml" />
+    <Content Include="Views\Home\MainCarousel.cshtml" />
+    <Content Include="Views\Home\BrandCarousel.cshtml" />
+    <Content Include="Views\Home\PopularServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -580,6 +587,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202002241433014_basket_start.resx">
       <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003031056110_mcarouselver1.resx">
+      <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -8,92 +8,21 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<!--Главная карусель-->
-<div class="col-sm-11 mt-2 text-sm-center mr-sm-auto ml-sm-auto">
-    <div id="carousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner ">
-            <div class="carousel-item active p-0">
-                <div class="bg-info m-0 w-100 " style="height:500px"></div>
-            </div>
-            <div class="carousel-item">
-                <div class="bg-primary m-0 w-100 " style="height:500px"></div>
-            </div>
-            <div class="carousel-item">
-                <div class="bg-success m-0 w-100 " style="height:500px"></div>
-            </div>
-        </div>
-        <!-- Элементы управления -->
-        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="sr-only">Предыдущий</span>
-        </a>
-        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="sr-only">Следующий</span>
-        </a>
-    </div>
+
+<div class="row mt-2 ml-auto mr-auto">
+    <!--Главная карусель-->
+    @Html.Partial("MainCarousel", Model.HomeMainCarouserlItems)
+    <!--БлокСкидки-->
+    @Html.Partial("DiscountCarousel", Model.Discounts)
 </div>
-<div class="row mr-auto ml-auto">
-    <!--Популярные услуги-->
-    <div class="card border-dark col-8 ml-auto mt-3 mb-3 p-0 h-auto ">
-
-        <div class="card-header bg-dark text-white h4">
-            Популярные услуги
-        </div>
-
-        <div class="card-body row row-cols-3 row-cols-xl-3 m-0">
-
-            @foreach (var service in Model.PopularServices)
-            {
-            <div class="col-3 mt-2 mb-2 text-center bg-light p-0 mr-auto ml-auto" style="max-width:350px">
-                <div class="image position-relative overflow-hidden">
-                    <img class="w-100" src="@service.ServiceImageHref" alt="..." height="200">
-                </div>
-                <div class="p-2">
-                    <h3 class="title" style="height: 72px;">
-                        @if (service.Discount == null || !service.Discount.isActive)
-                            {
-                        @service.ServiceName
-                            }
-                            else if (service.Discount.Value <= 20)
-                            {
-                        @service.ServiceName  <span class="badge badge-success">-@service.Discount.Value%</span>
-                            }
-                            else if (service.Discount.Value > 20 && service.Discount.Value < 70)
-                            {
-                        @service.ServiceName  <span class="badge badge-warning">-@service.Discount.Value%</span>
-                            }
-                            else
-                            {
-                        @service.ServiceName  <span class="badge badge-danger">-@service.Discount.Value%</span>
-                            }
-                    </h3>
-                    <div class="text" style="height: 52px;">
-                        Brakes wear out over time requiring service
-                    </div>
-                </div>
-            </div>
-            }
-        </div>
-    </div>
-
-    @Html.Partial("DiscountCarousel",Model.Discounts)
-
-    <div class="col-11 mr-auto ml-auto p-0">
-        <div class="text-center h4 mb-3">Марки с которыми мы работаем</div>
-        <div class="owl-carousel owl-theme">
-            @foreach (var brand in Model.CarBrands)
-            {
-            <div class="carbrand">
-                <img width="150" height="150" src="@brand.ImageHref" alt="@brand.BrandName" />
-            </div>
-            }
-        </div>
-    </div>
-</div>
-
+<!--Популярные услуги-->
+<h3 class="text-center m-3">Популярные услуги</h3>
+@Html.Partial("PopularServices")
+<!--Автобренды-->
+<h3 class="text-center m-3">Марки с которыми мы работаем</h3>
+@Html.Partial("BrandCarousel", Model.CarBrands)
 @section Scripts {
     @Scripts.Render("~/scripts/owl.carousel.js")
     @Scripts.Render("~/scripts/Script.js")
-   @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
 }

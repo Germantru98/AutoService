@@ -8,6 +8,7 @@ namespace AutoService.WEB.Models
         public List<Service> PopularServices { get; set; }
         public List<CarBrand> CarBrands { get; set; }
         public List<Service> Discounts { get; set; }
+        public List<HomeMainCarouserlItem> HomeMainCarouserlItems { get; set; }
     }
 
     public class CarBrand
@@ -17,5 +18,14 @@ namespace AutoService.WEB.Models
 
         public string BrandName { get; set; }
         public string ImageHref { get; set; }
+    }
+
+    public class HomeMainCarouserlItem
+    {
+        public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string ImageHref { get; set; }
+        public string RouteHref { get; set; }
     }
 }

@@ -1,0 +1,11 @@
+﻿@model IEnumerable<AutoService.WEB.Models.CarBrand>
+<div class="col-10 mr-auto ml-auto p-0">
+    <div class="owl-carousel owl-theme">
+        @foreach (var brand in Model)
+            {
+        <div class="carbrand">
+            <img width="150" height="150" src="@brand.ImageHref" alt="@brand.BrandName" title="@brand.BrandName" />
+        </div>
+            }
+    </div>
+</div>

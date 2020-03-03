@@ -17,7 +17,8 @@ namespace AutoService.WEB.Controllers
             {
                 PopularServices = await db.Services.Include(s => s.Discount).ToListAsync(),
                 CarBrands = await db.CarBrands.ToListAsync(),
-                Discounts = await db.Services.Where(s => s.Discount.isActive).ToListAsync()
+                Discounts = await db.Services.Where(s => s.Discount.isActive).ToListAsync(),
+                HomeMainCarouserlItems = await db.HomeMainCarouserlItems.ToListAsync()
             };
             homeView.PopularServices.Sort();
             return View(homeView);

@@ -1,0 +1,34 @@
+﻿<div class="row row-cols-4 row-cols-xl-3 row-cols-sm-2 row-cols-md-2 col-lg-10 ml-auto mr-auto mt-2 border border-dark p-2  ">
+
+    @foreach (var service in Model.PopularServices)
+        {
+    <div class="col-3 col-sm-10 mt-2 mb-2 text-center bg-light p-0 mr-auto ml-auto" style="max-width:350px">
+        <div class="image position-relative overflow-hidden">
+            <img class="w-100" src="@service.ServiceImageHref" alt="..." height="200">
+        </div>
+        <div class="p-2">
+            <h3 class="title" style="height: 72px;">
+                @if (service.Discount == null || !service.Discount.isActive)
+                        {
+                @service.ServiceName
+                        }
+                        else if (service.Discount.Value <= 20)
+                        {
+                @service.ServiceName  <span class="badge badge-success">-@service.Discount.Value%</span>
+                        }
+                        else if (service.Discount.Value > 20 && service.Discount.Value < 70)
+                        {
+                @service.ServiceName  <span class="badge badge-warning">-@service.Discount.Value%</span>
+                        }
+                        else
+                        {
+                @service.ServiceName  <span class="badge badge-danger">-@service.Discount.Value%</span>
+                        }
+            </h3>
+            <div class="text" style="height: 52px;">
+                Brakes wear out over time requiring service
+            </div>
+        </div>
+    </div>
+        }
+</div>

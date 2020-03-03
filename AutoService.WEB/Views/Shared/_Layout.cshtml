@@ -41,9 +41,9 @@
 
                 @if (User.IsInRole("Admin"))
                 {
-                <li>
-                    <a class="nav-link" href="/#">Настройки</a>
-                </li>
+                    <li>
+                        <a class="nav-link" href="@Url.Action("AdminMenu","Manage")">Настройки</a>
+                    </li>
 
                 }
             </ul>
