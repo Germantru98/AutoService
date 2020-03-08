@@ -1,0 +1,45 @@
+﻿@model AutoService.WEB.Models.AdminMenuView
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2 class="text-center m-2">Меню администратора</h2>
+<table class="table table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Пользователи</th>
+            <th scope="col">Акции</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="overflow-auto w-50">
+                <div class="row row-cols-2">
+                    @foreach (var user in Model.Users)
+                    {
+                        @Html.Partial("UserView", user)
+                    }
+                </div>
+            </td>
+            <td class="overflow-auto w-50">
+                <div class="row row-cols-4 mr-auto ml-auto">
+                    @if (Model.Discounts.Count > 0)
+                    {
+                        foreach (var discount in Model.Discounts)
+                        {
+                            @Html.Partial("DiscountAdminView", discount)
+                        }
+                    }
+                    else
+                    {
+                        <p>Скидок нет</p>
+                    }
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+}

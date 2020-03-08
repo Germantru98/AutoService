@@ -5,6 +5,7 @@ namespace AutoService.WEB.Models
     public class AdminMenuView
     {
         public List<UserAdminView> Users { get; set; }
+        public List<ServiceView> Discounts { get; set; }
     }
 
     public class UserAdminView

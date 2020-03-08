@@ -13,7 +13,10 @@
     <!--Главная карусель-->
     @Html.Partial("MainCarousel", Model.HomeMainCarouserlItems)
     <!--БлокСкидки-->
+    @if (Model.Discounts.Count > 0)
+    {
     @Html.Partial("DiscountCarousel", Model.Discounts)
+    }
 </div>
 <!--Популярные услуги-->
 <h3 class="text-center m-3">Популярные услуги</h3>

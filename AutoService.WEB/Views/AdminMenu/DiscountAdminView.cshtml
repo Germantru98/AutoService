@@ -1,0 +1,15 @@
+﻿@model AutoService.WEB.Models.ServiceView
+
+<div class="col-4 discountcard p-0 m-2">
+    <img class="h-50 w-100" src="@Model.ServiceImageHref" alt="Alternate Text" />
+    <div class="p-0 text-center h-50">
+        <div class="h5 m-2" style="min-height:50px">@Model.ServiceName</div>
+        <div class="m-2">
+            Размер скидки: @Model.Discount.Value %
+        </div>
+        <div class="btn-group d-block m-2" style="bottom:0">
+            @Html.ActionLink("Продлить", "ExtendDiscountByDays", "AdminMenu", new { @class = "btn btn-outline-dark dialog" })
+            <a href="#" class="btn btn-outline-dark">Убрать</a>
+        </div>
+    </div>
+</div>

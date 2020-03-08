@@ -54,7 +54,7 @@
                     }
                     else if (User.Identity.IsAuthenticated)
                     {
-                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { id = service.ServiceId }, new { @class = " .service btn btn-dark" })
+                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { id = service.ServiceId }, new { @class = " dialog btn btn-dark" })
                     }
             </div>
         </div>

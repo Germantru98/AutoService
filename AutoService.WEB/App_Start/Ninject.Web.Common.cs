@@ -3,8 +3,8 @@
 
 namespace AutoService.WEB.App_Start
 {
-    using AutoService.BLL.Interfaces;
-    using AutoService.BLL.Services;
+    using AutoService.WEB.Utils;
+    using AutoService.WEB.Utils.Interfaces;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
     using Ninject;
     using Ninject.Web.Common;
@@ -45,6 +45,7 @@ namespace AutoService.WEB.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
+                kernel.Bind<IServicesLogic>().To<ServicesLogic>();
                 RegisterServices(kernel);
                 return kernel;
             }
@@ -61,7 +62,6 @@ namespace AutoService.WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
-            kernel.Bind<IContactData>().To<ContactDataService>();
         }
     }
 }

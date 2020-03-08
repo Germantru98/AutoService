@@ -35,6 +35,7 @@ namespace AutoService.WEB.Models
 
     public class ServiceView
     {
+        [ScaffoldColumn(false)]
         public int ServiceId { get; set; }
 
         [Required]
@@ -48,6 +49,18 @@ namespace AutoService.WEB.Models
         [Required]
         [Display(Name = "Ссылка на изображение")]
         public string ServiceImageHref { get; set; }
+
+        [ScaffoldColumn(false)]
+        public Discount Discount { get; set; }
+
+        public ServiceView(int serviceId, string name, int price, string imageHref, Discount discount)
+        {
+            ServiceName = name;
+            Price = price;
+            ServiceImageHref = imageHref;
+            ServiceId = serviceId;
+            Discount = discount;
+        }
     }
 
     public class Discount
@@ -57,5 +70,32 @@ namespace AutoService.WEB.Models
         public DateTime StartDate { get; set; }
         public DateTime FinishDate { get; set; }
         public bool isActive { get; set; }
+
+        public void SetNewFinishDate(int daysCount)
+        {
+            FinishDate.AddDays(daysCount);
+        }
+
+        public bool isRelevant()
+        {
+            if (FinishDate >= DateTime.Now)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+
+    public class DiscountView
+    {
+        [ScaffoldColumn(false)]
+        public int DiscountId { get; set; }
+
+        public int Value { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime FinishDate { get; set; }
     }
 }

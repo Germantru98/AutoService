@@ -9,5 +9,18 @@
 }
 
 .useradminbar {
-    max-height: 900px;
+    max-height: 500px;
+}
+
+.usercard {
+    min-height: 200px;
+    height: 200px;
+    min-width: 350px;
+    width: 350px;
+}
+
+.discountcard {
+    min-height: 300px;
+    max-width: 250px;
+    border: solid 1px;
 }
