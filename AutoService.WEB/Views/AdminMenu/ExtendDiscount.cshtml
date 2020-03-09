@@ -1,0 +1,31 @@
+﻿@using AutoService.WEB.Models
+@model ExtendDiscount
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Продление акции</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("ExtendDiscount", "AdminMenu", FormMethod.Post))
+    {
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.DiscountId)
+
+            <p>
+                Количество дней:<br />
+                @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
+            </p>
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-outline-dark" type="submit">Продлить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        </div>
+    }
+</div>
+

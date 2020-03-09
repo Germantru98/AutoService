@@ -1,0 +1,44 @@
+﻿@using AutoService.WEB.Models
+@model AddNewDiscount
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Новая скидка</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("AddNewDiscount", "AdminMenu", FormMethod.Post))
+    {
+        <div class="modal-body">
+
+            @Html.AntiForgeryToken()
+
+            <p>
+                Размер скидки<br />
+                @Html.EditorFor(model => model.DiscountValue, new { htmlAttributes = new { @class = "form-control" } })
+            </p>
+            <p>
+                Услуга <br />
+                @Html.DropDownListFor(model => model.ServiceId, ViewBag.Services as SelectList,new { @class="form-control"})
+            </p>
+            <p>
+                Дата начала акции <br />
+                @Html.EditorFor(model => model.StartDate,new { htmlAttributes = new { @class = "form-control" } })
+            </p>
+            <p>
+                Дата окончания акции <br />
+                @Html.EditorFor(model => model.FinishDate,new { htmlAttributes = new { @class = "form-control" } })
+            </p>
+
+
+
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-outline-dark" type="submit">Добавить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        </div>
+    }
+</div>

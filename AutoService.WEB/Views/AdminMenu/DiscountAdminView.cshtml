@@ -5,11 +5,22 @@
     <div class="p-0 text-center h-50">
         <div class="h5 m-2" style="min-height:50px">@Model.ServiceName</div>
         <div class="m-2">
-            Размер скидки: @Model.Discount.Value %
+            @if (Model.Discount.Value <= 20)
+            {
+                <p> Размер скидки: <span class="badge badge-success">@Model.Discount.Value%</span></p>
+            }
+            else if (Model.Discount.Value > 20 && Model.Discount.Value < 70)
+            {
+                <p> Размер скидки: <span class="badge badge-warning">@Model.Discount.Value%</span></p>
+            }
+            else
+            {
+                <p> Размер скидки: <span class="badge badge-danger">@Model.Discount.Value%</span></p>
+            }
         </div>
         <div class="btn-group d-block m-2" style="bottom:0">
-            @Html.ActionLink("Продлить", "ExtendDiscountByDays", "AdminMenu", new { @class = "btn btn-outline-dark dialog" })
-            <a href="#" class="btn btn-outline-dark">Убрать</a>
+            @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu",new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
+            @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { id = Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
         </div>
     </div>
 </div>

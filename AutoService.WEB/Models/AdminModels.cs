@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace AutoService.WEB.Models
 {
@@ -19,6 +21,34 @@ namespace AutoService.WEB.Models
             UserRealName = realName;
             UserMail = userMail;
             PhoneNumber = phoneNumber;
+        }
+    }
+    public class AddNewDiscount
+    {
+        [Required]
+        public int DiscountValue { get; set; }
+        [Required]
+        public int ServiceId { get; set; }
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTime StartDate { get; set; }
+        [Required]
+        [DataType(DataType.DateTime)]
+        public DateTime FinishDate { get; set; }
+
+    }
+    public class ExtendDiscount
+    {
+        public int? DiscountId { get; set; }
+        public int Days { get; set; }
+        public ExtendDiscount()
+        {
+
+        }
+        public ExtendDiscount(int? id, int days)
+        {
+            DiscountId = id;
+            Days = days;
         }
     }
 }

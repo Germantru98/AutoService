@@ -11,14 +11,14 @@ namespace AutoService.WEB.Controllers
     public class HomeController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private DateTime currentTime = DateTime.Now;
         public async Task<ActionResult> Index()
         {
             HomeView homeView = new HomeView()
             {
                 PopularServices = await db.Services.Include(s => s.Discount).ToListAsync(),
                 CarBrands = await db.CarBrands.ToListAsync(),
-                Discounts = await db.Services.Where(s => s.Discount.isActive && s.Discount.FinishDate >= DateTime.Now).ToListAsync(),
+                Discounts = await db.Services.Where(s => s.Discount.StartDate<=currentTime && s.Discount.FinishDate >= currentTime).ToListAsync(),
                 HomeMainCarouserlItems = await db.HomeMainCarouserlItems.ToListAsync()
             };
             homeView.PopularServices.Sort();

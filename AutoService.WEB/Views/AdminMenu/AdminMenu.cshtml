@@ -29,10 +29,11 @@
                         {
                             @Html.Partial("DiscountAdminView", discount)
                         }
+                        @Html.Partial("NewDiscountView")
                     }
                     else
                     {
-                        <p>Скидок нет</p>
+                        @Html.Partial("NewDiscountView")
                     }
                 </div>
             </td>

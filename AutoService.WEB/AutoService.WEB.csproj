@@ -285,6 +285,10 @@
     <Compile Include="Migrations\202003031056110_mcarouselver1.Designer.cs">
       <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003091927393_discount_fix.cs" />
+    <Compile Include="Migrations\202003091927393_discount_fix.Designer.cs">
+      <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -524,6 +528,10 @@
     <Content Include="Views\Home\PopularServices.cshtml" />
     <Content Include="Views\AdminMenu\DiscountAdminView.cshtml" />
     <Content Include="Views\AdminMenu\ExtendDiscountWindow.cshtml" />
+    <Content Include="Views\AdminMenu\ConfirmDiscountDeleteView.cshtml" />
+    <Content Include="Views\AdminMenu\NewDiscountView.cshtml" />
+    <Content Include="Views\AdminMenu\AddNewDiscountWindow.cshtml" />
+    <Content Include="Views\AdminMenu\ExtendDiscount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -594,6 +602,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003031056110_mcarouselver1.resx">
       <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003091927393_discount_fix.resx">
+      <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

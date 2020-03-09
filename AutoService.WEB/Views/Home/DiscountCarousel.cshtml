@@ -16,7 +16,7 @@
                     </div>
                     <div class="text-center p-1" style="min-height:250px">
                         <h3>
-                            @if (Model[0].Discount == null || !Model[0].Discount.isActive)
+                            @if (Model[0].Discount == null)
                             {
                             @Model[0].ServiceName
                             }
@@ -52,7 +52,7 @@
                     </div>
                     <div class="text-center p-1" style="min-height:250px">
                         <h3>
-                            @if (Model[i].Discount == null || !Model[i].Discount.isActive)
+                            @if (Model[i].Discount == null)
                                 {
                             @Model[i].ServiceName
                                 }
