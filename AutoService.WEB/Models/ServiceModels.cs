@@ -63,15 +63,16 @@ namespace AutoService.WEB.Models
         }
     }
 
-    public class ServiceLiteView 
+    public class ServiceLiteView
     {
         public int ServiceId { get; set; }
         public string ServiceName { get; set; }
         public Discount Discount { get; set; }
+
         public ServiceLiteView()
         {
-
         }
+
         public ServiceLiteView(int id, string serviceName, Discount discount)
         {
             ServiceId = id;
@@ -89,7 +90,7 @@ namespace AutoService.WEB.Models
 
         public void SetNewFinishDate(int daysCount)
         {
-            FinishDate.AddDays(daysCount);
+            FinishDate = FinishDate.AddDays(daysCount);
         }
 
         public bool isRelevant()
@@ -109,17 +110,21 @@ namespace AutoService.WEB.Models
     {
         [ScaffoldColumn(false)]
         public int DiscountId { get; set; }
-        [Display(Name ="Размер скидки:")]
+
+        [Display(Name = "Размер скидки:")]
         public int Value { get; set; }
+
         [Display(Name = "Дата начала:")]
         public DateTime StartDate { get; set; }
+
         [Display(Name = "Дата окончания:")]
         public DateTime FinishDate { get; set; }
+
         public DiscountView()
         {
-
         }
-        public DiscountView(int id, int value,DateTime startDate,DateTime finishDate )
+
+        public DiscountView(int id, int value, DateTime startDate, DateTime finishDate)
         {
             DiscountId = id;
             Value = value;

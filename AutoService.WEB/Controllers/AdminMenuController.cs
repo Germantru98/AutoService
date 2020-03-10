@@ -44,6 +44,7 @@ namespace AutoService.WEB.Controllers
         {
             return PartialView("ExtendDiscountWindow");
         }
+
         public async Task<ActionResult> RemoveDiscount(int? id)
         {
             if (id == null)
@@ -57,41 +58,46 @@ namespace AutoService.WEB.Controllers
             }
             return PartialView("ConfirmDiscountDeleteView", new ServiceLiteView(service.ServiceId, service.ServiceName, service.Discount));
         }
+
         [HttpPost, ActionName("RemoveDiscount")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveFromBasketConfirmed(int? id)
+        public async Task<ActionResult> RemoveDiscountConfirmed(int? id)
         {
-            var service = await _dbContext.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId ==id);
+            var service = await _dbContext.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId == id);
             _dbContext.Discounts.Remove(service.Discount);
             await _dbContext.SaveChangesAsync();
             return RedirectToAction("Index");
         }
-        public  ActionResult AddNewDiscount()
+
+        public ActionResult AddNewDiscount()
         {
-            SelectList services = new SelectList(_dbContext.Services,"ServiceId","ServiceName");
+            SelectList services = new SelectList(_dbContext.Services, "ServiceId", "ServiceName");
             ViewBag.Services = services;
-            return PartialView("AddNewDiscountWindow");
+            return View("AddNewDiscountWindow");
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewDiscount(AddNewDiscount newDiscount)
         {
             var service = await _dbContext.Services.FindAsync(newDiscount.ServiceId);
-           
             if (ModelState.IsValid)
             {
                 service.Discount = new Discount()
                 {
                     Value = newDiscount.DiscountValue,
-                    StartDate = newDiscount.StartDate,
-                    FinishDate = newDiscount.FinishDate
+                    FinishDate = newDiscount.FinishDate,
+                    StartDate = newDiscount.StartDate
                 };
                 _dbContext.Entry(service).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return PartialView("AddNewDiscountWindow");
+            SelectList services = new SelectList(_dbContext.Services, "ServiceId", "ServiceName");
+            ViewBag.Services = services;
+            return View("AddNewDiscountWindow");
         }
+
         public async Task<ActionResult> ExtendDiscount(int? id)
         {
             if (id == null)
@@ -103,14 +109,15 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            ExtendDiscount extendDiscount = new ExtendDiscount(id,0);
+            ExtendDiscount extendDiscount = new ExtendDiscount(id, 1);
             return PartialView(extendDiscount);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ExtendDiscount( ExtendDiscount extendDiscountItem)
+        public async Task<ActionResult> ExtendDiscount(ExtendDiscount extendDiscountItem)
         {
-            if (extendDiscountItem.DiscountId==null)
+            if (extendDiscountItem.DiscountId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -119,10 +126,14 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            discount.SetNewFinishDate(extendDiscountItem.Days);
-            _dbContext.Entry(discount).State = EntityState.Modified;
-            await _dbContext.SaveChangesAsync();
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                discount.SetNewFinishDate(extendDiscountItem.Days);
+                _dbContext.Entry(discount).State = EntityState.Modified;
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return PartialView(extendDiscountItem);
         }
     }
 }

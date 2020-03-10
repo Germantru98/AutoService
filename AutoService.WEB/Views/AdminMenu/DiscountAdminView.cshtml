@@ -3,7 +3,17 @@
 <div class="col-4 discountcard p-0 m-2">
     <img class="h-50 w-100" src="@Model.ServiceImageHref" alt="Alternate Text" />
     <div class="p-0 text-center h-50">
-        <div class="h5 m-2" style="min-height:50px">@Model.ServiceName</div>
+        <div class="h5 m-2">@Model.ServiceName</div>
+        <div class="p-2">
+            <p class="m-0">
+                @Html.LabelFor(model => model.Discount.StartDate):
+                @Model.Discount.StartDate.ToShortDateString()
+            </p>
+            <p class="m-0">
+                @Html.LabelFor(model => model.Discount.FinishDate):
+                @Model.Discount.FinishDate.ToShortDateString()
+            </p>
+        </div>
         <div class="m-2">
             @if (Model.Discount.Value <= 20)
             {
@@ -19,7 +29,7 @@
             }
         </div>
         <div class="btn-group d-block m-2" style="bottom:0">
-            @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu",new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
+            @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
             @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { id = Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
         </div>
     </div>

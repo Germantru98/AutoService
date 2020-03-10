@@ -2,35 +2,33 @@
 
 @model ServiceLiteView
 
-
-
-    <div class="modal-content">
-        <!-- Заголовок модального окна -->
-        <div class="modal-header">
-            <h5 class="modal-title">Вы уверенны, что хотите убрать скидку на данную услугу?</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <!-- Основное содержимое модального окна -->
-        <div class="modal-body">
-            <div class=" h4">@Model.ServiceName</div>
-            <div>
-                <p>Размер скидки: @Model.Discount.Value %</p>
-                <p>Дата начала: @Model.Discount.StartDate.ToShortDateString()</p>
-                <p>Дата окончания: @Model.Discount.FinishDate.ToShortDateString()</p>
-            </div>
-        </div>
-        <!-- Футер модального окна -->
-        <div class="modal-footer">
-            @using (Html.BeginForm())
-            {
-                @Html.AntiForgeryToken()
-
-                <div class="form-actions no-color">
-                    <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-                </div>
-            }
-            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите убрать скидку на данную услугу?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    <div class="modal-body">
+        <div class=" h4">@Model.ServiceName</div>
+        <div>
+            <p>Размер скидки: @Model.Discount.Value %</p>
+            <p>Дата начала: @Model.Discount.StartDate.ToShortDateString()</p>
+            <p>Дата окончания: @Model.Discount.FinishDate.ToShortDateString()</p>
         </div>
     </div>
+    <!-- Футер модального окна -->
+    <div class="modal-footer">
+        @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+        </div>
+            }
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+    </div>
+</div>

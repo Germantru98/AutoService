@@ -20,7 +20,7 @@
 }
 
 .discountcard {
-    min-height: 300px;
-    max-width: 250px;
     border: solid 1px;
+    min-width: 300px;
+    height: 450px;
 }

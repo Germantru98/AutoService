@@ -23,28 +23,40 @@ namespace AutoService.WEB.Models
             PhoneNumber = phoneNumber;
         }
     }
+
     public class AddNewDiscount
     {
         [Required]
+        [Range(1, 100, ErrorMessage = "Не указано значение")]
+        [Display(Name = "Размер скидки")]
         public int DiscountValue { get; set; }
+
         [Required]
         public int ServiceId { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime StartDate { get; set; }
-        [Required]
-        [DataType(DataType.DateTime)]
-        public DateTime FinishDate { get; set; }
 
+        [Required(ErrorMessage = "Не указана дата начала действия акции")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [Required(ErrorMessage = "Не указана дата окончания действия акции")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime FinishDate { get; set; }
     }
+
     public class ExtendDiscount
     {
         public int? DiscountId { get; set; }
+
+        [Required(ErrorMessage = "Введите количество дней")]
+        [Range(1, 1000, ErrorMessage = "Количество дней должно превышать 0")]
         public int Days { get; set; }
+
         public ExtendDiscount()
         {
-
         }
+
         public ExtendDiscount(int? id, int days)
         {
             DiscountId = id;

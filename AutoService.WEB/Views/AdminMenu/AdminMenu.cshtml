@@ -17,7 +17,7 @@
                 <div class="row row-cols-2">
                     @foreach (var user in Model.Users)
                     {
-                        @Html.Partial("UserView", user)
+                    @Html.Partial("UserView", user)
                     }
                 </div>
             </td>
@@ -27,13 +27,13 @@
                     {
                         foreach (var discount in Model.Discounts)
                         {
-                            @Html.Partial("DiscountAdminView", discount)
+                    @Html.Partial("DiscountAdminView", discount)
                         }
-                        @Html.Partial("NewDiscountView")
+                    @Html.Partial("NewDiscountView")
                     }
                     else
                     {
-                        @Html.Partial("NewDiscountView")
+                    @Html.Partial("NewDiscountView")
                     }
                 </div>
             </td>
