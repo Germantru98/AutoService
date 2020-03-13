@@ -1,5 +1,7 @@
 ﻿using AutoService.WEB.Models;
+using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
+using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,6 +12,16 @@ namespace AutoService.WEB.Controllers
     public class ServicesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private IUserLogic _userLogic;
+
+        public ServicesController()
+        {
+        }
+
+        public ServicesController(IUserLogic logic)
+        {
+            _userLogic = logic;
+        }
 
         // GET: Services
         [AllowAnonymous]
@@ -113,25 +125,21 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> AddToBasket(int? id)
+        public async Task<ActionResult> AddToBasket(int? serviceId)
         {
-            if (id == null)
+            try
+            {
+                await _userLogic.AddToBasket(serviceId, User.Identity.GetUserId());
+                return PartialView("SuccessView");
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
-            if (service == null)
+            catch (NullReferenceException)
             {
                 return HttpNotFound();
             }
-            var basketItem = new BasketItem()
-            {
-                ServiceId = service.ServiceId,
-                UserId = User.Identity.GetUserId()
-            };
-            db.BasketItems.Add(basketItem);
-            await db.SaveChangesAsync();
-            return PartialView("SuccessView");
         }
 
         protected override void Dispose(bool disposing)

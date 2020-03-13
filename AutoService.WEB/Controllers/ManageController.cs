@@ -1,4 +1,5 @@
 ﻿using AutoService.WEB.Models;
+using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -18,6 +19,7 @@ namespace AutoService.WEB.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext _dbContext = new ApplicationDbContext();
+        private IUserLogic _userLogic;
 
         public ManageController()
         {
@@ -27,6 +29,11 @@ namespace AutoService.WEB.Controllers
         {
             UserManager = userManager;
             SignInManager = signInManager;
+        }
+
+        public ManageController(IUserLogic userLogic)
+        {
+            _userLogic = userLogic;
         }
 
         public ApplicationSignInManager SignInManager
@@ -367,11 +374,12 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewCar(AddNewCarViewModel newCar)
         {
-            var userId = User.Identity.GetUserId();
-            var car = new Car { Color = newCar.CarColor, Model = newCar.CarModel, Year = newCar.CarYear, ApplicationUserId = userId, };
-            _dbContext.Cars.Add(car);
-            await _dbContext.SaveChangesAsync();
-            return RedirectToAction("Index", "Manage");
+            if (ModelState.IsValid)
+            {
+                await _userLogic.AddNewCar(newCar, User.Identity.GetUserId());
+                return RedirectToAction("Index", "Manage");
+            }
+            return View();
         }
 
         public async Task<ActionResult> RemoveCar(int? id)
@@ -392,9 +400,7 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            Car car = await _dbContext.Cars.FindAsync(id);
-            _dbContext.Cars.Remove(car);
-            await _dbContext.SaveChangesAsync();
+            await _userLogic.RemoveCar(id);
             return RedirectToAction("Index");
         }
 
@@ -443,11 +449,9 @@ namespace AutoService.WEB.Controllers
 
         [HttpPost, ActionName("RemoveFromBasket")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveFromBasketConfirmed(int? id)
+        public async Task<ActionResult> RemoveFromBasketConfirmed(int id)
         {
-            BasketItem item = await _dbContext.BasketItems.FindAsync(id);
-            _dbContext.BasketItems.Remove(item);
-            await _dbContext.SaveChangesAsync();
+            await _userLogic.RemoveFromBasket(id);
             return RedirectToAction("Index");
         }
 

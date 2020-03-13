@@ -3,6 +3,7 @@
 
 namespace AutoService.WEB.App_Start
 {
+    using AutoService.WEB.Models;
     using AutoService.WEB.Utils;
     using AutoService.WEB.Utils.Interfaces;
     using Microsoft.Web.Infrastructure.DynamicModuleHelper;
@@ -46,6 +47,7 @@ namespace AutoService.WEB.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
                 kernel.Bind<IServicesLogic>().To<ServicesLogic>();
+                kernel.Bind<IUserLogic>().To<UserLogic>().WithConstructorArgument(new ApplicationDbContext());
                 RegisterServices(kernel);
                 return kernel;
             }

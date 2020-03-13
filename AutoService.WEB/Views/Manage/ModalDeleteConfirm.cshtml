@@ -13,20 +13,14 @@
         @{
             if (Model.Discount != null)
             {
-                if (Model.Discount.isActive)
-                {
-            <p>Цена(руб): @(Model.Price - Model.Price / 100 * (Model.Discount.Value))</p>
-                }
-                else
-                {
-            <p>Цена(руб): @Model.Price</p>
-                }
 
+            <p>Цена(руб): @(Model.Price - Model.Price / 100 * (Model.Discount.Value))</p>
             }
             else
             {
             <p>Цена(руб): @Model.Price</p>
             }
+
         }
     </div>
     <!-- Футер модального окна -->

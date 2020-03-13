@@ -17,15 +17,15 @@
         <div class="m-2">
             @if (Model.Discount.Value <= 20)
             {
-                <p> Размер скидки: <span class="badge badge-success">@Model.Discount.Value%</span></p>
+            <p> Размер скидки: <span class="badge badge-success">@Model.Discount.Value%</span></p>
             }
             else if (Model.Discount.Value > 20 && Model.Discount.Value < 70)
             {
-                <p> Размер скидки: <span class="badge badge-warning">@Model.Discount.Value%</span></p>
+            <p> Размер скидки: <span class="badge badge-warning">@Model.Discount.Value%</span></p>
             }
             else
             {
-                <p> Размер скидки: <span class="badge badge-danger">@Model.Discount.Value%</span></p>
+            <p> Размер скидки: <span class="badge badge-danger">@Model.Discount.Value%</span></p>
             }
         </div>
         <div class="btn-group d-block m-2" style="bottom:0">
