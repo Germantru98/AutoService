@@ -53,5 +53,6 @@ namespace AutoService.WEB.Models
         public DbSet<CarBrand> CarBrands { get; set; }
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<HomeMainCarouserlItem> HomeMainCarouserlItems { get; set; }
+        public DbSet<ServicesSummary> ServicesSummaries { get; set; }
     }
 }

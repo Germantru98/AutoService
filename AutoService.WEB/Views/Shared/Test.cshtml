@@ -1,0 +1,27 @@
+﻿@using AutoService.WEB.Models
+@model ServicesSummaryView
+
+    <div>
+        @Model.CarId
+    </div>
+    <div>
+        @Model.TotalPrice
+    </div>
+    <div>
+        @Model.selectedDateTime
+    </div>
+    <div>
+        @if (Model.ServicesList!=null)
+        {
+            foreach (var item in Model.ServicesList)
+            {
+                <p>
+                    @item.ToString()
+                </p>
+            }
+        }
+        else
+        {
+            <p>null</p>
+        }
+    </div>

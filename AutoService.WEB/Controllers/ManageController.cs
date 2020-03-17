@@ -3,6 +3,7 @@ using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace AutoService.WEB.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                Basket = await GetServicesFromBasketItem(_dbContext.BasketItems.Where(item => item.UserId == userId).ToList())
+                Basket = await GetServicesFromBasketItem(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync())
             };
             return View(model);
         }
@@ -454,7 +455,79 @@ namespace AutoService.WEB.Controllers
             await _userLogic.RemoveFromBasket(id);
             return RedirectToAction("Index");
         }
+        public async Task<ActionResult> GetServiceSummary()
+        {
+            var userId = User.Identity.GetUserId();
+            var services = GetServicesFromBasket(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync());
+            ServicesSummaryView summary = new ServicesSummaryView()
+            {
+                ServicesList = services,
+                TotalPrice = _userLogic.GetTotalPrice(services)
+            };
+            ViewBag.Cars = new SelectList(_dbContext.Cars.Where(c => c.ApplicationUserId == userId), "Id", "Model");
+            return View("ServicesSummary",summary);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> GetServiceSummary(ServicesSummaryView summary)
+        {
+            var userId = User.Identity.GetUserId();
+            var services  = GetServicesFromBasket(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync());
+            if (ModelState.IsValid)
+            {
 
+                ServicesSummary servicesSummary = new ServicesSummary()
+                {
+                    DateOfCreating = DateTime.Now,
+                    DayOfWork = summary.selectedDateTime,
+                    TotalPrice = summary.TotalPrice,
+                    UserCarId = summary.CarId,
+                    UserId = userId,
+                    ServiceList = ListServicesToString(services)
+                };
+                _dbContext.ServicesSummaries.Add(servicesSummary);
+                await _dbContext.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            ViewBag.Cars = new SelectList(_dbContext.Cars.Where(c => c.ApplicationUserId == userId), "Id", "Model");
+            summary.ServicesList = services;
+            summary.TotalPrice = _userLogic.GetTotalPrice(summary.ServicesList);
+            return View("ServicesSummary", summary);
+        }
+        private string ListServicesToString(IEnumerable<Service> services)
+        {
+            var result =string.Empty;
+            int counter = 1;
+            foreach (var item in services)
+            {
+                result += ($"{counter}. {item}" + Environment.NewLine);
+                counter++;
+            }
+            return result;
+        }
+        public ActionResult ClearBasket()
+        {
+            return PartialView();
+        }
+
+        [HttpPost, ActionName("ClearBasket")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ClearConfirmed()
+        {
+            var userId = User.Identity.GetUserId();
+            await _userLogic.RemoveAllItemsFromBasket(userId);
+            return RedirectToAction("Index");
+
+        }
+        private IEnumerable<Service> GetServicesFromBasket(List<BasketItem> items)
+        {
+            var result = new List<Service>();
+            foreach (var item in items)
+            {
+                result.Add( _dbContext.Services.Include(s=>s.Discount).FirstOrDefault(s=>s.ServiceId==item.ServiceId));
+            }
+            return result;
+        }
         #region Вспомогательные приложения
 
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа

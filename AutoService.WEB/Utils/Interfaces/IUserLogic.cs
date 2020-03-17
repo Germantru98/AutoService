@@ -1,4 +1,6 @@
 ﻿using AutoService.WEB.Models;
+using System.Collections;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
@@ -8,11 +10,12 @@ namespace AutoService.WEB.Utils.Interfaces
         Task AddToBasket(int? serviceId, string userId);
 
         Task RemoveFromBasket(int itemId);
+        Task RemoveAllItemsFromBasket(string userId);
 
         Task AddNewCar(AddNewCarViewModel newCar, string userId);
 
         Task RemoveCar(int id);
 
-        Task GetTotalPrice();
+        int GetTotalPrice(IEnumerable<Service>items);
     }
 }

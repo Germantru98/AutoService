@@ -1,0 +1,48 @@
+﻿@using AutoService.WEB.Models
+@model ServicesSummaryView
+<div class="col-8  mt-2 border border-dark mr-auto ml-auto p-0">
+    @using (Html.BeginForm("GetServiceSummary", "Manage", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <h3 class="w-100 bg-dark text-center text-white p-2">Итоговая смета</h3>
+        @Html.ValidationSummary("", new { @class = "text-danger" })
+        <div>
+            <div class="h4 m-2">
+                Список выбранных услуг:
+            </div>
+            <div class="text-center overflow-auto border border-dark m-2 p-3" style="max-height:500px">
+                @{
+                    int pos = 1;
+                }
+                @foreach (var item in Model.ServicesList)
+                {
+                    <p>
+                        @pos. @item.ToString()
+                    </p>
+                    pos++;
+                }
+            </div>
+        </div>
+        <div class="m-2 text-right">
+            Итого: @Html.DisplayFor(m => m.TotalPrice) руб.
+            @Html.HiddenFor(m=>m.TotalPrice)
+        </div>
+        <div class="form-group">
+            <div class="col-4">
+                @Html.LabelFor(m => m.CarId, new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.CarId, ViewBag.cars as SelectList, new { @class = "form-control" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-4">
+                @Html.LabelFor(m => m.selectedDateTime, new { @class = "control-label" })
+                @Html.EditorFor(model => model.selectedDateTime, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="text-right m-2">
+                <input type="submit" value="Отправить" class="btn btn-dark" />
+            </div>
+        </div>
+    }
+</div>

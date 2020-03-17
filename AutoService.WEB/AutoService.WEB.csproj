@@ -289,6 +289,10 @@
     <Compile Include="Migrations\202003091927393_discount_fix.Designer.cs">
       <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003160856493_summaries ver1.cs" />
+    <Compile Include="Migrations\202003160856493_summaries ver1.Designer.cs">
+      <DependentUpon>202003160856493_summaries ver1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -301,6 +305,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RewiewModels.cs" />
     <Compile Include="Models\ServiceModels.cs" />
+    <Compile Include="Models\SummaryModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\Interfaces\IServicesLogic.cs" />
@@ -534,6 +539,9 @@
     <Content Include="Views\AdminMenu\NewDiscountView.cshtml" />
     <Content Include="Views\AdminMenu\AddNewDiscountWindow.cshtml" />
     <Content Include="Views\AdminMenu\ExtendDiscount.cshtml" />
+    <Content Include="Views\Manage\ServicesSummary.cshtml" />
+    <Content Include="Views\Shared\Test.cshtml" />
+    <Content Include="Views\Manage\ClearBasket.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -597,6 +605,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003091927393_discount_fix.resx">
       <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003160856493_summaries ver1.resx">
+      <DependentUpon>202003160856493_summaries ver1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

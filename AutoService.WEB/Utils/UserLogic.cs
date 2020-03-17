@@ -1,7 +1,10 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
+using System.Data.Entity;
 
 namespace AutoService.WEB.Utils
 {
@@ -46,9 +49,21 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public Task GetTotalPrice()
+        public  int GetTotalPrice(IEnumerable<Service> items)
         {
-            throw new NotImplementedException();
+            int totalPrice =0;
+            foreach (var item in items)
+            {
+                if (item.Discount==null)
+                {
+                    totalPrice += item.Price;
+                }
+                else 
+                {
+                    totalPrice += GetPriceWithDiscount(item.Price, item.Discount.Value);
+                }
+            }
+            return totalPrice;
         }
 
         public async Task RemoveCar(int carId)
@@ -62,6 +77,22 @@ namespace AutoService.WEB.Utils
         {
             BasketItem item = await _db.BasketItems.FindAsync(itemId);
             _db.BasketItems.Remove(item);
+            await _db.SaveChangesAsync();
+        }
+
+        private async Task<Service> GetService(int serviceId)
+        {
+            return await _db.Services.Include(s=>s.Discount).FirstOrDefaultAsync(s=>s.ServiceId==serviceId);
+        }
+        private int GetPriceWithDiscount(int price, int discountValue)
+        {
+            return price - price / 100 * (discountValue);
+        }
+
+        public async Task RemoveAllItemsFromBasket(string userId)
+        {
+            var items =  _db.BasketItems.Where(item => item.UserId == userId);
+            _db.BasketItems.RemoveRange(items);
             await _db.SaveChangesAsync();
         }
     }

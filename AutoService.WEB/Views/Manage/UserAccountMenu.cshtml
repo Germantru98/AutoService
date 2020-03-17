@@ -27,15 +27,15 @@
                     <dd>
                         @if (Model.PhoneNumber == null)
                         {
-                        <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")">Добавить</a>
+                            <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")">Добавить</a>
                         }
                         else if (Model.PhoneNumberConfirmed)
                         {
-                        @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-dark btn-sm ml-2" href="@Url.Action("AddPhoneNumber")">Изменить</a>
+                            @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-dark btn-sm ml-2" href="@Url.Action("AddPhoneNumber")">Изменить</a>
                         }
                         else
                         {
-                        @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-info btn-sm ml-2" href="@Url.Action("VerifyPhoneNumber")">Подтвердить</a>
+                            @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-info btn-sm ml-2" href="@Url.Action("VerifyPhoneNumber")">Подтвердить</a>
                         }
                     </dd>
                     <dt>@Html.LabelFor(m => m.Email, new { @class = "h5" })</dt>
@@ -46,11 +46,11 @@
                     <dd>
                         @if (Model.HasPassword)
                         {
-                        <a class="btn btn-outline-dark btn-sm" href="@Url.Action("ChangePassword")">Сменить пароль</a>
+                            <a class="btn btn-outline-dark btn-sm" href="@Url.Action("ChangePassword")">Сменить пароль</a>
                         }
                         else
                         {
-                        <a class="btn btn-outline-dark btn-sm" href="@Url.Action("SetPassword")">Добавить</a>
+                            <a class="btn btn-outline-dark btn-sm" href="@Url.Action("SetPassword")">Добавить</a>
                         }
                     </dd>
                     @*<dt>External Logins:</dt>
@@ -64,20 +64,20 @@
                         {
                             using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
-                        @Html.AntiForgeryToken()
-                        <text>
-                            <input type="submit" value="Выключена" class="btn btn-secondary" />
-                        </text>
+                                @Html.AntiForgeryToken()
+                                <text>
+                                    <input type="submit" value="Выключена" class="btn btn-secondary" />
+                                </text>
                             }
                         }
                         else
                         {
                             using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                             {
-                        @Html.AntiForgeryToken()
-                        <text>
-                            <input type="submit" value="Включена" class="btn btn-success" />
-                        </text>
+                                @Html.AntiForgeryToken()
+                                <text>
+                                    <input type="submit" value="Включена" class="btn btn-success" />
+                                </text>
                             }
                         }
                     </dd>
@@ -91,58 +91,58 @@
 
                         @if (@Model.Cars.ToList().Count == 0)
                         {
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm" style="height:24rem">
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
-                                <div class="card-body">
-                                    <p class="card-text">Добавить новый автомобиль</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group" style="margin-top:45px">
-                                            <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm" style="height:24rem">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                                    <div class="card-body">
+                                        <p class="card-text">Добавить новый автомобиль</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="margin-top:45px">
+                                                <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         }
                         else
                         {
                             foreach (var car in @Model.Cars)
                             {
 
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm" style="height:24rem">
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
-                                <div class="card-body">
-                                    <p class="card-text">
-                                        Модель: @car.Model<br />
-                                        Цвет: @car.Color<br />
-                                        Год: @car.Year<br />
-                                    </p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group">
-                                            <a class="btn btn-sm btn-outline-secondary" href="/Manage/EditCar/@car.Id" role="link">Обновить</a>
-                                            <a class="btn btn-sm btn-outline-secondary" href="/Manage/RemoveCar/@car.Id" role="link">Удалить</a>
+                                <div class="col-md-4">
+                                    <div class="card mb-4 shadow-sm" style="height:24rem">
+                                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                                        <div class="card-body">
+                                            <p class="card-text">
+                                                Модель: @car.Model<br />
+                                                Цвет: @car.Color<br />
+                                                Год: @car.Year<br />
+                                            </p>
+                                            <div class="d-flex justify-content-between align-items-center">
+                                                <div class="btn-group">
+                                                    <a class="btn btn-sm btn-outline-secondary" href="/Manage/EditCar/@car.Id" role="link">Обновить</a>
+                                                    <a class="btn btn-sm btn-outline-secondary" href="/Manage/RemoveCar/@car.Id" role="link">Удалить</a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
 
                             }
-                        <div class="col-md-4">
-                            <div class="card mb-4 shadow-sm" style="height:24rem">
-                                <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
-                                <div class="card-body">
-                                    <p class="card-text">Добавить новый автомобиль</p>
-                                    <div class="d-flex justify-content-between align-items-center">
-                                        <div class="btn-group" style="margin-top:45px">
-                                            <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
+                            <div class="col-md-4">
+                                <div class="card mb-4 shadow-sm" style="height:24rem">
+                                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect></svg>
+                                    <div class="card-body">
+                                        <p class="card-text">Добавить новый автомобиль</p>
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <div class="btn-group" style="margin-top:45px">
+                                                <a class="btn btn-sm btn-outline-primary" href="/Manage/AddNewCar" role="link">Добавить</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         }
                     </div>
                 </div>
@@ -158,36 +158,43 @@
                     <div class="row row-cols-3">
                         @foreach (var item in Model.Basket)
                         {
-                        <div class="col-sm-4 border border-dark p-0 ml-auto mr-auto mb-2" style="max-width:350px">
-                            <div class="position-relative">
-                                <img src="@item.Value.ServiceImageHref" class="w-100" alt="Alternate Text" height="250" />
-                            </div>
-                            <div class="text-center" style="min-height:100px">
-                                <h3 class="title" style="height: 72px;">
-                                    @if (item.Value.Discount == null)
+                            <div class="col-sm-4 border border-dark p-0 ml-auto mr-auto mb-2" style="max-width:350px">
+                                <div class="position-relative">
+                                    <img src="@item.Value.ServiceImageHref" class="w-100" alt="Alternate Text" height="250" />
+                                </div>
+                                <div class="text-center" style="min-height:100px">
+                                    <h3 class="title" style="height: 72px;">
+                                        @if (item.Value.Discount == null)
                                         {
-                                    @item.Value.ServiceName
+                                            @item.Value.ServiceName
                                         }
                                         else if (item.Value.Discount.Value <= 20)
                                         {
-                                    @item.Value.ServiceName  <span class="badge badge-success">-@item.Value.Discount.Value%</span>
+                                            @item.Value.ServiceName <span class="badge badge-success">-@item.Value.Discount.Value%</span>
                                         }
                                         else if (item.Value.Discount.Value > 20 && item.Value.Discount.Value < 70)
                                         {
-                                    @item.Value.ServiceName  <span class="badge badge-warning">-@item.Value.Discount.Value%</span>
+                                            @item.Value.ServiceName <span class="badge badge-warning">-@item.Value.Discount.Value%</span>
                                         }
                                         else
                                         {
-                                    @item.Value.ServiceName  <span class="badge badge-danger">-@item.Value.Discount.Value%</span>
+                                            @item.Value.ServiceName <span class="badge badge-danger">-@item.Value.Discount.Value%</span>
                                         }
-                                </h3>
+                                    </h3>
+                                </div>
+                                <div class="text-right m-1">
+                                    @Html.ActionLink("Удалить", "RemoveFromBasket", new { id = item.Key }, new { @class = "dialog btn btn-outline-dark" })
+                                </div>
                             </div>
-                            <div class="text-right m-1">
-                                @Html.ActionLink("Удалить", "RemoveFromBasket", new { id = item.Key }, new { @class = "dialog btn btn-outline-dark" })
-                            </div>
-                        </div>
                         }
                     </div>
+                    @if (Model.Basket.Count > 0)
+                    {
+                        <div class="btn-group d-block mt-2 mb-2 text-right">
+                            @Html.ActionLink("Рассчитать", "GetServiceSummary", null, new { @class = "btn btn-outline-dark" })
+                            @Html.ActionLink("Удалить все", "ClearBasket", null, new { @class = "dialog btn btn-outline-dark" })
+                        </div>
+                    }
                 </div>
             </div>
         </div>

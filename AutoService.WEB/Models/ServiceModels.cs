@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace AutoService.WEB.Models
@@ -30,6 +31,21 @@ namespace AutoService.WEB.Models
             {
                 return 0;
             }
+        }
+        public override string ToString()
+        {
+            if (Discount==null)
+            {
+                return $"{ServiceName} Цена: {Price}";
+            }
+            else
+            {
+                return $"{ServiceName} Цена: {GetPriceWithDiscount(Price,Discount.Value)} Скидка: {Discount.Value}%";
+            }
+        }
+        private int GetPriceWithDiscount(int price, int discountValue)
+        {
+            return price - price / 100 * (discountValue);
         }
     }
 
@@ -131,5 +147,7 @@ namespace AutoService.WEB.Models
             StartDate = startDate;
             FinishDate = finishDate;
         }
+        
     }
+   
 }
