@@ -225,73 +225,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002131313518_services.cs" />
-    <Compile Include="Migrations\202002131313518_services.Designer.cs">
-      <DependentUpon>202002131313518_services.cs</DependentUpon>
+    <Compile Include="Migrations\202003171525097_13.cs" />
+    <Compile Include="Migrations\202003171525097_13.Designer.cs">
+      <DependentUpon>202003171525097_13.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202002131322282_services2.cs" />
-    <Compile Include="Migrations\202002131322282_services2.Designer.cs">
-      <DependentUpon>202002131322282_services2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002131348297_service3.cs" />
-    <Compile Include="Migrations\202002131348297_service3.Designer.cs">
-      <DependentUpon>202002131348297_service3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002131612331_services4.cs" />
-    <Compile Include="Migrations\202002131612331_services4.Designer.cs">
-      <DependentUpon>202002131612331_services4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002152033339_realname.cs" />
-    <Compile Include="Migrations\202002152033339_realname.Designer.cs">
-      <DependentUpon>202002152033339_realname.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002161501034_contacts.cs" />
-    <Compile Include="Migrations\202002161501034_contacts.Designer.cs">
-      <DependentUpon>202002161501034_contacts.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002181406399_ServieImage.cs" />
-    <Compile Include="Migrations\202002181406399_ServieImage.Designer.cs">
-      <DependentUpon>202002181406399_ServieImage.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002191922384_discv2.cs" />
-    <Compile Include="Migrations\202002191922384_discv2.Designer.cs">
-      <DependentUpon>202002191922384_discv2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002191940021_discv5.cs" />
-    <Compile Include="Migrations\202002191940021_discv5.Designer.cs">
-      <DependentUpon>202002191940021_discv5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002191959219_discver7.cs" />
-    <Compile Include="Migrations\202002191959219_discver7.Designer.cs">
-      <DependentUpon>202002191959219_discver7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002201526254_discver8.cs" />
-    <Compile Include="Migrations\202002201526254_discver8.Designer.cs">
-      <DependentUpon>202002201526254_discver8.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002201554239_cbrands.cs" />
-    <Compile Include="Migrations\202002201554239_cbrands.Designer.cs">
-      <DependentUpon>202002201554239_cbrands.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002240950541_addcountertoservices.cs" />
-    <Compile Include="Migrations\202002240950541_addcountertoservices.Designer.cs">
-      <DependentUpon>202002240950541_addcountertoservices.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202002241433014_basket_start.cs" />
-    <Compile Include="Migrations\202002241433014_basket_start.Designer.cs">
-      <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003031056110_mcarouselver1.cs" />
-    <Compile Include="Migrations\202003031056110_mcarouselver1.Designer.cs">
-      <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003091927393_discount_fix.cs" />
-    <Compile Include="Migrations\202003091927393_discount_fix.Designer.cs">
-      <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003160856493_summaries ver1.cs" />
-    <Compile Include="Migrations\202003160856493_summaries ver1.Designer.cs">
-      <DependentUpon>202003160856493_summaries ver1.cs</DependentUpon>
+    <Compile Include="Migrations\202003171528537_124.cs" />
+    <Compile Include="Migrations\202003171528537_124.Designer.cs">
+      <DependentUpon>202003171528537_124.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -314,6 +254,7 @@
     <Compile Include="Utils\UserLogic.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-AutoService.WEB-20200115051436.mdf" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-reboot.css" />
@@ -544,9 +485,6 @@
     <Content Include="Views\Manage\ClearBasket.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
@@ -558,56 +496,11 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202002131313518_services.resx">
-      <DependentUpon>202002131313518_services.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003171525097_13.resx">
+      <DependentUpon>202003171525097_13.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002131322282_services2.resx">
-      <DependentUpon>202002131322282_services2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002131348297_service3.resx">
-      <DependentUpon>202002131348297_service3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002131612331_services4.resx">
-      <DependentUpon>202002131612331_services4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002152033339_realname.resx">
-      <DependentUpon>202002152033339_realname.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002161501034_contacts.resx">
-      <DependentUpon>202002161501034_contacts.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002181406399_ServieImage.resx">
-      <DependentUpon>202002181406399_ServieImage.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191922384_discv2.resx">
-      <DependentUpon>202002191922384_discv2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191940021_discv5.resx">
-      <DependentUpon>202002191940021_discv5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002191959219_discver7.resx">
-      <DependentUpon>202002191959219_discver7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002201526254_discver8.resx">
-      <DependentUpon>202002201526254_discver8.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002201554239_cbrands.resx">
-      <DependentUpon>202002201554239_cbrands.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002240950541_addcountertoservices.resx">
-      <DependentUpon>202002240950541_addcountertoservices.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202002241433014_basket_start.resx">
-      <DependentUpon>202002241433014_basket_start.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003031056110_mcarouselver1.resx">
-      <DependentUpon>202003031056110_mcarouselver1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003091927393_discount_fix.resx">
-      <DependentUpon>202003091927393_discount_fix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003160856493_summaries ver1.resx">
-      <DependentUpon>202003160856493_summaries ver1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003171528537_124.resx">
+      <DependentUpon>202003171528537_124.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

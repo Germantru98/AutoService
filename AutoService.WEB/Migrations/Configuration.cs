@@ -6,7 +6,7 @@ namespace AutoService.WEB.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
             ContextKey = "AutoService.WEB.Models.ApplicationDbContext";
         }
 

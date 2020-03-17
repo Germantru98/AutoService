@@ -8,7 +8,7 @@ namespace AutoService.WEB.Models
         public List<Service> PopularServices { get; set; }
         public List<CarBrand> CarBrands { get; set; }
         public List<Service> Discounts { get; set; }
-        public List<HomeMainCarouserlItem> HomeMainCarouserlItems { get; set; }
+        public List<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
     }
 
     public class CarBrand
@@ -20,7 +20,7 @@ namespace AutoService.WEB.Models
         public string ImageHref { get; set; }
     }
 
-    public class HomeMainCarouserlItem
+    public class HomeMainCarouselItem
     {
         public int Id { get; set; }
         public string Title { get; set; }

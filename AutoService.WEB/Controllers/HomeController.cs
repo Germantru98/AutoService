@@ -20,7 +20,7 @@ namespace AutoService.WEB.Controllers
                 PopularServices = await db.Services.Include(s => s.Discount).ToListAsync(),
                 CarBrands = await db.CarBrands.ToListAsync(),
                 Discounts = await db.Services.Where(s => s.Discount.StartDate <= currentTime && s.Discount.FinishDate >= currentTime).ToListAsync(),
-                HomeMainCarouserlItems = await db.HomeMainCarouserlItems.ToListAsync()
+                HomeMainCarouselItems = await db.HomeMainCarouselItems.ToListAsync()
             };
             homeView.PopularServices.Sort();
             if (homeView.Discounts.Count > 0)
