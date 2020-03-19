@@ -24,3 +24,13 @@
     min-width: 300px;
     height: 450px;
 }
+
+.btn-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 19px;
+    text-align: center;
+    padding-left: 0;
+    padding-right: 0;
+    font-size: 16px;
+}

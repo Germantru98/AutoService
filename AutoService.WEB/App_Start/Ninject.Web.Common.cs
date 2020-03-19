@@ -48,6 +48,8 @@ namespace AutoService.WEB.App_Start
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
                 kernel.Bind<IServicesLogic>().To<ServicesLogic>();
                 kernel.Bind<IUserLogic>().To<UserLogic>().WithConstructorArgument(new ApplicationDbContext());
+                kernel.Bind<IContactInfoLogic>().To<ContactInfoLogic>().WithConstructorArgument(new ApplicationDbContext());
+                kernel.Bind<ApplicationDbContext>().ToSelf();
                 RegisterServices(kernel);
                 return kernel;
             }

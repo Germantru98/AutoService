@@ -2,9 +2,9 @@
 using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Linq;
 using System.Data.Entity;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils
 {
@@ -49,16 +49,16 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public  int GetTotalPrice(IEnumerable<Service> items)
+        public int GetTotalPrice(IEnumerable<Service> items)
         {
-            int totalPrice =0;
+            int totalPrice = 0;
             foreach (var item in items)
             {
-                if (item.Discount==null)
+                if (item.Discount == null)
                 {
                     totalPrice += item.Price;
                 }
-                else 
+                else
                 {
                     totalPrice += GetPriceWithDiscount(item.Price, item.Discount.Value);
                 }
@@ -82,8 +82,9 @@ namespace AutoService.WEB.Utils
 
         private async Task<Service> GetService(int serviceId)
         {
-            return await _db.Services.Include(s=>s.Discount).FirstOrDefaultAsync(s=>s.ServiceId==serviceId);
+            return await _db.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId == serviceId);
         }
+
         private int GetPriceWithDiscount(int price, int discountValue)
         {
             return price - price / 100 * (discountValue);
@@ -91,7 +92,7 @@ namespace AutoService.WEB.Utils
 
         public async Task RemoveAllItemsFromBasket(string userId)
         {
-            var items =  _db.BasketItems.Where(item => item.UserId == userId);
+            var items = _db.BasketItems.Where(item => item.UserId == userId);
             _db.BasketItems.RemoveRange(items);
             await _db.SaveChangesAsync();
         }

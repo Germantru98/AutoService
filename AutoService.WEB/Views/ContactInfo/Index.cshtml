@@ -27,7 +27,7 @@
             <dd>
                 @foreach (var item in Model.ContactPhones)
                 {
-                <p>@item</p>
+                    <p>@item</p>
                 }
             </dd>
             <dt class="h4">
@@ -36,9 +36,15 @@
             <dd>
                 @foreach (var item in Model.ContactEmails)
                 {
-                <a style="color:black" href="mailto:@item">@item</a><br />
+                    <a style="color:black" href="mailto:@item">@item</a><br />
                 }
             </dd>
         </dl>
     </div>
 </div>
+@if (User.IsInRole("Admin"))
+{
+    <div class="m-2 text-right">
+        @Html.ActionLink("Изменить", "EditContacts", "ContactInfo", null, new { @class = "btn btn-dark" })
+    </div>
+}
