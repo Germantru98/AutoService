@@ -26,20 +26,32 @@
                 </td>
                 <td class="text-center">
                     @Html.ActionLink("Удалить", "RemoveItem", new { itemId = item.Id }, new { @class = "btn btn-dark" })
-                    @Html.ActionLink("Изменить", "RemoveItem", new { itemId = item.Id }, new { @class = "btn btn-dark" })
+                    @Html.ActionLink("Изменить", "EditItem", new { itemId = item.Id }, new { @class = "btn btn-dark" })
                     @if (@item.isActive)
                     {
-                        @Html.ActionLink("Деактивировать", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
+                        @Html.ActionLink("Отключить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
                     }
                     else
                     {
-                        @Html.ActionLink("Активировать", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
+                        @Html.ActionLink("Включить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
                     }
                 </td>
             </tr>
         }
     </table>
-    <div class="text-right mr-auto ml-auto col-7 p-0">
-        @Html.ActionLink("Добавить", "AddNewInfo", null, new { @class = "btn btn-dark" })
+    <div class="text-right mr-auto ml-auto col-7 p-0 mb-2 mt-2">
+        <a class="btn btn-dark" data-toggle="collapse" href="#AddNewInfoForm" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Добавить
+        </a>
     </div>
 </div>
+<div class="collapse m-2" id="AddNewInfoForm">
+    @Html.Partial("AddNewInfo", Model.AddNewContactView)
+</div>
+@section Scripts {
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+<script>
+$(".validate").validate();
+</script>
+}

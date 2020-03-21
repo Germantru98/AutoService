@@ -1,0 +1,30 @@
+﻿@using AutoService.WEB.Models
+@model EditContactItemView
+
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.ItemId)
+    <div class="ml-auto mr-auto col-7">
+        <h2>Изменение контакта</h2>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Type)
+            @Html.DisplayFor(model => model.Type)
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EditedValue)
+            @Html.EditorFor(model => model.EditedValue, new { htmlAttributes = new { @class = "form-control" } })
+            @Html.ValidationMessageFor(model => model.EditedValue, "", new { @class = "text-danger" })
+        </div>
+        <div class="text-right form-group">
+            <button class="btn btn-outline-dark" type="submit">Изменить</button>
+            @Html.ActionLink("Назад", "Index", "ContactInfo", htmlAttributes: new { @class = "btn btn-outline-dark" })
+        </div>
+    </div>
+}
+
+
+

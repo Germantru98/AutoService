@@ -1,7 +1,7 @@
 ﻿@model List<AutoService.WEB.Models.Service>
 
 <!--Карточка Акции-->
-<div class="card border-primary col-lg-3 col-sm-12 p-0 mr-auto mb-2">
+<div class="card border-primary col-lg-3 col-md-11 col-sm-12 p-0 mr-xl-auto ml-xl-0 mb-2 mr-md-auto ml-md-auto">
     <div class="card-header bg-primary text-white h4">
         Акция
     </div>
@@ -9,8 +9,8 @@
         <!-- Bootstrap 4 -->
         <div id="DiscountCarousel" class="carousel slide" data-ride="carousel">
 
-            <div class="carousel-inner">
-                <div class="carousel-item active mt-1 col-sm-8 col-xl-12">
+            <div class="carousel-inner d-flex">
+                <div class="carousel-item active mt-1 col-sm-8 col-xl-12 mr-auto ml-auto ">
                     <div class="position-relative">
                         <img src="@Model[0].ServiceImageHref" alt="Alternate Text" height="250" class="w-100" />
                     </div>
@@ -38,7 +38,7 @@
                         </div>
                         @if (User.Identity.IsAuthenticated)
                         {
-                        <div class="text-right mt-2">
+                        <div class="text-center mt-2">
                             @Html.ActionLink("Добавить в корзину", "AddToBasket", "Services", new { id = Model[0].ServiceId }, new { @class = " dialog btn btn-outline-dark" })
                         </div>
                         }
@@ -46,7 +46,7 @@
                 </div>
                 @for (int i = 1; i < Model.Count(); i++)
                 {
-                <div class="carousel-item mt-1 col-sm-8 col-xl-12">
+                <div class="carousel-item mt-1 col-sm-8 col-xl-12  mr-md-auto ml-md-auto">
                     <div class="position-relative">
                         <img src="@Model[i].ServiceImageHref" alt="Alternate Text" class="w-100" height="250" />
                     </div>

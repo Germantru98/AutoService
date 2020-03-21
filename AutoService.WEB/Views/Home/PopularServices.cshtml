@@ -1,8 +1,10 @@
-﻿<div class="row row-cols-4 row-cols-xl-3 row-cols-sm-2 row-cols-md-2 col-lg-10 ml-auto mr-auto mt-2 border border-dark p-2  ">
+﻿
+
+<div class="row row-cols-4 row-cols-xl-3 row-cols-sm-1 row-cols-md-2 col-lg-10 col-md-11 col-sm-11 ml-auto mr-auto mt-2 border border-dark p-2 d-flex ">
 
     @foreach (var service in Model.PopularServices)
         {
-    <div class="col-3 col-sm-10 mt-2 mb-2 text-center bg-light p-0 mr-auto ml-auto" style="max-width:350px">
+    <div class="col-md-3 col-sm-6 mt-2 mb-2 text-center bg-light p-0 mr-xl-auto ml-xl-auto ml-auto mr-auto" style="max-width:350px; min-width:250px">
         <div class="image position-relative overflow-hidden">
             <img class="w-100" src="@service.ServiceImageHref" alt="..." height="200">
         </div>

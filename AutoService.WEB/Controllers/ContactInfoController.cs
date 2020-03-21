@@ -33,14 +33,6 @@ namespace AutoService.WEB.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public ActionResult AddNewInfo()
-        {
-            SelectList types = new SelectList(_contactInfoLogic.GetContactItemsTypes(), "type");
-            ViewBag.Types = types;
-            return View(new AddNewContactView());
-        }
-
-        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewInfo(AddNewContactView newContactItem)
@@ -52,9 +44,7 @@ namespace AutoService.WEB.Controllers
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            SelectList types = new SelectList(_contactInfoLogic.GetContactItemsTypes(), "type");
-            ViewBag.Types = types;
-            return View(new AddNewContactView());
+            return View();
         }
 
         [Authorize(Roles = "Admin")]
@@ -62,8 +52,11 @@ namespace AutoService.WEB.Controllers
         {
             EditContactInformationView view = new EditContactInformationView()
             {
-                ContactItems = await _dbContext.Contacts.ToListAsync()
+                ContactItems = await _dbContext.Contacts.ToListAsync(),
+                AddNewContactView = new AddNewContactView()
             };
+            ViewBag.Types = new SelectList(_contactInfoLogic.GetContactItemsTypes(), "type");
+            ViewBag.EditContactsView = view;
             return View(view);
         }
 
@@ -104,20 +97,62 @@ namespace AutoService.WEB.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> EditItem(int? itemId, string data)
+        public async Task<ActionResult> EditItem(int? itemId)
         {
-            try
-            {
-                await _contactInfoLogic.EditItem(itemId, data);
-                return RedirectToAction("EditContacts");
-            }
-            catch (ArgumentNullException)
+
+            if (itemId == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch (NullReferenceException)
+            else
             {
-                return HttpNotFound();
+                var contactItem = await _dbContext.Contacts.FindAsync(itemId);
+                if (contactItem == null)
+                {
+                    return HttpNotFound();
+                }
+                else
+                {
+                    EditContactItemView view = new EditContactItemView()
+                    {
+                        ItemId = itemId,
+                        Type = contactItem.Name
+                    };
+                    ViewBag.EditView = view;
+                    return View(view);
+                }
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditItem(EditContactItemView editedContactItem)
+        {
+            if (editedContactItem==null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            else
+            {
+                try
+                {
+                    if (ModelState.IsValid)
+                    {
+                        await _contactInfoLogic.EditItem(editedContactItem.ItemId, editedContactItem.EditedValue);
+                        return RedirectToAction("EditContacts");
+                    }
+                    else
+                    {
+                        return View((EditContactItemView)ViewBag.Views);
+                    }
+                }
+                catch (ArgumentNullException)
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+                catch (NullReferenceException)
+                {
+                    return HttpNotFound();
+                }
             }
         }
     }
