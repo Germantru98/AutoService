@@ -51,17 +51,25 @@ namespace AutoService.WEB.Models
     public class EditContactInformationView
     {
         public List<ContactItem> ContactItems { get; set; }
-        public EditContactItemView EditContactItemView { get; set; }
         public AddNewContactView AddNewContactView { get; set; }
     }
-    public class EditContactItemView
+
+    public class ContactItemView
     {
-        [ScaffoldColumn(false)]
-        public int? ItemId { get; set; }
-        [Display(Name ="Тип: ")]
+        [Display(Name = "Тип данных")]
         public string Type { get; set; }
-        [Required(ErrorMessage ="Данное поле не может быть пустым")]
-        [Display(Name = "Данные: ")]
-        public string EditedValue { get; set; }
+
+        [Display(Name = "Данные")]
+        public string Value { get; set; }
+
+        public ContactItemView()
+        {
+        }
+
+        public ContactItemView(string type, string value)
+        {
+            Type = type;
+            Value = value;
+        }
     }
 }

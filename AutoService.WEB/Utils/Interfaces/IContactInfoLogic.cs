@@ -10,13 +10,13 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task<List<ContactItem>> getAllContactItems();
 
-        Task EditItem(int? id, string data);
-
-        Task AddItem(string type, string data);
+        Task AddItem(ContactItem item);
 
         Task RemoveItem(int? id);
 
         Task SwitchStatus(int? id);
+
+        Task<ContactItem> FindItem(int? itemId);
 
         string[] GetContactItemsTypes();
     }

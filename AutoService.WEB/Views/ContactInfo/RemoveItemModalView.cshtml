@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "Подтверждение удаления элемента";
+}
+
+@using AutoService.WEB.Models
+
+@model ContactItemView
+
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите удалить указанную контактную информацию?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    <div class="modal-body text-center ">
+        <div>
+            <div>
+                @Html.LabelFor(model => model.Type,new { @class = "font-weight-bold" }):
+                @Html.DisplayFor(model => model.Type)
+            </div>
+            <div>
+                @Html.LabelFor(model => model.Value, new { @class = "font-weight-bold" }):
+                @Html.DisplayFor(model => model.Value)
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+            </div>
+        }
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+    </div>
+</div>

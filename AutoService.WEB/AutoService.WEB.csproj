@@ -502,7 +502,7 @@
     <Content Include="Views\Manage\ClearBasket.cshtml" />
     <Content Include="Views\ContactInfo\AddNewInfo.cshtml" />
     <Content Include="Views\ContactInfo\EditContacts.cshtml" />
-    <Content Include="Views\ContactInfo\EditItem.cshtml" />
+    <Content Include="Views\ContactInfo\RemoveItemModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

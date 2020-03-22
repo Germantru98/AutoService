@@ -28,7 +28,6 @@ namespace AutoService.WEB.Controllers
         public async Task<ActionResult> Index()
         {
             var contactView = await _contactInfoLogic.getContactView();
-
             return View(contactView);
         }
 
@@ -37,14 +36,13 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewInfo(AddNewContactView newContactItem)
         {
-            if (ModelState.IsValid)
+            var item = new ContactItem(newContactItem.Type, newContactItem.Value, true);
+            if (item == null)
             {
-                var item = new ContactItem(newContactItem.Type, newContactItem.Value, true);
-                _dbContext.Contacts.Add(item);
-                await _dbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            return View();
+            await _contactInfoLogic.AddItem(item);
+            return RedirectToAction("EditContacts");
         }
 
         [Authorize(Roles = "Admin")]
@@ -83,8 +81,9 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
-                await _contactInfoLogic.RemoveItem(itemId);
-                return RedirectToAction("EditContacts");
+                var contactItem = await _contactInfoLogic.FindItem(itemId);
+                var contacItemView = new ContactItemView(contactItem.Name, contactItem.Value);
+                return PartialView("RemoveItemModalView", contacItemView);
             }
             catch (ArgumentNullException)
             {
@@ -97,62 +96,22 @@ namespace AutoService.WEB.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> EditItem(int? itemId)
-        {
-
-            if (itemId == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            else
-            {
-                var contactItem = await _dbContext.Contacts.FindAsync(itemId);
-                if (contactItem == null)
-                {
-                    return HttpNotFound();
-                }
-                else
-                {
-                    EditContactItemView view = new EditContactItemView()
-                    {
-                        ItemId = itemId,
-                        Type = contactItem.Name
-                    };
-                    ViewBag.EditView = view;
-                    return View(view);
-                }
-            }
-        }
-        [HttpPost]
+        [HttpPost, ActionName("RemoveItem")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditItem(EditContactItemView editedContactItem)
+        public async Task<ActionResult> RemoveConfirmed(int itemId)
         {
-            if (editedContactItem==null)
+            try
+            {
+                await _contactInfoLogic.RemoveItem(itemId);
+                return RedirectToAction("EditContacts");
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            else
+            catch (NullReferenceException)
             {
-                try
-                {
-                    if (ModelState.IsValid)
-                    {
-                        await _contactInfoLogic.EditItem(editedContactItem.ItemId, editedContactItem.EditedValue);
-                        return RedirectToAction("EditContacts");
-                    }
-                    else
-                    {
-                        return View((EditContactItemView)ViewBag.Views);
-                    }
-                }
-                catch (ArgumentNullException)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                catch (NullReferenceException)
-                {
-                    return HttpNotFound();
-                }
+                return HttpNotFound();
             }
         }
     }

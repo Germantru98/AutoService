@@ -93,32 +93,9 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public async Task EditItem(int? id, string data)
+        public async Task AddItem(ContactItem item)
         {
-            if (id == null)
-            {
-                throw new ArgumentNullException($"Ошибка,параметр id = {id}");
-            }
-            else
-            {
-                var contactItem = await _db.Contacts.FindAsync(id);
-                if (contactItem == null)
-                {
-                    throw new NullReferenceException($"Объект с id = {id} отсутствует в базе данных");
-                }
-                else
-                {
-                    contactItem.Value = data;
-                    _db.Entry(contactItem).State = EntityState.Modified;
-                    await _db.SaveChangesAsync();
-                }
-            }
-        }
-
-        public async Task AddItem(string type, string data)
-        {
-            var newItem = new ContactItem(type, data, true);
-            _db.Contacts.Add(newItem);
+            _db.Contacts.Add(item);
             await _db.SaveChangesAsync();
         }
 
@@ -168,6 +145,26 @@ namespace AutoService.WEB.Utils
                     contactItem.isActive = contactItem.isActive ? false : true;
                     _db.Entry(contactItem).State = EntityState.Modified;
                     await _db.SaveChangesAsync();
+                }
+            }
+        }
+
+        public async Task<ContactItem> FindItem(int? itemId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException($"Ошибка, itemId ={itemId} ");
+            }
+            else
+            {
+                var result = await _db.Contacts.FindAsync(itemId);
+                if (result == null)
+                {
+                    throw new NullReferenceException($"Ошибка, объект с itemId = {itemId} отсутствует в базе данных");
+                }
+                else
+                {
+                    return result;
                 }
             }
         }
