@@ -114,5 +114,13 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dbContext.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

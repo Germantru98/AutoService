@@ -233,7 +233,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
-    <Compile Include="Controllers\UserRewiewsController.cs" />
+    <Compile Include="Controllers\UserReviewsController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -245,6 +245,14 @@
     <Compile Include="Migrations\202003171528537_124.cs" />
     <Compile Include="Migrations\202003171528537_124.Designer.cs">
       <DependentUpon>202003171528537_124.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003242105129_reviewfix.cs" />
+    <Compile Include="Migrations\202003242105129_reviewfix.Designer.cs">
+      <DependentUpon>202003242105129_reviewfix.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202003242126142_322.cs" />
+    <Compile Include="Migrations\202003242126142_322.Designer.cs">
+      <DependentUpon>202003242126142_322.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -263,8 +271,10 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\ContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IContactInfoLogic.cs" />
+    <Compile Include="Utils\Interfaces\IReviewsLogic.cs" />
     <Compile Include="Utils\Interfaces\IServicesLogic.cs" />
     <Compile Include="Utils\Interfaces\IUserLogic.cs" />
+    <Compile Include="Utils\ReviewsLogic.cs" />
     <Compile Include="Utils\ServicesLogic.cs" />
     <Compile Include="Utils\UserLogic.cs" />
   </ItemGroup>
@@ -464,11 +474,11 @@
     <Content Include="Views\Manage\AddNewCar.cshtml" />
     <Content Include="Views\Manage\RemoveCarView.cshtml" />
     <Content Include="Views\Manage\EditCarView.cshtml" />
-    <Content Include="Views\UserRewiews\Create.cshtml" />
-    <Content Include="Views\UserRewiews\Delete.cshtml" />
-    <Content Include="Views\UserRewiews\Details.cshtml" />
-    <Content Include="Views\UserRewiews\Edit.cshtml" />
-    <Content Include="Views\UserRewiews\Index.cshtml" />
+    <Content Include="Views\UserReviews\Create.cshtml" />
+    <Content Include="Views\UserReviews\Delete.cshtml" />
+    <Content Include="Views\UserReviews\Details.cshtml" />
+    <Content Include="Views\UserReviews\Edit.cshtml" />
+    <Content Include="Views\UserReviews\Index.cshtml" />
     <Content Include="Views\Vacancies\Index.cshtml" />
     <Content Include="Views\Vacancies\Edit.cshtml" />
     <Content Include="Views\Vacancies\Create.cshtml" />
@@ -503,6 +513,7 @@
     <Content Include="Views\ContactInfo\AddNewInfo.cshtml" />
     <Content Include="Views\ContactInfo\EditContacts.cshtml" />
     <Content Include="Views\ContactInfo\RemoveItemModalView.cshtml" />
+    <Content Include="Views\UserReviews\UserReviewItem.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -521,6 +532,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003171528537_124.resx">
       <DependentUpon>202003171528537_124.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003242105129_reviewfix.resx">
+      <DependentUpon>202003242105129_reviewfix.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003242126142_322.resx">
+      <DependentUpon>202003242126142_322.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

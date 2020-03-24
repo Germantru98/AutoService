@@ -24,19 +24,19 @@
         <div class="collapse navbar-collapse" id="collapsibleNavbar">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Главная</a>
+                    @Html.ActionLink("Главная", "Index", "Home", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Services">Услуги</a>
+                    @Html.ActionLink("Услуги", "Index", "Services", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/Vacancies">Вакансии</a>
+                    @Html.ActionLink("Вакансии", "Index", "Vacancies", null, new { @class = "nav-link" })
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/ContactInfo">Контакты</a>
+                    @Html.ActionLink("Контакты", "Index", "ContactInfo", null, new { @class = "nav-link" })
                 </li>
                 <li>
-                    <a class="nav-link" href="/UserRewiews">Отзывы</a>
+                    @Html.ActionLink("Отзывы","Index","UserReviews",null,new { @class = "nav-link" })
                 </li>
 
                 @if (User.IsInRole("Admin"))

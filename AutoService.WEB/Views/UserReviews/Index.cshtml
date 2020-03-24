@@ -1,0 +1,79 @@
+﻿@model PagedList.IPagedList<AutoService.WEB.Models.UserReview>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (Model != null)
+{
+    <div class="row w-100 m-0">
+        <h2 class="col-12 p-0 m-2 mb-3">Отзывы</h2>
+        <div class="col-12 p-0">
+            <table class="table  table-responsive-xl">
+                <thead>
+                    <tr style="background-color:#343a40;color:white;">
+                        <th>
+                            <h4>Email</h4>
+                        </th>
+                        <th>
+                            <h4>Текст</h4>
+                        </th>
+                        <th>
+                            <h4>Дата отзыва</h4>
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody class=" table-responsive-sm">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="background-color:#d7d7d7">
+                                @Html.DisplayFor(modelItem => item.OwnerId)
+                            </td>
+                            <td class="col-7">
+                                @Html.DisplayFor(modelItem => item.ReviewText)
+                            </td>
+                            <td>
+                                @item.DateOfCreation.ToShortDateString()
+                            </td>
+                            <td>
+                                @if (User.IsInRole("Admin"))
+                                {
+                                    <div class="btn-group p-0 col-1">
+                                        @Html.ActionLink("Изменить", "Edit", new { reviewId = item.UserReviewId }, new { @class = "btn btn-outline-secondary" })
+                                        @Html.ActionLink("Удалить", "Delete", new { reviewId = item.UserReviewId }, new { @class = "btn btn-outline-secondary" })
+                                    </div>
+                                }
+                                else if (item.OwnerId == ViewBag.UserId)
+                                {
+                                    <div class="btn-group p-0">
+                                        @Html.ActionLink("Изменить", "Edit", new { reviewId = item.UserReviewId }, new { @class = "btn btn-outline-secondary" })
+                                        @Html.ActionLink("Удалить", "Delete", new { reviewId = item.UserReviewId }, new { @class = "btn btn-outline-secondary" })
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        @Html.PagedListPager(Model, page => Url.Action("Index", new { page }))
+    </div>
+}
+else
+{
+    <h2>Пусто</h2>
+}
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        @Html.ActionLink("Добавить отзыв", "CreateReview", null, new { @class = "btn btn-dark" })
+    </p>
+}

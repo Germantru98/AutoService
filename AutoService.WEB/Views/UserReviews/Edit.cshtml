@@ -1,0 +1,48 @@
+﻿@model AutoService.WEB.Models.EditUserReviewView
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="m-2">Изменение отзыва</h2>
+
+@using (Html.BeginForm("Edit","UserReviews",FormMethod.Post,new { @class = "validate text-danger" }))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.UserId)
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.EditedText, new { @class = "form-group" })
+                @Html.ValidationMessageFor(model => model.EditedText, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="btn-group btn-group-md m-1 mb-2">
+                <input type="submit" value="Изменить" class="btn btn-info" />
+                @Html.ActionLink("Назад", "Index", null, new { @class = "btn btn-outline-secondary" })
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    <script>
+        $('.validate').validate({
+            rules: {
+                EditedText: {
+                    required: true,
+                    minlength: 20
+                }
+            },
+            messages: {
+                EditedText: {
+                    required: "Поле с отзывом пользователя не может быть пустым.",
+                    minlength: "Размер отзыва должен быть более 20 символов"
+                }
+            }
+        });
+    </script>
+}

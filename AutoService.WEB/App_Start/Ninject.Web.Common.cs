@@ -47,9 +47,10 @@ namespace AutoService.WEB.App_Start
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
                 kernel.Bind<IServicesLogic>().To<ServicesLogic>();
-                kernel.Bind<IUserLogic>().To<UserLogic>().WithConstructorArgument(new ApplicationDbContext());
-                kernel.Bind<IContactInfoLogic>().To<ContactInfoLogic>().WithConstructorArgument(new ApplicationDbContext());
+                kernel.Bind<IUserLogic>().To<UserLogic>();
+                kernel.Bind<IContactInfoLogic>().To<ContactInfoLogic>();
                 kernel.Bind<ApplicationDbContext>().ToSelf();
+                kernel.Bind<IReviewsLogic>().To<ReviewsLogic>();
                 RegisterServices(kernel);
                 return kernel;
             }

@@ -1,4 +1,5 @@
 ﻿using AutoService.WEB.Models;
+using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PagedList;
@@ -11,10 +12,21 @@ using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
 {
-    public class UserRewiewsController : Controller
+    public class UserReviewsController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _db;
         private ApplicationUserManager _userManager;
+        private IReviewsLogic _reviewsLogic;
+
+        public UserReviewsController()
+        {
+
+        }
+        public UserReviewsController(ApplicationDbContext db , IReviewsLogic logic)
+        {
+            _db = db;
+            _reviewsLogic = logic;
+        }
 
         public ApplicationUserManager UserManager
         {
@@ -30,37 +42,18 @@ namespace AutoService.WEB.Controllers
 
         // GET: UserRewiews
         [AllowAnonymous]
-        public async Task<ActionResult> Index(int? page)
+        public ActionResult Index(int? page)
         {
             int pageSize = 10;
             int pageNumber = (page ?? 1);
-            var userRewiewsList = await db.UserRewiews.Include(u => u.ApplicationUser).ToListAsync();
+            var userReviewsList =  _db.UserRewiews.ToPagedList(pageNumber, pageSize);
             ViewBag.UserId = User.Identity.GetUserId();
-            return View(userRewiewsList.ToPagedList(pageNumber, pageSize));
+            return View(userReviewsList);
         }
 
-        // GET: UserRewiews/Details/5
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult> Details(int? id)
+        public ActionResult CreateReview()
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            var userId = User.Identity.GetUserId();
-            userRewiew.ApplicationUser = await UserManager.FindByIdAsync(userId);
-            if (userRewiew == null)
-            {
-                return HttpNotFound();
-            }
-            return View(userRewiew);
-        }
-
-        // GET: UserRewiews/Create
-        public ActionResult Create()
-        {
-            return View();
+            return View("Create");
         }
 
         // POST: UserRewiews/Create
@@ -68,32 +61,41 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
+        public async Task<ActionResult> CreateReview(CreateReviewView userRewiew)
         {
-            userRewiew.ApplicationUserId = User.Identity.GetUserId();
-            userRewiew.Date = DateTime.Now;
-            if (ModelState.IsValid || !string.IsNullOrEmpty(userRewiew.RewiewText))
+            if (ModelState.IsValid)
             {
-                db.UserRewiews.Add(userRewiew);
-                await db.SaveChangesAsync();
-                return RedirectToAction("Index", "UserRewiews");
+                var newReview = new UserReview(userRewiew.Text, User.Identity.GetUserId());
+                _db.UserRewiews.Add(newReview);
+                await _db.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            return View();
+            return View("Create");
         }
 
-        // GET: UserRewiews/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int? reviewId)
         {
-            if (id == null)
+            try
+            {
+                var userReview =await _reviewsLogic.FindUserReview(reviewId);
+                var view = new EditUserReviewView()
+                {
+                    EditedText = userReview.ReviewText,
+                    UserId = userReview.OwnerId,
+                    ReviewId = (int)reviewId
+                };
+                ViewBag.EditView = view;
+                return View(view);
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            if (userRewiew == null)
+            catch(NullReferenceException)
             {
                 return HttpNotFound();
-            }
-            return View(userRewiew);
+            }      
+            
         }
 
         // POST: UserRewiews/Edit/5
@@ -101,32 +103,41 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "UserRewiewId,RewiewText,ApplicationUserId")] UserRewiew userRewiew)
+        public async Task<ActionResult> Edit(EditUserReviewView rewiew)
         {
-            userRewiew.ApplicationUserId = User.Identity.GetUserId();
-            userRewiew.Date = DateTime.Now;
             if (ModelState.IsValid)
             {
-                db.Entry(userRewiew).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                var editedReview = new UserReview(rewiew.ReviewId, rewiew.EditedText, rewiew.UserId);
+                _db.Entry(editedReview).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(userRewiew);
+            return View((EditUserReviewView)ViewBag.EditView);
         }
 
         // GET: UserRewiews/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
+            {
+                var review = await _reviewsLogic.FindUserReview(id);
+                if (User.Identity.GetUserId()==review.OwnerId)
+                {
+                    return PartialView(review);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            if (userRewiew == null)
+            catch (NullReferenceException)
             {
                 return HttpNotFound();
             }
-            return View(userRewiew);
         }
 
         // POST: UserRewiews/Delete/5
@@ -134,9 +145,9 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            UserRewiew userRewiew = await db.UserRewiews.FindAsync(id);
-            db.UserRewiews.Remove(userRewiew);
-            await db.SaveChangesAsync();
+            var review = await _reviewsLogic.FindUserReview(id);
+            _db.UserRewiews.Remove(review);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -144,7 +155,7 @@ namespace AutoService.WEB.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }
