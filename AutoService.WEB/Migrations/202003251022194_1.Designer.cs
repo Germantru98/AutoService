@@ -7,13 +7,13 @@ namespace AutoService.WEB.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.2.0-61023")]
-    public sealed partial class discv5 : IMigrationMetadata
+    public sealed partial class _1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(discv5));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(_1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202002191940021_discv5"; }
+            get { return "202003251022194_1"; }
         }
         
         string IMigrationMetadata.Source

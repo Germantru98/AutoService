@@ -3,44 +3,40 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AutoService.WEB.Utils
 {
     public class ReviewsLogic : IReviewsLogic
     {
         private ApplicationDbContext _db;
+
         public ReviewsLogic()
         {
-
         }
+
         public ReviewsLogic(ApplicationDbContext db)
         {
             _db = db;
         }
-        public async Task CreateReview(CreateReviewView createdView, string userId)
+
+        public async Task CreateReview(UserReview userReview)
         {
-            var newReview = new UserReview()
-            {
-                DateOfCreation = DateTime.Now,
-                OwnerId = userId,
-                ReviewText = createdView.Text
-            };
-            _db.UserRewiews.Add(newReview);
+            _db.UserRewiews.Add(userReview);
             await _db.SaveChangesAsync();
         }
 
         public async Task EditUserReview(EditUserReviewView editedView)
         {
-            if (editedView==null)
+            if (editedView == null)
             {
                 throw new ArgumentNullException($"Ошибка, объект editedView = {editedView}");
             }
             else
             {
-                var review = new UserReview(editedView.ReviewId, editedView.EditedText,editedView.UserId);
+                var review = await _db.UserRewiews.FindAsync(editedView.ReviewId);
+                review.ReviewText = editedView.EditedText;
+                review.DateOfCreation = DateTime.Now;
                 _db.Entry(review).State = EntityState.Modified;
                 await _db.SaveChangesAsync();
             }
@@ -66,17 +62,18 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public async Task RemoveUserReview(UserReview review)
+        public async Task<IEnumerable<UserReview>> GetUserViews()
         {
-            if (review == null)
-            {
-                throw new ArgumentNullException("Ошибка,review = null");
-            }
-            else
-            {
-                _db.UserRewiews.Remove(review);
-                await _db.SaveChangesAsync();
-            }
+            var reviews = await _db.UserRewiews.ToListAsync();
+            return reviews;
         }
+
+        public async Task RemoveUserReview(int reviewId)
+        {
+            var review = await _db.UserRewiews.FindAsync(reviewId);
+            _db.UserRewiews.Remove(review);
+            await _db.SaveChangesAsync();
+        }
+
     }
 }

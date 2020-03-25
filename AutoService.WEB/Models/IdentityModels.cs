@@ -11,7 +11,6 @@ namespace AutoService.WEB.Models
     public class ApplicationUser : IdentityUser
     {
         public ICollection<Car> Cars { get; set; }
-        public ICollection<UserReview> UserRewiews { get; set; }
         public ICollection<BasketItem> Basket { get; set; }
         public string RealName { get; set; }
 
@@ -27,7 +26,6 @@ namespace AutoService.WEB.Models
             : base()
         {
             Cars = new List<Car>();
-            UserRewiews = new List<UserReview>();
             Basket = new List<BasketItem>();
         }
     }

@@ -238,21 +238,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202003171525097_13.cs" />
-    <Compile Include="Migrations\202003171525097_13.Designer.cs">
-      <DependentUpon>202003171525097_13.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003171528537_124.cs" />
-    <Compile Include="Migrations\202003171528537_124.Designer.cs">
-      <DependentUpon>202003171528537_124.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003242105129_reviewfix.cs" />
-    <Compile Include="Migrations\202003242105129_reviewfix.Designer.cs">
-      <DependentUpon>202003242105129_reviewfix.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202003242126142_322.cs" />
-    <Compile Include="Migrations\202003242126142_322.Designer.cs">
-      <DependentUpon>202003242126142_322.cs</DependentUpon>
+    <Compile Include="Migrations\202003251022194_1.cs" />
+    <Compile Include="Migrations\202003251022194_1.Designer.cs">
+      <DependentUpon>202003251022194_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -476,7 +464,6 @@
     <Content Include="Views\Manage\EditCarView.cshtml" />
     <Content Include="Views\UserReviews\Create.cshtml" />
     <Content Include="Views\UserReviews\Delete.cshtml" />
-    <Content Include="Views\UserReviews\Details.cshtml" />
     <Content Include="Views\UserReviews\Edit.cshtml" />
     <Content Include="Views\UserReviews\Index.cshtml" />
     <Content Include="Views\Vacancies\Index.cshtml" />
@@ -527,17 +514,8 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202003171525097_13.resx">
-      <DependentUpon>202003171525097_13.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003171528537_124.resx">
-      <DependentUpon>202003171528537_124.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003242105129_reviewfix.resx">
-      <DependentUpon>202003242105129_reviewfix.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202003242126142_322.resx">
-      <DependentUpon>202003242126142_322.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202003251022194_1.resx">
+      <DependentUpon>202003251022194_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

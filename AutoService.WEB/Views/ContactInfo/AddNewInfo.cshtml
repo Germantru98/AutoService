@@ -8,16 +8,16 @@
     <h2>Новый контакт</h2>
     @using (Html.BeginForm("AddNewInfo", "ContactInfo",FormMethod.Post,new { @class = "validate text-danger" }))
     {
-        @Html.AntiForgeryToken()
-        <p class="form-group">
-            @Html.DropDownListFor(model => model.Type, ViewBag.Types as SelectList, new { @class = "form-control" })
-        </p>
-        <p class="form-group">
-            @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
-            @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
-        </p>
-        <div class="text-right form-group">
-            <button class="btn btn-outline-dark" type="submit">Добавить</button>
-        </div>
+    @Html.AntiForgeryToken()
+    <p class="form-group">
+        @Html.DropDownListFor(model => model.Type, ViewBag.Types as SelectList, new { @class = "form-control" })
+    </p>
+    <p class="form-group">
+        @Html.ValidationMessageFor(model => model.Value, "", new { @class = "text-danger" })
+        @Html.EditorFor(model => model.Value, new { htmlAttributes = new { @class = "form-control" } })
+    </p>
+    <div class="text-right form-group">
+        <button class="btn btn-outline-dark" type="submit">Добавить</button>
+    </div>
     }
 </div>

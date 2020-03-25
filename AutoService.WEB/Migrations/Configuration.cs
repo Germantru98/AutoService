@@ -7,7 +7,6 @@ namespace AutoService.WEB.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            ContextKey = "AutoService.WEB.Models.ApplicationDbContext";
         }
 
         protected override void Seed(AutoService.WEB.Models.ApplicationDbContext context)

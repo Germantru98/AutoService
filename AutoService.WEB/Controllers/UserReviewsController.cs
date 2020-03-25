@@ -20,9 +20,9 @@ namespace AutoService.WEB.Controllers
 
         public UserReviewsController()
         {
-
         }
-        public UserReviewsController(ApplicationDbContext db , IReviewsLogic logic)
+
+        public UserReviewsController(ApplicationDbContext db, IReviewsLogic logic)
         {
             _db = db;
             _reviewsLogic = logic;
@@ -42,13 +42,13 @@ namespace AutoService.WEB.Controllers
 
         // GET: UserRewiews
         [AllowAnonymous]
-        public ActionResult Index(int? page)
+        public async Task<ActionResult> Index(int? page)
         {
-            int pageSize = 10;
+            int pageSize = 6;
             int pageNumber = (page ?? 1);
-            var userReviewsList =  _db.UserRewiews.ToPagedList(pageNumber, pageSize);
+            var userReviewsList = await _db.UserRewiews.ToListAsync();
             ViewBag.UserId = User.Identity.GetUserId();
-            return View(userReviewsList);
+            return View(userReviewsList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult CreateReview()
@@ -65,9 +65,9 @@ namespace AutoService.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var newReview = new UserReview(userRewiew.Text, User.Identity.GetUserId());
-                _db.UserRewiews.Add(newReview);
-                await _db.SaveChangesAsync();
+                var userId = User.Identity.GetUserId();
+                var user = await UserManager.FindByIdAsync(userId);
+                await _reviewsLogic.CreateReview(new UserReview(userRewiew.Text, userId, user.UserName));
                 return RedirectToAction("Index");
             }
             return View("Create");
@@ -77,25 +77,31 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
-                var userReview =await _reviewsLogic.FindUserReview(reviewId);
-                var view = new EditUserReviewView()
+                var editorId = User.Identity.GetUserId();
+                var userReview = await _reviewsLogic.FindUserReview(reviewId);
+                if (editorId == userReview.OwnerId)
                 {
-                    EditedText = userReview.ReviewText,
-                    UserId = userReview.OwnerId,
-                    ReviewId = (int)reviewId
-                };
-                ViewBag.EditView = view;
-                return View(view);
+                    var view = new EditUserReviewView()
+                    {
+                        EditedText = userReview.ReviewText,
+                        ReviewId = (int)reviewId
+                    };
+                    ViewBag.EditView = view;
+                    return View(view);
+                }
+                else
+                {
+                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                }
             }
             catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            catch(NullReferenceException)
+            catch (NullReferenceException)
             {
                 return HttpNotFound();
-            }      
-            
+            }
         }
 
         // POST: UserRewiews/Edit/5
@@ -103,27 +109,26 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit(EditUserReviewView rewiew)
+        public async Task<ActionResult> Edit(EditUserReviewView review)
         {
             if (ModelState.IsValid)
             {
-                var editedReview = new UserReview(rewiew.ReviewId, rewiew.EditedText, rewiew.UserId);
-                _db.Entry(editedReview).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
+                await _reviewsLogic.EditUserReview(review);
                 return RedirectToAction("Index");
             }
             return View((EditUserReviewView)ViewBag.EditView);
         }
 
         // GET: UserRewiews/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int? reviewId)
         {
             try
             {
-                var review = await _reviewsLogic.FindUserReview(id);
-                if (User.Identity.GetUserId()==review.OwnerId)
+                var review = await _reviewsLogic.FindUserReview(reviewId);
+                var userId = User.Identity.GetUserId();
+                if (userId == review.OwnerId||User.IsInRole("Admin"))
                 {
-                    return PartialView(review);
+                    return PartialView("Delete", review);
                 }
                 else
                 {
@@ -143,11 +148,9 @@ namespace AutoService.WEB.Controllers
         // POST: UserRewiews/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int reviewId)
         {
-            var review = await _reviewsLogic.FindUserReview(id);
-            _db.UserRewiews.Remove(review);
-            await _db.SaveChangesAsync();
+            await _reviewsLogic.RemoveUserReview(reviewId);
             return RedirectToAction("Index");
         }
 

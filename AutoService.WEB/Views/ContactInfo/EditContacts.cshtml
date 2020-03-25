@@ -14,31 +14,31 @@
         </tr>
         @foreach (var item in Model.ContactItems)
         {
-            <tr class="bg-secondary">
-                <td>@item.Name</td>
-                <td>@item.Value</td>
-                <td class="text-center">
-                    @if (@item.isActive)
+        <tr class="bg-secondary">
+            <td>@item.Name</td>
+            <td>@item.Value</td>
+            <td class="text-center">
+                @if (@item.isActive)
                     {
-                        <a class="btn btn-success btn-circle"></a>
+                <a class="btn btn-success btn-circle"></a>
                     }
                     else
                     {
-                        <a class="btn btn-danger btn-circle"></a>
+                <a class="btn btn-danger btn-circle"></a>
                     }
-                </td>
-                <td class="text-center">
-                    @Html.ActionLink("Удалить", "RemoveItem", new { itemId = item.Id }, new { @class = "dialog btn btn-dark" })
-                    @if (item.isActive)
+            </td>
+            <td class="text-center">
+                @Html.ActionLink("Удалить", "RemoveItem", new { itemId = item.Id }, new { @class = "dialog btn btn-dark" })
+                @if (item.isActive)
                     {
-                        @Html.ActionLink("Отключить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("Отключить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
                     }
                     else
                     {
-                        @Html.ActionLink("Включить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("Включить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
                     }
-                </td>
-            </tr>
+            </td>
+        </tr>
         }
     </table>
     <div class="text-right mr-auto ml-auto col-7 p-0 mb-2 mt-2">
