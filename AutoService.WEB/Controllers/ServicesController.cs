@@ -3,6 +3,7 @@ using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -22,12 +23,43 @@ namespace AutoService.WEB.Controllers
         {
             _userLogic = logic;
         }
-
+        public enum SortState
+        {
+            NameAsc,    // по имени по возрастанию
+            NameDesc,   // по имени по убыванию
+            PriceAsc,
+            PriceDesc,
+            WithDiscount,
+            WithoutDiscount
+        }
         // GET: Services
         [AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(SortState sortOrder = SortState.NameAsc)
         {
-            return View(await db.Services.Include(s => s.Discount).ToListAsync());
+            var services = db.Services.Include(s => s.Discount);
+
+            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
+            ViewData["PriceSort"] = sortOrder == SortState.PriceAsc ? SortState.PriceDesc : SortState.PriceAsc;
+            ViewData["DiscountSort"] = sortOrder == SortState.WithDiscount ? SortState.WithoutDiscount : SortState.WithDiscount;
+
+            if (sortOrder == SortState.PriceAsc)
+            {
+                services = services.OrderBy(s => s.Price);
+            }
+            else if (sortOrder == SortState.PriceDesc)
+            {
+                services = services.OrderByDescending(s => s.Price);
+            }
+            else if (sortOrder == SortState.NameAsc)
+            {
+                services = services.OrderBy(s => s.ServiceName);
+            }
+            else if (sortOrder == SortState.NameDesc)
+            {
+                services = services.OrderByDescending(s => s.ServiceName);
+            }
+
+            return View(await services.AsNoTracking().ToListAsync());
         }
 
         // GET: Services/Details/5

@@ -7,64 +7,68 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
+
+@Html.ActionLink("По имени", "Index", new { sortOrder = @ViewBag.NameSort })
+@Html.ActionLink("По цене", "Index", new { sortOrder = @ViewBag.PriceSort })
+
 <div class=" row  row-cols-xl-4 row-cols-md-1 mb-4">
     @foreach (var service in Model)
     {
-    <div class="col-xl-3 mt-3 text-center border border-dark mr-xl-1 ml-xl-1  p-0" style="max-width:400px">
-        <img class="w-100" src="@service.ServiceImageHref" alt="..." width="360" height="250">
-        <div class="p-2">
-            <h3 class="title" style="height: 72px;">
-                @if (service.Discount == null)
+        <div class="col-xl-3 mt-3 text-center border border-dark mr-xl-1 ml-xl-1  p-0" style="max-width:400px">
+            <img class="w-100" src="@service.ServiceImageHref" alt="..." width="360" height="250">
+            <div class="p-2">
+                <h3 class="title" style="height: 72px;">
+                    @if (service.Discount == null)
                     {
-                @service.ServiceName
+                        @service.ServiceName
                     }
                     else if (service.Discount.Value <= 20)
                     {
-                @service.ServiceName  <span class="badge badge-success">-@service.Discount.Value%</span>
+                        @service.ServiceName <span class="badge badge-success">-@service.Discount.Value%</span>
                     }
                     else if (service.Discount.Value > 20 && service.Discount.Value < 70)
                     {
-                @service.ServiceName  <span class="badge badge-warning">-@service.Discount.Value%</span>
+                        @service.ServiceName <span class="badge badge-warning">-@service.Discount.Value%</span>
                     }
                     else
                     {
-                @service.ServiceName  <span class="badge badge-danger">-@service.Discount.Value%</span>
+                        @service.ServiceName <span class="badge badge-danger">-@service.Discount.Value%</span>
                     }
-            </h3>
-            <div class="text" style="height: 52px;">
-                @if (service.Discount != null)
+                </h3>
+                <div class="text" style="height: 52px;">
+                    @if (service.Discount != null)
                     {
-                <p>Цена(руб): @(service.Price - service.Price / 100 * (service.Discount.Value)) </p>
+                        <p>Цена(руб): @(service.Price - service.Price / 100 * (service.Discount.Value)) </p>
                     }
                     else
                     {
-                <p>Цена(руб): @service.Price </p>
+                        <p>Цена(руб): @service.Price </p>
                     }
-            </div>
-            <div>
-                @if (User.IsInRole("Admin"))
+                </div>
+                <div>
+                    @if (User.IsInRole("Admin"))
                     {
-                <p class="m-1">
-                    <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
-                    <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
-                </p>
+                        <p class="m-1">
+                            <a class="btn btn-dark m-1" href="/Services/Delete/@service.ServiceId">Удалить</a>
+                            <a class="btn btn-dark m-1" href="/Services/Edit/@service.ServiceId">Изменить</a>
+                        </p>
 
                     }
                     else if (User.Identity.IsAuthenticated)
                     {
-                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { ServiceId = service.ServiceId }, new { @class = " dialog btn btn-dark" })
+                        @Html.ActionLink("Добавить в корзину", "AddToBasket", new { ServiceId = service.ServiceId }, new { @class = " dialog btn btn-dark" })
                     }
+                </div>
             </div>
         </div>
-    </div>
 
     }
 </div>
 @if (User.IsInRole("Admin"))
 {
-<div class="mb-2 mt-2">
-    <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
-</div>
+    <div class="mb-2 mt-2">
+        <a class=" btn btn-dark" href="/Services/Create">Добавить</a>
+    </div>
 }
 
 @section scripts
