@@ -23,6 +23,7 @@ namespace AutoService.WEB.Controllers
         {
             _userLogic = logic;
         }
+
         public enum SortState
         {
             NameAsc,    // по имени по возрастанию
@@ -32,6 +33,7 @@ namespace AutoService.WEB.Controllers
             WithDiscount,
             WithoutDiscount
         }
+
         // GET: Services
         [AllowAnonymous]
         public async Task<ActionResult> Index(SortState sortOrder = SortState.NameAsc)
@@ -58,7 +60,14 @@ namespace AutoService.WEB.Controllers
             {
                 services = services.OrderByDescending(s => s.ServiceName);
             }
-
+            else if (sortOrder == SortState.WithDiscount)
+            {
+                services = services.Where(s => s.Discount != null);
+            }
+            else
+            {
+                services = services.Where(s => s.Discount == null);
+            }
             return View(await services.AsNoTracking().ToListAsync());
         }
 
@@ -172,6 +181,16 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
+        }
+
+        public ActionResult SearchServicesByName(string serviceName)
+        {
+            var services = db.Services.Where(s => s.ServiceName.Contains(serviceName)).ToList();
+            if (services.Count <= 0)
+            {
+                return HttpNotFound();
+            }
+            return PartialView("ServicesSearch", services);
         }
 
         protected override void Dispose(bool disposing)

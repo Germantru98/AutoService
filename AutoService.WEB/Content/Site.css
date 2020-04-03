@@ -38,11 +38,13 @@
 .maincarousel {
     height: 700px;
 }
-.reviewtextarea{
-    max-height:200px;
-    height:200px;
+
+.reviewtextarea {
+    max-height: 200px;
+    height: 200px;
 }
-.reviewitem{
-    max-height:400px;
-    max-width:600px;
+
+.reviewitem {
+    max-height: 400px;
+    max-width: 600px;
 }

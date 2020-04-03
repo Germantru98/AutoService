@@ -74,6 +74,5 @@ namespace AutoService.WEB.Utils
             _db.UserRewiews.Remove(review);
             await _db.SaveChangesAsync();
         }
-
     }
 }

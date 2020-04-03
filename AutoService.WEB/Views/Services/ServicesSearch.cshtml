@@ -1,0 +1,7 @@
+﻿@using AutoService.WEB.Models
+@model IEnumerable<Service>
+
+@foreach (var service in Model)
+{
+    @Html.Partial("ServiceView", service)
+}

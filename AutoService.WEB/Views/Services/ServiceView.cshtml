@@ -1,0 +1,49 @@
+﻿@using AutoService.WEB.Models
+@model Service
+<div class="col-xl-3 mt-3 text-center border border-dark mr-xl-1 ml-xl-1  p-0" style="max-width:400px">
+    <img class="w-100" src="@Model.ServiceImageHref" alt="..." width="360" height="250">
+    <div class="p-2">
+        <h3 class="title" style="height: 72px;">
+            @if (Model.Discount == null)
+            {
+                @Model.ServiceName
+            }
+            else if (Model.Discount.Value <= 20)
+            {
+                @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+            }
+            else if (Model.Discount.Value > 20 && Model.Discount.Value < 70)
+            {
+                @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+            }
+            else
+            {
+                @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+            }
+        </h3>
+        <div class="text" style="height: 52px;">
+            @if (Model.Discount != null)
+            {
+                <p>Цена(руб): @(Model.Price - Model.Price / 100 * (Model.Discount.Value)) </p>
+            }
+            else
+            {
+                <p>Цена(руб): @Model.Price </p>
+            }
+        </div>
+        <div>
+            @if (User.IsInRole("Admin"))
+            {
+                <p class="m-1">
+                    <a class="btn btn-dark m-1" href="/Services/Delete/@Model.ServiceId">Удалить</a>
+                    <a class="btn btn-dark m-1" href="/Services/Edit/@Model.ServiceId">Изменить</a>
+                </p>
+
+            }
+            else if (User.Identity.IsAuthenticated)
+            {
+                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { ServiceId = Model.ServiceId }, new { @class = " dialog btn btn-dark" })
+            }
+        </div>
+    </div>
+</div>

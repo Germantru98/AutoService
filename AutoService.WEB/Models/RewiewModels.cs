@@ -25,7 +25,7 @@ namespace AutoService.WEB.Models
             UserName = userName;
         }
 
-        public UserReview(int reviewId, string text, string ownerId,string userName)
+        public UserReview(int reviewId, string text, string ownerId, string userName)
         {
             UserReviewId = reviewId;
             ReviewText = text;
@@ -34,6 +34,7 @@ namespace AutoService.WEB.Models
             UserName = userName;
         }
     }
+
     public class CreateReviewView
     {
         [Required(ErrorMessage = "Поле с отзывом пользователя не может быть пустым")]

@@ -126,7 +126,7 @@ namespace AutoService.WEB.Controllers
             {
                 var review = await _reviewsLogic.FindUserReview(reviewId);
                 var userId = User.Identity.GetUserId();
-                if (userId == review.OwnerId||User.IsInRole("Admin"))
+                if (userId == review.OwnerId || User.IsInRole("Admin"))
                 {
                     return PartialView("Delete", review);
                 }
