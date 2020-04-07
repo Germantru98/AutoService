@@ -14,14 +14,16 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private IUserLogic _userLogic;
+        private IServicesLogic _servicesLogic;
 
         public ServicesController()
         {
         }
 
-        public ServicesController(IUserLogic logic)
+        public ServicesController(IUserLogic userLogic, IServicesLogic servicesLogic)
         {
-            _userLogic = logic;
+            _userLogic = userLogic;
+            _servicesLogic = servicesLogic;
         }
 
         public enum SortState
@@ -97,31 +99,35 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ServiceId,ServiceName,Price,ServiceImageHref")] Service service)
+        public async Task<ActionResult> Create(ServiceView serviceView)
         {
             if (ModelState.IsValid)
             {
-                db.Services.Add(service);
-                await db.SaveChangesAsync();
+                var service = new Service(serviceView.ServiceName, serviceView.Price, serviceView.ServiceImageHref);
+                await _servicesLogic.AddNewService(service);
                 return RedirectToAction("Index");
             }
 
-            return View(service);
+            return View(serviceView);
         }
 
         // GET: Services/Edit/5
-        public async Task<ActionResult> Edit(int? id)
+        public async Task<ActionResult> Edit(int? serviceId)
         {
-            if (id == null)
+            try
+            {
+                var service = await _servicesLogic.FindService(serviceId);
+                var editServiceView = new EditServiceView(service.ServiceId, service.ServiceName, service.Price, service.ServiceImageHref);
+                return View(editServiceView);
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
-            if (service == null)
+            catch (NullReferenceException)
             {
                 return HttpNotFound();
             }
-            return View(service);
         }
 
         // POST: Services/Edit/5
@@ -129,40 +135,40 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ServiceId,ServiceName,Price,ServiceImageHref")] Service service)
+        public async Task<ActionResult> Edit(EditServiceView service)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(service).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                await _servicesLogic.EditService(service);
                 return RedirectToAction("Index");
             }
             return View(service);
         }
 
         // GET: Services/Delete/5
-        public async Task<ActionResult> Delete(int? id)
+        public async Task<ActionResult> Delete(int? serviceId)
         {
-            if (id == null)
+            try
+            {
+                var service = await _servicesLogic.FindService(serviceId);
+                return PartialView(service);
+            }
+            catch (ArgumentNullException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
-            if (service == null)
+            catch (NullReferenceException)
             {
                 return HttpNotFound();
             }
-            return View(service);
         }
 
         // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> DeleteConfirmed(int id)
+        public async Task<ActionResult> DeleteConfirmed(int serviceId)
         {
-            Service service = await db.Services.FindAsync(id);
-            db.Services.Remove(service);
-            await db.SaveChangesAsync();
+            await _servicesLogic.RemoveService(serviceId);
             return RedirectToAction("Index");
         }
 

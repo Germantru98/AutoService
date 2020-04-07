@@ -80,15 +80,16 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewDiscount(AddNewDiscount newDiscount)
         {
-            var service = await _dbContext.Services.FindAsync(newDiscount.ServiceId);
             if (ModelState.IsValid)
             {
+                var service = await _dbContext.Services.FindAsync(newDiscount.ServiceId);
                 service.Discount = new Discount()
                 {
                     Value = newDiscount.DiscountValue,
                     FinishDate = newDiscount.FinishDate,
                     StartDate = newDiscount.StartDate
                 };
+                service.PriceWithDiscount = _servicesLogic.GetNewPriceWithDiscount(service.Price, service.Discount.Value);
                 _dbContext.Entry(service).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
                 return RedirectToAction("Index");

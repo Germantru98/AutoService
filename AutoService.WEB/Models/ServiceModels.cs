@@ -10,9 +10,22 @@ namespace AutoService.WEB.Models
         public string ServiceName { get; set; }
 
         public int Price { get; set; }
+        public int PriceWithDiscount { get; set; }
         public string ServiceImageHref { get; set; }
         public int? DiscountId { get; set; }
         public Discount Discount { get; set; }
+
+        public Service()
+        {
+        }
+
+        public Service(string serviceName, int price, string serviceImageHref)
+        {
+            ServiceName = serviceName;
+            Price = price;
+            PriceWithDiscount = price;
+            ServiceImageHref = serviceImageHref;
+        }
 
         public int Counter { get; set; }
 
@@ -40,13 +53,8 @@ namespace AutoService.WEB.Models
             }
             else
             {
-                return $"{ServiceName} Цена: {GetPriceWithDiscount(Price, Discount.Value)} Скидка: {Discount.Value}%";
+                return $"{ServiceName} Цена: {PriceWithDiscount} Скидка: {Discount.Value}%";
             }
-        }
-
-        private int GetPriceWithDiscount(int price, int discountValue)
-        {
-            return price - price / 100 * (discountValue);
         }
     }
 
@@ -70,6 +78,10 @@ namespace AutoService.WEB.Models
         [ScaffoldColumn(false)]
         public Discount Discount { get; set; }
 
+        public ServiceView()
+        {
+        }
+
         public ServiceView(int serviceId, string name, int price, string imageHref, Discount discount)
         {
             ServiceName = name;
@@ -77,6 +89,26 @@ namespace AutoService.WEB.Models
             ServiceImageHref = imageHref;
             ServiceId = serviceId;
             Discount = discount;
+        }
+    }
+
+    public class EditServiceView
+    {
+        public int ServiceId { get; set; }
+        public string ServiceName { get; set; }
+        public int Price { get; set; }
+        public string ServiceImageHref { get; set; }
+
+        public EditServiceView()
+        {
+        }
+
+        public EditServiceView(int serviceId, string serviceName, int price, string imageHref)
+        {
+            ServiceId = serviceId;
+            ServiceName = serviceName;
+            Price = price;
+            ServiceImageHref = imageHref;
         }
     }
 
@@ -112,7 +144,8 @@ namespace AutoService.WEB.Models
 
         public bool isRelevant()
         {
-            if (FinishDate >= DateTime.Now)
+            var now = DateTime.Now;
+            if (now >= StartDate && now <= FinishDate)
             {
                 return true;
             }

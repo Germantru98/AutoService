@@ -1,47 +1,76 @@
-﻿@model AutoService.WEB.Models.Service
+﻿@using AutoService.WEB.Models
+@model ServiceView
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Новая услуга";
 }
 
-<h2 class="pl-3 mt-2">Новая услуга</h2>
-
-@using (Html.BeginForm("Create", "Services", FormMethod.Post, new { enctype = "multipart/form-data" }))
+@using (Html.BeginForm("Create", "Services", FormMethod.Post, new { @class = "validate text-danger" }))
 {
-@Html.AntiForgeryToken()
+    @Html.AntiForgeryToken()
 
-<div class="form-horizontal">
-    <hr />
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+    <div class="form-horizontal col-6 mr-auto ml-auto mt-5">
+        <h2 class="text-dark text-center">Новая услуга</h2>
+        <div class="form-group ">
+            @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "text-dark" })
+
             @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ServiceName, "", new { @class = "text-danger" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        <div class="form-group ">
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "text-dark" })
+
             @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
         </div>
-    </div>
 
-    <div class="form-group">
-        @Html.LabelFor(model => model.ServiceImageHref, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model=>model.ServiceImageHref,new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ServiceImageHref, "", new { @class = "text-danger" })
-        </div>
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ServiceImageHref, htmlAttributes: new { @class = "text-dark" })
 
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" value="Добавить" class="btn btn-dark" />
-            <a href="/Services/" class="btn btn-dark">Назад</a>
+            @Html.EditorFor(model => model.ServiceImageHref, new { htmlAttributes = new { @class = "form-control" } })
+        </div>
+
+        <div class="form-group">
+            <div class="text-right">
+                <input type="submit" value="Добавить" class="btn btn-dark" />
+                @Html.ActionLink("Назад","Index",null,new { @class = "btn btn-dark"})
+            </div>
         </div>
     </div>
-</div>
+}
+@section Scripts {
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    <script>
+        $('.validate').validate({
+            rules: {
+                ServiceName: {
+                    required: true
+                },
+                Price:
+                {
+                    required: true,
+                    min: 1
+                },
+                ServiceImageHref:
+                {
+                    required: true
+                }
+            },
+            messages: {
+                ServiceName: {
+                    required: "Поле \"Название услуги\" не может быть пустым"
+                },
+
+                Price: {
+                    required: "Поле \"Цена\" не может быть пустым",
+                    min: "Цена на услугу должна быть больше 0"
+
+                },
+                ServiceImageHref:
+                {
+                    required: "Поле с ссылкой на изображение не может быть пустым"
+                }
+            }
+        });
+    </script>
 }
