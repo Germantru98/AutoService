@@ -257,7 +257,9 @@
     <Compile Include="Models\SummaryModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\AdminLogic.cs" />
     <Compile Include="Utils\ContactInfoLogic.cs" />
+    <Compile Include="Utils\Interfaces\IAdminLogic.cs" />
     <Compile Include="Utils\Interfaces\IContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IReviewsLogic.cs" />
     <Compile Include="Utils\Interfaces\IServicesLogic.cs" />
@@ -282,28 +284,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Img\LogoTheMech.png" />
-    <Content Include="Img\ServicesIcon\break_icon.png" />
-    <Content Include="Img\ServicesIcon\comp_diag.png" />
-    <Content Include="Img\ServicesIcon\cond_icon.png" />
-    <Content Include="Img\ServicesIcon\fun_icon.png" />
-    <Content Include="Img\ServicesIcon\services_icon.png" />
-    <Content Include="Img\ServicesIcon\suspension_repair_icon.png" />
-    <Content Include="Img\ServicesIcon\tire_icon.png" />
-    <Content Include="Img\ServicesIcon\TO_icon.png" />
-    <Content Include="Img\ServicesIcon\wheel_icon.png" />
-    <Content Include="Img\SocialMediaIcons\iconfinder_1_Facebook_colored_svg_copy_5296499.png" />
-    <Content Include="Img\SocialMediaIcons\iconfinder_1_Instagram_colored_svg_1_5296765.png" />
-    <Content Include="Img\SocialMediaIcons\iconfinder_1_Twitter2_colored_svg_5296515.png" />
-    <Content Include="Img\SocialMediaIcons\vk-logo--fb.png" />
-    <Content Include="Img\SponsorsLogo\bbs.jpg" />
-    <Content Include="Img\SponsorsLogo\Continental.png" />
-    <Content Include="Img\SponsorsLogo\forward.jpg" />
-    <Content Include="Img\SponsorsLogo\Garrett.jpg" />
-    <Content Include="Img\SponsorsLogo\gislaved.png" />
-    <Content Include="Img\SponsorsLogo\motul.jpg" />
-    <Content Include="Img\SponsorsLogo\rotiform.jpg" />
-    <Content Include="Img\SponsorsLogo\toyotires.png" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -491,7 +471,6 @@
     <Content Include="Views\Home\BrandCarousel.cshtml" />
     <Content Include="Views\Home\PopularServices.cshtml" />
     <Content Include="Views\AdminMenu\DiscountAdminView.cshtml" />
-    <Content Include="Views\AdminMenu\ExtendDiscountWindow.cshtml" />
     <Content Include="Views\AdminMenu\ConfirmDiscountDeleteView.cshtml" />
     <Content Include="Views\AdminMenu\NewDiscountView.cshtml" />
     <Content Include="Views\AdminMenu\AddNewDiscountWindow.cshtml" />
@@ -505,6 +484,9 @@
     <Content Include="Views\UserReviews\UserReviewItem.cshtml" />
     <Content Include="Views\Services\ServicesSearch.cshtml" />
     <Content Include="Views\Services\ServiceView.cshtml" />
+    <Content Include="Views\AdminMenu\DiscountsSection.cshtml" />
+    <Content Include="Views\AdminMenu\SummariesSection.cshtml" />
+    <Content Include="Views\AdminMenu\SummaryView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

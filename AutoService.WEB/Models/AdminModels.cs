@@ -8,6 +8,7 @@ namespace AutoService.WEB.Models
     {
         public List<UserAdminView> Users { get; set; }
         public List<ServiceView> Discounts { get; set; }
+        public List<ServicesSummaryAdminView> ServicesSummaries { get; set; }
     }
 
     public class UserAdminView

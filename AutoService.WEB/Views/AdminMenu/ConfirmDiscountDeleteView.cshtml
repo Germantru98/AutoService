@@ -1,6 +1,6 @@
 ﻿@using AutoService.WEB.Models
 
-@model ServiceLiteView
+@model RemoveDiscountFromServiceView
 
 <div class="modal-content">
     <!-- Заголовок модального окна -->
@@ -22,13 +22,12 @@
     <!-- Футер модального окна -->
     <div class="modal-footer">
         @using (Html.BeginForm())
-            {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-        </div>
-            }
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+            </div>
+        }
         <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
     </div>
 </div>

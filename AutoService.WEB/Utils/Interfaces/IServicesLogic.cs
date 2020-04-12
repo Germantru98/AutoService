@@ -6,9 +6,9 @@ namespace AutoService.WEB.Utils.Interfaces
 {
     public interface IServicesLogic
     {
-        List<ServiceView> GetServices(IEnumerable<Service> services);
+        Task<List<ServiceView>> GetAllServicesWithDiscount();
 
-        int GetNewPriceWithDiscount(int oldPrice, int discountValue);
+        IEnumerable<Service> GetServicesFromDb();
 
         Task AddNewService(Service newService);
 
@@ -17,5 +17,15 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<Service> FindService(int? serviceId);
 
         Task RemoveService(int serviceId);
+
+        Task<Discount> FindDiscount(int? discountId);
+
+        Task<Service> FindServiceWithDiscount(int? serviceId);
+
+        Task AddDiscount(AddNewDiscount newDiscount);
+
+        Task RemoveDiscount(int discountId);
+
+        Task ExtendDiscount(ExtendDiscount extendDiscountItem);
     }
 }

@@ -1,0 +1,13 @@
+﻿@using AutoService.WEB.Models
+@model IEnumerable<ServiceView>
+    <div class="mt-2">
+        <div>
+            @Html.ActionLink("Добавить скидку", "AddNewDiscount", null, new { @class = "btn btn-outline-success" })
+        </div>
+        <div class="row row-cols-5 justify-content-start p-2">
+            @foreach (var serviceWithDiscount in Model)
+            {
+                @Html.Partial("DiscountAdminView", serviceWithDiscount)
+            }
+        </div>
+    </div>

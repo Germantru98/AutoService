@@ -112,19 +112,17 @@ namespace AutoService.WEB.Models
         }
     }
 
-    public class ServiceLiteView
+    public class RemoveDiscountFromServiceView
     {
-        public int ServiceId { get; set; }
         public string ServiceName { get; set; }
         public Discount Discount { get; set; }
 
-        public ServiceLiteView()
+        public RemoveDiscountFromServiceView()
         {
         }
 
-        public ServiceLiteView(int id, string serviceName, Discount discount)
+        public RemoveDiscountFromServiceView(string serviceName, Discount discount)
         {
-            ServiceId = id;
             ServiceName = serviceName;
             Discount = discount;
         }

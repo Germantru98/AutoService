@@ -32,4 +32,27 @@ namespace AutoService.WEB.Models
         [Display(Name = "Дата оказания выбранных услуг")]
         public DateTime selectedDateTime { get; set; }
     }
+
+    public class ServicesSummaryAdminView
+    {
+        public ApplicationUser User { get; set; }
+        public string ServicesList { get; set; }
+        public int TotalPrice { get; set; }
+        public CarView Car { get; set; }
+
+        public DateTime Date { get; set; }
+
+        public ServicesSummaryAdminView()
+        {
+        }
+
+        public ServicesSummaryAdminView(ApplicationUser user,string servicesList, int totalPrice, CarView car, DateTime date)
+        {
+            User = user;
+            ServicesList = servicesList;
+            TotalPrice = totalPrice;
+            Car = car;
+            Date = date;
+        }
+    }
 }

@@ -8,23 +8,23 @@
 
 @using (Html.BeginForm("CreateReview", "UserReviews",FormMethod.Post,new { @class="validate text-danger"}))
 {
-    @Html.AntiForgeryToken()
+@Html.AntiForgeryToken()
 
-    <div class="form-horizontal">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        <div class="form-group">
-            <div class="col-10">
-                @Html.TextAreaFor(model => model.Text, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="btn-group m-1 mb-2">
-                <input type="submit" value="Добавить" class="btn btn-success" />
-                @Html.ActionLink("Назад","Index", null, new { @class = "btn btn-dark" })
-            </div>
+<div class="form-horizontal">
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-group">
+        <div class="col-10">
+            @Html.TextAreaFor(model => model.Text, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
         </div>
     </div>
+    <div class="form-group">
+        <div class="btn-group m-1 mb-2">
+            <input type="submit" value="Добавить" class="btn btn-success" />
+            @Html.ActionLink("Назад","Index", null, new { @class = "btn btn-dark" })
+        </div>
+    </div>
+</div>
 }
 
 @section Scripts {

@@ -4,40 +4,23 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 <h2 class="text-center m-2">Меню администратора</h2>
-<table class="table table-bordered">
-    <tbody>
-        <tr class="bg-dark text-white">
-            <td scope="col">Пользователи</td>
-            <td scope="col">Акции</td>
-        </tr>
-        <tr>
-            <td class="overflow-auto w-50">
-                <div class="row row-cols-2">
-                    @foreach (var user in Model.Users)
-                    {
-                        @Html.Partial("UserView", user)
-                    }
-                </div>
-            </td>
-            <td class="overflow-auto w-50">
-                <div class="row row-cols-4 mr-auto ml-auto">
-                    @if (Model.Discounts.Count > 0)
-                    {
-                        foreach (var discount in Model.Discounts)
-                        {
-                            @Html.Partial("DiscountAdminView", discount)
-                        }
-                        @Html.Partial("NewDiscountView")
-                    }
-                    else
-                    {
-                        @Html.Partial("NewDiscountView")
-                    }
-                </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<nav>
+    <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Раздел "Скидки"</a>
+        <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Пользователи</a>
+        <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Заказы</a>
+    </div>
+</nav>
+<div class="tab-content" id="nav-tabContent">
+    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+        @Html.Partial("DiscountsSection",Model.Discounts)
+    </div>
+    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+        @Html.Partial("SummariesSection", Model.ServicesSummaries)
+    </div>
+</div>
 
 @section Scripts {
     @Scripts.Render("~/scripts/InvokeModalDialog.js")

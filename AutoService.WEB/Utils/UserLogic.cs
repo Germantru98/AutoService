@@ -2,7 +2,6 @@
 using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -60,7 +59,7 @@ namespace AutoService.WEB.Utils
                 }
                 else
                 {
-                    totalPrice += GetPriceWithDiscount(item.Price, item.Discount.Value);
+                    totalPrice += item.PriceWithDiscount;
                 }
             }
             return totalPrice;
@@ -78,16 +77,6 @@ namespace AutoService.WEB.Utils
             BasketItem item = await _db.BasketItems.FindAsync(itemId);
             _db.BasketItems.Remove(item);
             await _db.SaveChangesAsync();
-        }
-
-        private async Task<Service> GetService(int serviceId)
-        {
-            return await _db.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId == serviceId);
-        }
-
-        private int GetPriceWithDiscount(int price, int discountValue)
-        {
-            return price - price / 100 * (discountValue);
         }
 
         public async Task RemoveAllItemsFromBasket(string userId)

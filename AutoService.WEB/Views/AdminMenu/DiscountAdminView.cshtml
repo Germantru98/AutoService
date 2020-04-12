@@ -1,36 +1,35 @@
 ﻿@model AutoService.WEB.Models.ServiceView
 
-<div class="col-4 discountcard p-0 m-2">
+<div class="col-2 discountcard p-0 mr-auto ml-auto mt-2 mb-2">
     <img class="h-50 w-100" src="@Model.ServiceImageHref" alt="Alternate Text" />
-    <div class="p-0 text-center h-50">
-        <div class="h5 m-2">@Model.ServiceName</div>
-        <div class="p-2">
-            <p class="m-0">
-                @Html.LabelFor(model => model.Discount.StartDate):
-                @Model.Discount.StartDate.ToShortDateString()
-            </p>
-            <p class="m-0">
-                @Html.LabelFor(model => model.Discount.FinishDate):
-                @Model.Discount.FinishDate.ToShortDateString()
-            </p>
-        </div>
-        <div class="m-2">
+    <div class="p-2 text-center">
+        <div class="h5" style="min-height:50px">@Model.ServiceName</div>
+        <p class="m-0">
+            @Html.LabelFor(model => model.Discount.StartDate):
+            @Model.Discount.StartDate.ToShortDateString()
+        </p>
+        <p class="m-0">
+            @Html.LabelFor(model => model.Discount.FinishDate):
+            @Model.Discount.FinishDate.ToShortDateString()
+        </p>
+
+        <div>
             @if (Model.Discount.Value <= 20)
             {
-            <p> Размер скидки: <span class="badge badge-success">@Model.Discount.Value%</span></p>
+                <p> Размер скидки: <span class="badge badge-success">@Model.Discount.Value%</span></p>
             }
             else if (Model.Discount.Value > 20 && Model.Discount.Value < 70)
             {
-            <p> Размер скидки: <span class="badge badge-warning">@Model.Discount.Value%</span></p>
+                <p> Размер скидки: <span class="badge badge-warning">@Model.Discount.Value%</span></p>
             }
             else
             {
-            <p> Размер скидки: <span class="badge badge-danger">@Model.Discount.Value%</span></p>
+                <p> Размер скидки: <span class="badge badge-danger">@Model.Discount.Value%</span></p>
             }
         </div>
-        <div class="btn-group d-block m-2" style="bottom:0">
+        <div class="btn-group">
             @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
-            @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { id = Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
+            @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
         </div>
     </div>
 </div>
