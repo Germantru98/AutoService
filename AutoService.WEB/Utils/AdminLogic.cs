@@ -11,55 +11,39 @@ namespace AutoService.WEB.Utils
     {
         private ApplicationDbContext _db;
         private IServicesLogic _servicesLogic;
+        private ISummariesLogic _summariesLogic;
 
         public AdminLogic()
         {
         }
 
-        public AdminLogic(ApplicationDbContext db, IServicesLogic servicesLogic)
+        public AdminLogic(ApplicationDbContext db, IServicesLogic servicesLogic, ISummariesLogic summariesLogic)
         {
             _db = db;
             _servicesLogic = servicesLogic;
+            _summariesLogic = summariesLogic;
         }
 
         public async Task<AdminMenuView> GetAdminMenuView(string adminId)
         {
-            var adminView = new AdminMenuView()
-            {
-                Users = new List<UserAdminView>(),
-                Discounts = await _servicesLogic.GetAllServicesWithDiscount(),
-                ServicesSummaries = await GetAllSummaries()
-            };
-            var admin = _db.Users.Find(adminId);
-            foreach (var user in await _db.Users.ToListAsync())
-            {
-                if (user.UserName != admin.UserName)
-                {
-                    adminView.Users.Add(new UserAdminView(user.RealName, user.Email, user.PhoneNumber));
-                }
-            }
+            var curOrders = await _summariesLogic.GetCurrentSummaries();
+            var completedOrders = await _summariesLogic.GetCompletedSummaries();
+            var ordersTabView = new OrdersTabView(curOrders, completedOrders);
+            var discounts = await _servicesLogic.GetAllServicesWithDiscount();
+            var adminView = new AdminMenuView(discounts, ordersTabView);
             return adminView;
         }
 
         public async Task<List<ServicesSummaryAdminView>> GetAllSummaries()
         {
-            var summariesFromDb = await _db.ServicesSummaries.ToListAsync();
-            List<ServicesSummaryAdminView> result = new List<ServicesSummaryAdminView>();
-            foreach (var summary in summariesFromDb)
-            {
-                var tmpUser = _db.Users.Find(summary.UserId);
-                var tmpCarFromSummary = MapCarToCarView(await _db.Cars.FindAsync(summary.UserCarId));
-                var tmpSummary = new ServicesSummaryAdminView(tmpUser,summary.ServiceList, summary.TotalPrice, tmpCarFromSummary, summary.DayOfWork);
-                result.Add(tmpSummary);
-            }
-            return result;
+           
+            return await _summariesLogic.GetCompletedSummaries();
         }
 
         public Task<IEnumerable<ApplicationUser>> GetAllUsers()
         {
             throw new NotImplementedException();
         }
-
         public Task RemoveUser(string userId)
         {
             throw new NotImplementedException();
@@ -69,9 +53,6 @@ namespace AutoService.WEB.Utils
         {
             throw new NotImplementedException();
         }
-        private CarView MapCarToCarView(Car car)
-        {
-            return new CarView(car.Model, car.Color, car.Year, car.CarImageHref);
-        }
+       
     }
 }

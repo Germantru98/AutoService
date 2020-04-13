@@ -496,14 +496,19 @@ namespace AutoService.WEB.Controllers
             return View("ServicesSummary", summary);
         }
 
-        private string ListServicesToString(IEnumerable<Service> services)
+        private string ListServicesToString(List<Service> services)
         {
             var result = string.Empty;
-            int counter = 1;
-            foreach (var item in services)
+            for (int i = 0; i < services.Count; i++)
             {
-                result += ($"{counter}. {item}" + Environment.NewLine);
-                counter++;
+                if (i<services.Count-1)
+                {
+                    result += $"{services[i].ServiceId}|";
+                }
+                else
+                {
+                    result+= $"{services[i].ServiceId}";
+                }
             }
             return result;
         }
@@ -522,7 +527,7 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        private IEnumerable<Service> GetServicesFromBasket(List<BasketItem> items)
+        private List<Service> GetServicesFromBasket(List<BasketItem> items)
         {
             var result = new List<Service>();
             foreach (var item in items)

@@ -1,19 +1,41 @@
 ﻿@using AutoService.WEB.Models
-@model List<ServicesSummaryAdminView>
-    <div class="mt-2">
-        @if (Model.Count>0)
+@model OrdersTabView
+
+
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#cur_orders">Текущие заказы</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#orders_history">История заказов</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="cur_orders">
+        @if (Model.CurrentOrders.Count>0)
         {
-            <div class="row row-cols-5 justify-content-start p-2">
-                @foreach (var summary in Model)
-                {
-                    @Html.Partial("SummaryView", summary)
-                }
-            </div>
+            foreach (var order in Model.CurrentOrders)
+            {
+                @Html.Partial("SummaryView", order)
+            }
         }
         else
         {
-            <h1>
-                Пусто
-            </h1>
+           <p>Empty</p>
         }
     </div>
+    <div class="tab-pane fade" id="orders_history">
+        @if (Model.OrdersHistory.Count > 0)
+        {
+            foreach (var order in Model.OrdersHistory)
+            {
+                @Html.Partial("SummaryView", order)
+            }
+        }
+        else
+        {
+            <p>Empty</p>
+        }
+    </div>
+</div>

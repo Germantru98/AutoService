@@ -153,5 +153,17 @@ namespace AutoService.WEB.Utils
             _db.Entry(discount).State = EntityState.Modified;
             await _db.SaveChangesAsync();
         }
+
+        public async Task<List<Service>> GetServicesFromSummary(string serviceList)
+        {
+            var result = new List<Service>();
+            var servicesId = serviceList.Split('|');
+            foreach (var id in servicesId)
+            {
+                var tmpService = await FindServiceWithDiscount(int.Parse(id));
+                result.Add(tmpService);
+            }
+            return result;
+        }
     }
 }

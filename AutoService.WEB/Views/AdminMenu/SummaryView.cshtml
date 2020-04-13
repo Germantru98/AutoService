@@ -8,10 +8,23 @@
         @Html.DisplayFor(s => s.Car.Model)
         @Html.DisplayFor(s => s.Car.Color)
         @Html.DisplayFor(s => s.Car.Year)
-    <br />
+        <br />
         <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
         <br />
-        @Html.DisplayFor(s => s.ServicesList)
+        @foreach (var service in Model.ServicesList)
+        {
+            <p>
+                @service.ToString()
+            </p>
+        }
         @Html.DisplayFor(s => s.TotalPrice)
         @Html.DisplayFor(s => s.Date)
+        @if (!Model.IsCompleted)
+        {
+            <div class="btn-group">
+                @Html.ActionLink("Удалить", "", new { Model.SummaryId }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("Изменить", "", new { Model.SummaryId }, new { @class = "btn btn-dark" })
+                @Html.ActionLink("Провести", "CompleteSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-dark" })
+            </div>
+        }
     </div>

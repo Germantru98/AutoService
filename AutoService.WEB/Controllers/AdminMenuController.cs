@@ -13,15 +13,17 @@ namespace AutoService.WEB.Controllers
     {
         private IServicesLogic _servicesLogic;
         private IAdminLogic _adminLogic;
+        private ISummariesLogic _summariesLogic;
 
         public AdminMenuController()
         {
         }
 
-        public AdminMenuController(IServicesLogic logic, IAdminLogic adminLogic)
+        public AdminMenuController(IServicesLogic logic, IAdminLogic adminLogic, ISummariesLogic summariesLogic)
         {
             _servicesLogic = logic;
             _adminLogic = adminLogic;
+            _summariesLogic = summariesLogic;
         }
 
         // GET: AdminMenu
@@ -107,6 +109,39 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index");
             }
             return PartialView(extendDiscountItem);
+        }
+        public async Task<ActionResult> CompleteSummary(int? summaryId)
+        {
+            try
+            {
+                var summary = await _summariesLogic.FindSummaryById(summaryId);
+                return PartialView("CompleteOrderModalView");
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+
+        }
+        [HttpPost, ActionName("CompleteSummary")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CompleteSummaryConfirmed(int summaryId)
+        {
+            try
+            {
+                await _summariesLogic.CompleteSummary(summaryId);
+                return RedirectToAction("Index");
+            }
+            catch (ArgumentException)
+            {
+
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            
         }
     }
 }

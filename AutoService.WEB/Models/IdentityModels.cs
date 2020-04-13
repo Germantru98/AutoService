@@ -52,5 +52,6 @@ namespace AutoService.WEB.Models
         public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
         public DbSet<ServicesSummary> ServicesSummaries { get; set; }
+        public DbSet<CompletedSummariesHistory> CompletedSummariesHistory { get; set; }
     }
 }

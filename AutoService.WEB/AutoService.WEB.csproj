@@ -258,11 +258,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AdminLogic.cs" />
+    <Compile Include="Utils\CarLogic.cs" />
+    <Compile Include="Utils\Interfaces\ICarLogic.cs" />
+    <Compile Include="Utils\SummraiesLogic.cs" />
     <Compile Include="Utils\ContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IAdminLogic.cs" />
     <Compile Include="Utils\Interfaces\IContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IReviewsLogic.cs" />
     <Compile Include="Utils\Interfaces\IServicesLogic.cs" />
+    <Compile Include="Utils\Interfaces\ISummariesLogic.cs" />
     <Compile Include="Utils\Interfaces\IUserLogic.cs" />
     <Compile Include="Utils\ReviewsLogic.cs" />
     <Compile Include="Utils\ServicesLogic.cs" />
@@ -309,6 +313,8 @@
     <Content Include="Scripts\esm\popper-utils.js.map" />
     <None Include="Properties\PublishProfiles\AutoserviceEngels - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\kindpolecat-b0bd - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\kindpolecat-b0bd - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\InvokeModalDialog.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -487,6 +493,7 @@
     <Content Include="Views\AdminMenu\DiscountsSection.cshtml" />
     <Content Include="Views\AdminMenu\SummariesSection.cshtml" />
     <Content Include="Views\AdminMenu\SummaryView.cshtml" />
+    <Content Include="Views\AdminMenu\CompleteOrderModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
