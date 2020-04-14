@@ -1,6 +1,5 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -29,8 +28,7 @@ namespace AutoService.WEB.Controllers
         // GET: AdminMenu
         public async Task<ActionResult> Index()
         {
-            var adminId = User.Identity.GetUserId();
-            var indexView = await _adminLogic.GetAdminMenuView(adminId);
+            var indexView = await _adminLogic.GetAdminMenuView();
             return View("AdminMenu", indexView);
         }
 
@@ -110,6 +108,7 @@ namespace AutoService.WEB.Controllers
             }
             return PartialView(extendDiscountItem);
         }
+
         public async Task<ActionResult> CompleteSummary(int? summaryId)
         {
             try
@@ -125,8 +124,8 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-
         }
+
         [HttpPost, ActionName("CompleteSummary")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CompleteSummaryConfirmed(int summaryId)
@@ -138,10 +137,97 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentException)
             {
-
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            
+        }
+
+        public ActionResult GetSummariesHistoryForThePeriod()
+        {
+            var periodView = new GetPeriodView();
+            return PartialView("GetSummariesHistoryForThePeriodModalView", periodView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetSummariesHistoryForThePeriod(GetPeriodView periodView)
+        {
+            var summariesForThePeriod = await _summariesLogic.GetCompletedSummariesByPeriod(periodView.StartDate, periodView.FinishDate);
+            return PartialView("SummariesBlockView", summariesForThePeriod);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetAllUncompletedOrders()
+        {
+            var uncompletedOrders = await _summariesLogic.GetAllUncompletedSummaries();
+            return PartialView("SummariesBlockView", uncompletedOrders);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetCurrentOrders()
+        {
+            var currentOrders = await _summariesLogic.GetCurrentSummaries();
+            return PartialView("SummariesBlockView", currentOrders);
+        }
+
+        public ActionResult GetOrdersByPeriod()
+        {
+            var ordersPeriod = new GetPeriodView();
+            return PartialView("SelectPeriodModalView", ordersPeriod);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetOrdersByPeriod(GetPeriodView period)
+        {
+            if (ModelState.IsValid)
+            {
+                var ordersByThePeriod = await _summariesLogic.GetCompletedSummariesByPeriod(period.StartDate, period.FinishDate);
+                return PartialView("SummariesBlockView", ordersByThePeriod);
+            }
+            return HttpNotFound();
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetAllCompletedOrders()
+        {
+            var orders = await _summariesLogic.GetCompletedSummaries();
+            return PartialView("SummariesBlockView", orders);
+        }
+
+        public ActionResult GetCompletedOrdersByDay()
+        {
+            var dateView = new SelectDateView();
+            return PartialView("SelectDateModalView", dateView);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> GetCompletedOrdersByDay(SelectDateView date)
+        {
+            var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date.Date);
+            return PartialView("SummariesBlockView", ordersByDay);
+        }
+
+        public async Task<ActionResult> RemoveSummary(int? summaryId)
+        {
+            try
+            {
+                var summary = await _summariesLogic.FindSummaryById(summaryId);
+                return PartialView("ConfirmSummaryRemovingModalView", summary);
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+
+        [HttpPost, ActionName("RemoveSummary")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveSummaryConfirmed(int summaryId)
+        {
+            await _summariesLogic.RemoveSummary(summaryId);
+            return RedirectToAction("Index");
         }
     }
 }

@@ -1,0 +1,48 @@
+﻿@using AutoService.WEB.Models
+
+@model ServicesSummaryAdminView
+
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите удалить данный заказ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    <div class="modal-body">
+
+        <div class="border border-dark col-4">
+            Пользователь: @Model.User.UserName
+            Имя: @Model.User.RealName
+            Номер: @Model.User.PhoneNumber
+            <br />
+            @Html.DisplayFor(s => s.Car.Model)
+            @Html.DisplayFor(s => s.Car.Color)
+            @Html.DisplayFor(s => s.Car.Year)
+            <br />
+            <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
+            <br />
+            @foreach (var service in Model.ServicesList)
+            {
+                <p>
+                    @service.ToString()
+                </p>
+            }
+            @Html.DisplayFor(s => s.TotalPrice)
+            @Html.DisplayFor(s => s.Date)
+        </div>
+    </div>
+    <!-- Футер модального окна -->
+    <div class="modal-footer">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="form-actions no-color">
+                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
+            </div>
+        }
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+    </div>
+</div>

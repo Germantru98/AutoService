@@ -2,7 +2,6 @@
 using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils
@@ -24,19 +23,17 @@ namespace AutoService.WEB.Utils
             _summariesLogic = summariesLogic;
         }
 
-        public async Task<AdminMenuView> GetAdminMenuView(string adminId)
+        public async Task<AdminMenuView> GetAdminMenuView()
         {
-            var curOrders = await _summariesLogic.GetCurrentSummaries();
-            var completedOrders = await _summariesLogic.GetCompletedSummaries();
-            var ordersTabView = new OrdersTabView(curOrders, completedOrders);
+            var currentOrders = await _summariesLogic.GetCurrentSummaries();
+            var archive = await _summariesLogic.GetCompletedSummaries();
             var discounts = await _servicesLogic.GetAllServicesWithDiscount();
-            var adminView = new AdminMenuView(discounts, ordersTabView);
+            var adminView = new AdminMenuView(discounts, currentOrders, archive);
             return adminView;
         }
 
         public async Task<List<ServicesSummaryAdminView>> GetAllSummaries()
         {
-           
             return await _summariesLogic.GetCompletedSummaries();
         }
 
@@ -44,6 +41,7 @@ namespace AutoService.WEB.Utils
         {
             throw new NotImplementedException();
         }
+
         public Task RemoveUser(string userId)
         {
             throw new NotImplementedException();
@@ -53,6 +51,5 @@ namespace AutoService.WEB.Utils
         {
             throw new NotImplementedException();
         }
-       
     }
 }

@@ -16,9 +16,9 @@ namespace AutoService.WEB.Models
         public DateTime DayOfWork { get; set; }
         public int TotalPrice { get; set; }
         public bool IsCompleted { get; set; }
+
         public ServicesSummary()
         {
-
         }
     }
 
@@ -52,7 +52,7 @@ namespace AutoService.WEB.Models
         {
         }
 
-        public ServicesSummaryAdminView(int summaryId,ApplicationUser user,List<Service> servicesList, int totalPrice, CarView car, DateTime date, bool status)
+        public ServicesSummaryAdminView(int summaryId, ApplicationUser user, List<Service> servicesList, int totalPrice, CarView car, DateTime date, bool status)
         {
             SummaryId = summaryId;
             User = user;
@@ -62,24 +62,26 @@ namespace AutoService.WEB.Models
             Date = date;
             IsCompleted = status;
         }
-        
     }
+
     public class CompletedSummariesHistory
     {
         [Key]
         public int Id { get; set; }
+
         public int SummaryId { get; set; }
         public DateTime DateOfCompletion { get; set; }
     }
+
     public class EditSummaryView
     {
         public int SummaryId { get; set; }
         public int UserCarId { get; set; }
         public DateTime DayOfWork { get; set; }
         public string ServiceList { get; set; }
+
         public EditSummaryView()
         {
-
         }
 
         public EditSummaryView(int summaryId, int userCarId, DateTime dayOfWork, string serviceList)
@@ -89,5 +91,28 @@ namespace AutoService.WEB.Models
             DayOfWork = dayOfWork;
             ServiceList = serviceList;
         }
+    }
+
+    public class GetPeriodView
+    {
+        [Display(Name = "Начало периода")]
+        [Required(ErrorMessage = "Не указана дата начала периода")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime StartDate { get; set; }
+
+        [Display(Name = "Конец периода")]
+        [Required(ErrorMessage = "Не указана дата окончания периода")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime FinishDate { get; set; }
+    }
+
+    public class SelectDateView
+    {
+        [Required(ErrorMessage = "Не указана дата")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime Date { get; set; }
     }
 }

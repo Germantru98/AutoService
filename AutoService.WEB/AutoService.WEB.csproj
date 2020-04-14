@@ -491,9 +491,14 @@
     <Content Include="Views\Services\ServicesSearch.cshtml" />
     <Content Include="Views\Services\ServiceView.cshtml" />
     <Content Include="Views\AdminMenu\DiscountsSection.cshtml" />
-    <Content Include="Views\AdminMenu\SummariesSection.cshtml" />
+    <Content Include="Views\AdminMenu\CurrentOrdersSection.cshtml" />
     <Content Include="Views\AdminMenu\SummaryView.cshtml" />
     <Content Include="Views\AdminMenu\CompleteOrderModalView.cshtml" />
+    <Content Include="Views\AdminMenu\SummariesBlockView.cshtml" />
+    <Content Include="Views\AdminMenu\ArchiveSection.cshtml" />
+    <Content Include="Views\AdminMenu\SelectPeriodModalView.cshtml" />
+    <Content Include="Views\AdminMenu\SelectDateModalView.cshtml" />
+    <Content Include="Views\AdminMenu\ConfirmSummaryRemovingModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

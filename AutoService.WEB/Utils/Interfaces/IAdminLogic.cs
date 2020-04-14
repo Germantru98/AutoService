@@ -12,8 +12,6 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task<IEnumerable<ApplicationUser>> GetAllUsers();
 
-        Task<AdminMenuView> GetAdminMenuView(string adminId);
-
-        Task<List<ServicesSummaryAdminView>> GetAllSummaries();
+        Task<AdminMenuView> GetAdminMenuView();
     }
 }

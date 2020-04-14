@@ -1,0 +1,25 @@
+﻿@using AutoService.WEB.Models
+@model SelectDateView
+    <div class="modal-content">
+        <!-- Заголовок модального окна -->
+        <div class="modal-header">
+            <h5 class="modal-title">Продление акции</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Основное содержимое модального окна -->
+        @using (Ajax.BeginForm("GetCompletedOrdersByDay", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = " ml-auto form-inline" }))
+        {
+            <div class="modal-body form-horizontal">
+                <p class="form-group">
+                    @Html.EditorFor(d=>d.Date)
+                </p>
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button class="btn btn-outline-dark" type="submit">Отправить</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+            </div>
+        }
+    </div>

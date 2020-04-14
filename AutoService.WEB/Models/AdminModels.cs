@@ -6,25 +6,18 @@ namespace AutoService.WEB.Models
 {
     public class AdminMenuView
     {
-        public List<ServiceView> Discounts { get; set; }
-        public OrdersTabView OrdersTab { get; set; }
-
-        public AdminMenuView(List<ServiceView> discounts, OrdersTabView ordersTab)
+        public AdminMenuView(List<ServiceView> discounts, List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> archive)
         {
             Discounts = discounts;
-            OrdersTab = ordersTab;
-        }
-    }
-    public class OrdersTabView
-    {
-        public List<ServicesSummaryAdminView> CurrentOrders { get; set; }
-        public List<ServicesSummaryAdminView> OrdersHistory { get; set; }
-        public OrdersTabView(List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> ordersHistory)
-        {
             CurrentOrders = currentOrders;
-            OrdersHistory = ordersHistory;
+            Archive = archive;
         }
+
+        public List<ServiceView> Discounts { get; set; }
+        public List<ServicesSummaryAdminView> CurrentOrders { get; set; }
+        public List<ServicesSummaryAdminView> Archive { get; set; }
     }
+
     public class UserAdminView
     {
         public string UserRealName { get; set; }

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AutoService.WEB.Utils
 {
@@ -25,7 +24,7 @@ namespace AutoService.WEB.Utils
         public async Task CompleteSummary(int summaryId)
         {
             var isCompletedTest = await _db.CompletedSummariesHistory.Where(s => s.SummaryId == summaryId).ToListAsync();
-            if (isCompletedTest.Count>0)
+            if (isCompletedTest.Count > 0)
             {
                 throw new ArgumentException($"Заказ с summaryId = {summaryId} уже выполнен");
             }
@@ -51,7 +50,7 @@ namespace AutoService.WEB.Utils
             await _db.SaveChangesAsync();
         }
 
-        public async Task<ServicesSummary> FindSummaryById(int? summaryId)
+        public async Task<ServicesSummaryAdminView> FindSummaryById(int? summaryId)
         {
             if (summaryId == null)
             {
@@ -66,7 +65,7 @@ namespace AutoService.WEB.Utils
                 }
                 else
                 {
-                    return summary;
+                    return await MapSummaryOnSummaryAdminView(summary);
                 }
             }
         }
@@ -86,21 +85,7 @@ namespace AutoService.WEB.Utils
         public async Task<List<ServicesSummaryAdminView>> GetCurrentSummaries()
         {
             var curDate = DateTime.Today;
-            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork == curDate &&!s.IsCompleted).ToListAsync();
-            var result = await MapDbResultToList(resultFromDb);
-            return result;
-        }
-
-        public async Task<List<ServicesSummaryAdminView>> GetSummariesByDate(DateTime date)
-        {
-            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork == date).ToListAsync();
-            var result = await MapDbResultToList(resultFromDb);
-            return result;
-        }
-
-        public async Task<List<ServicesSummaryAdminView>> GetSummariesByPeriod(DateTime start, DateTime finish)
-        {
-            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork >= start && s.DayOfWork <= finish).ToListAsync();
+            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork == curDate && !s.IsCompleted).ToListAsync();
             var result = await MapDbResultToList(resultFromDb);
             return result;
         }
@@ -122,12 +107,34 @@ namespace AutoService.WEB.Utils
             _db.ServicesSummaries.Remove(deletedSummary);
             await _db.SaveChangesAsync();
         }
+
         private async Task<ServicesSummaryAdminView> MapSummaryOnSummaryAdminView(ServicesSummary summary)
         {
             var tmpUser = _db.Users.Find(summary.UserId);
             var tmpCarFromSummary = _carLogic.MapCarToCarView(await _db.Cars.FindAsync(summary.UserCarId));
             var servicesList = await _servicesLogic.GetServicesFromSummary(summary.ServiceList);
-            return new ServicesSummaryAdminView(summary.SummaryId,tmpUser, servicesList, summary.TotalPrice, tmpCarFromSummary, summary.DayOfWork,summary.IsCompleted);
+            return new ServicesSummaryAdminView(summary.SummaryId, tmpUser, servicesList, summary.TotalPrice, tmpCarFromSummary, summary.DayOfWork, summary.IsCompleted);
+        }
+
+        public async Task<List<ServicesSummaryAdminView>> GetAllUncompletedSummaries()
+        {
+            var resultFromDb = await _db.ServicesSummaries.Where(s => !s.IsCompleted).ToListAsync();
+            var result = await MapDbResultToList(resultFromDb);
+            return result;
+        }
+
+        public async Task<List<ServicesSummaryAdminView>> GetCompletedSummariesByPeriod(DateTime start, DateTime finish)
+        {
+            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork >= start && s.DayOfWork <= finish && s.IsCompleted).ToListAsync();
+            var result = await MapDbResultToList(resultFromDb);
+            return result;
+        }
+
+        public async Task<List<ServicesSummaryAdminView>> GetCompletedSummariesByDate(DateTime date)
+        {
+            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork == date && s.IsCompleted).ToListAsync();
+            var result = await MapDbResultToList(resultFromDb);
+            return result;
         }
     }
 }

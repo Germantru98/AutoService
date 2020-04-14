@@ -501,13 +501,13 @@ namespace AutoService.WEB.Controllers
             var result = string.Empty;
             for (int i = 0; i < services.Count; i++)
             {
-                if (i<services.Count-1)
+                if (i < services.Count - 1)
                 {
                     result += $"{services[i].ServiceId}|";
                 }
                 else
                 {
-                    result+= $"{services[i].ServiceId}";
+                    result += $"{services[i].ServiceId}";
                 }
             }
             return result;

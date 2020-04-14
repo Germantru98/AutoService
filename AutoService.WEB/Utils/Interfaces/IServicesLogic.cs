@@ -27,6 +27,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task RemoveDiscount(int discountId);
 
         Task ExtendDiscount(ExtendDiscount extendDiscountItem);
+
         Task<List<Service>> GetServicesFromSummary(string serviceList);
     }
 }
