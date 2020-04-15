@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace AutoService.WEB.Models
 {
@@ -77,19 +78,26 @@ namespace AutoService.WEB.Models
     {
         public int SummaryId { get; set; }
         public int UserCarId { get; set; }
+
+        [Required(ErrorMessage = "Не указана дата")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DayOfWork { get; set; }
-        public string ServiceList { get; set; }
+
+        public IList<string> SelectedServices { get; set; }
+        public IList<SelectListItem> AllServices { get; set; }
 
         public EditSummaryView()
         {
         }
 
-        public EditSummaryView(int summaryId, int userCarId, DateTime dayOfWork, string serviceList)
+        public EditSummaryView(int summaryId, int userCarId, DateTime dayOfWork, string[] servisesId, List<SelectListItem> allServices)
         {
             SummaryId = summaryId;
             UserCarId = userCarId;
             DayOfWork = dayOfWork;
-            ServiceList = serviceList;
+            SelectedServices = servisesId;
+            AllServices = allServices;
         }
     }
 

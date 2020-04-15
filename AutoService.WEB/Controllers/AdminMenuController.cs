@@ -13,16 +13,18 @@ namespace AutoService.WEB.Controllers
         private IServicesLogic _servicesLogic;
         private IAdminLogic _adminLogic;
         private ISummariesLogic _summariesLogic;
+        private ICarLogic _carLogic;
 
         public AdminMenuController()
         {
         }
 
-        public AdminMenuController(IServicesLogic logic, IAdminLogic adminLogic, ISummariesLogic summariesLogic)
+        public AdminMenuController(IServicesLogic logic, IAdminLogic adminLogic, ISummariesLogic summariesLogic, ICarLogic carLogic)
         {
             _servicesLogic = logic;
             _adminLogic = adminLogic;
             _summariesLogic = summariesLogic;
+            _carLogic = carLogic;
         }
 
         // GET: AdminMenu
@@ -228,6 +230,43 @@ namespace AutoService.WEB.Controllers
         {
             await _summariesLogic.RemoveSummary(summaryId);
             return RedirectToAction("Index");
+        }
+
+        public async Task<ActionResult> EditSummary(int? summaryId)
+        {
+            try
+            {
+                var editedSummary = await _summariesLogic.FindSummaryById(summaryId);
+                var userCars = await _carLogic.GetAllUserCars(editedSummary.User.Id);
+                SelectList carsSelectList = new SelectList(userCars, "CarId", "FullName");
+                var editView = await _summariesLogic.GetEditSummaryView(editedSummary);
+                ViewBag.UserCars = carsSelectList;
+                ViewBag.EditSummary = editView;
+                return View("EditSummaryView", editedSummary);
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeSummaryInformation(EditSummaryView summary)
+        {
+            if (ModelState.IsValid)
+            {
+                await _summariesLogic.EditSummary(summary);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return HttpNotFound();
+            }
         }
     }
 }

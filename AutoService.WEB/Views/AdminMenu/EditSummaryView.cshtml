@@ -1,0 +1,44 @@
+﻿@using AutoService.WEB.Models
+@model ServicesSummaryAdminView
+@{
+    ViewBag.Title = "Изменение заказа";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2 class="text-center">Изменение заказа</h2>
+
+<div class="border border-dark col-4 mx-auto">
+    Пользователь: @Model.User.UserName
+    Имя: @Model.User.RealName
+    Номер: @Model.User.PhoneNumber
+    <br />
+    @Html.DisplayFor(s => s.Car.Model)
+    @Html.DisplayFor(s => s.Car.Color)
+    @Html.DisplayFor(s => s.Car.Year)
+    <br />
+    <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
+    <br />
+    @foreach (var service in Model.ServicesList)
+    {
+        <p>
+            @service.ToString()
+        </p>
+    }
+    @Html.DisplayFor(s => s.TotalPrice)
+    @Html.DisplayFor(s => s.Date)
+    <div class="btn-group">
+        @Html.ActionLink("Удалить", "RemoveSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-dark" })
+        <a class="btn btn-dark" data-toggle="collapse" href="#summaryEditor" role="button" aria-expanded="false" aria-controls="summaryEditor">
+            Изменить
+        </a>
+        @Html.ActionLink("Провести", "CompleteSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-dark" })
+    </div>
+</div>
+@Html.Partial("SummaryEditorView", ViewBag.EditSummary as EditSummaryView)
+
+@section Scripts {
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+}

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 
 namespace AutoService.WEB.Utils
 {
@@ -43,11 +44,49 @@ namespace AutoService.WEB.Utils
         public async Task EditSummary(EditSummaryView editedSummary)
         {
             var summaryFromDb = await _db.ServicesSummaries.FindAsync(editedSummary.SummaryId);
+            var newServiceList = string.Join("|", editedSummary.SelectedServices);
             summaryFromDb.UserCarId = editedSummary.UserCarId;
             summaryFromDb.DayOfWork = editedSummary.DayOfWork;
-            summaryFromDb.ServiceList = editedSummary.ServiceList;
+            summaryFromDb.ServiceList = newServiceList;
+            summaryFromDb.TotalPrice = await GetNewPrice(editedSummary.SelectedServices);
             _db.Entry(summaryFromDb).State = EntityState.Modified;
             await _db.SaveChangesAsync();
+        }
+
+        private async Task<int> GetNewPrice(IList<string> servicesId)
+        {
+            int result = 0;
+            foreach (var serviceId in servicesId)
+            {
+                int Id = int.Parse(serviceId);
+                var tmpService = await _servicesLogic.FindServiceWithDiscount(Id);
+                if (tmpService.Discount != null)
+                {
+                    result += tmpService.PriceWithDiscount;
+                }
+                else
+                {
+                    result += tmpService.Price;
+                }
+            }
+            return result;
+        }
+
+        private string ServicesListToString(List<Service> services)
+        {
+            var result = string.Empty;
+            for (int i = 0; i < services.Count; i++)
+            {
+                if (i < services.Count - 1)
+                {
+                    result += $"{services[i].ServiceId}|";
+                }
+                else
+                {
+                    result += $"{services[i].ServiceId}";
+                }
+            }
+            return result;
         }
 
         public async Task<ServicesSummaryAdminView> FindSummaryById(int? summaryId)
@@ -134,6 +173,42 @@ namespace AutoService.WEB.Utils
         {
             var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork == date && s.IsCompleted).ToListAsync();
             var result = await MapDbResultToList(resultFromDb);
+            return result;
+        }
+
+        public async Task<EditSummaryView> GetEditSummaryView(ServicesSummaryAdminView view)
+        {
+            var selectListItems = await GetAllServices();
+            var servisesId = GetServicesId(view.ServicesList);
+            if (selectListItems.Count > 0)
+            {
+                var editSummaryView = new EditSummaryView(view.SummaryId, view.Car.CarId, view.Date, servisesId, selectListItems);
+                return editSummaryView;
+            }
+            else
+            {
+                throw new Exception("List is empty");
+            }
+        }
+
+        private string[] GetServicesId(List<Service> services)
+        {
+            string[] result = new string[services.Count];
+            for (int i = 0; i < services.Count; i++)
+            {
+                result[i] = $"{services[i].ServiceId}";
+            }
+            return result;
+        }
+
+        private async Task<List<SelectListItem>> GetAllServices()
+        {
+            var result = new List<SelectListItem>();
+            var resultFromDb = await _db.Services.ToListAsync();
+            foreach (var service in resultFromDb)
+            {
+                result.Add(new SelectListItem() { Text = service.ServiceName, Value = $"{service.ServiceId}" });
+            }
             return result;
         }
     }

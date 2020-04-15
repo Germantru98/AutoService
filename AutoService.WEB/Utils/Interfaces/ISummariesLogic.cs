@@ -24,5 +24,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<List<ServicesSummaryAdminView>> GetCompletedSummariesByDate(DateTime date);
 
         Task CompleteSummary(int summaryId);
+
+        Task<EditSummaryView> GetEditSummaryView(ServicesSummaryAdminView view);
     }
 }

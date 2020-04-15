@@ -1,0 +1,40 @@
+﻿@using AutoService.WEB.Models
+@model EditSummaryView
+
+<div class="mx-auto collapse" id="summaryEditor">
+    @using (@Html.BeginForm("ChangeSummaryInformation", "AdminMenu", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SummaryId)
+        <div class="form-group ">
+            @Html.DropDownListFor(model => model.UserCarId, ViewBag.UserCars as SelectList, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            @Html.EditorFor(model => model.DayOfWork)
+        </div>
+        <div class="form-group">
+            @if (Model.AllServices.Count > 0 && Model.AllServices != null)
+            {
+                foreach (var item in Model.AllServices)
+                {
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   name="SelectedServices"
+                                   value="@item.Value"
+                                   @if (Model.SelectedServices.Contains(item.Value)) { <text> checked </text> } /> @item.Text
+                            </label>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <h1>Error,Список услуг пуст</h1>
+                }
+        </div>
+
+        <div class="form-group text-center">
+            <input type="submit" class="btn btn-primary" value="Submit" />
+        </div>
+    }
+</div>
