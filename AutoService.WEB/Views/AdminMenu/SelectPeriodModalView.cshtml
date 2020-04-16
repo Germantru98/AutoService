@@ -9,7 +9,7 @@
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    @using (Ajax.BeginForm("GetOrdersByPeriod","AdminMenu",null ,new AjaxOptions { UpdateTargetId = "results" }))
+    @using (Ajax.BeginForm("GetOrdersByPeriod","AdminMenu",null ,new AjaxOptions { UpdateTargetId = "archiveResults" }))
     {
         <div class="modal-body form-horizontal">
             <div class="form-group">

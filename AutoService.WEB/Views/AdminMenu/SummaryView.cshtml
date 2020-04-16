@@ -1,26 +1,56 @@
 ﻿@using AutoService.WEB.Models
 @model ServicesSummaryAdminView
-    <div class="border border-dark col-4">
-        Пользователь: @Model.User.UserName
-        Имя: @Model.User.RealName
-        Номер: @Model.User.PhoneNumber
-        <br />
-        @Html.DisplayFor(s => s.Car.Model)
-        @Html.DisplayFor(s => s.Car.Color)
-        @Html.DisplayFor(s => s.Car.Year)
-        <br />
-        <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
-        <br />
-        @foreach (var service in Model.ServicesList)
-        {
-            <p>
-                @service.ToString()
-            </p>
-        }
-        @Html.DisplayFor(s => s.TotalPrice)
-        @Html.DisplayFor(s => s.Date)
-        @if (!Model.IsCompleted)
-        {
-            @Html.ActionLink("Изменить", "EditSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "btn btn-dark" })
-        }
+<div class="border border-dark col-10 m-3 d-inline-flex  shadow  rounded p-0">
+    <div class="w-50">
+        <img class="img-fluid" src="@Model.Car.CarImageHref" alt="Alternate Text" />
     </div>
+    <div class="adminMenuOrderCase w-50 p-3">
+        <div>
+            <b>Пользователь:</b> <a href="mailto:@Model.User.UserName" style="color:black">@Model.User.UserName</a>
+        </div>
+        <div>
+            <b>Имя:</b> @Model.User.RealName
+        </div>
+        <div>
+            <b>Номер:</b>
+            @if (Model.User.PhoneNumber != null)
+            {
+                @Model.User.PhoneNumber
+            }
+            else
+            {
+                <text>Нет</text>
+            }
+        </div>
+        <div>
+            <b>Автомобиль: </b>@Model.Car.FullName
+        </div>
+
+
+        <div>
+            <b>Итоговая цена: </b> @Model.TotalPrice ₽
+        </div>
+        <div>
+            <b>Дата работ: </b>@Model.Date.ToShortDateString()
+        </div>
+        <div class="card w-100 border-0 mt-2">
+            <div class="card-header text-center font-weight-bold"> Услуги</div>
+            <ol>
+                @foreach (var service in Model.ServicesList)
+                {
+                    <li>
+                        @service.ToString()
+                    </li>
+                }
+            </ol>
+        </div>
+    </div>
+
+    @if (!Model.IsCompleted)
+    {
+        <div class="text-right">
+            @Html.ActionLink("Изменить", "EditSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "btn btn-dark" })
+        </div>
+    }
+
+</div>

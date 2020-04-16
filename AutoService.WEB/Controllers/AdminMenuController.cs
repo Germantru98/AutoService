@@ -190,6 +190,7 @@ namespace AutoService.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllCompletedOrders()
         {
+
             var orders = await _summariesLogic.GetCompletedSummaries();
             return PartialView("SummariesBlockView", orders);
         }
@@ -203,8 +204,12 @@ namespace AutoService.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> GetCompletedOrdersByDay(SelectDateView date)
         {
-            var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date.Date);
-            return PartialView("SummariesBlockView", ordersByDay);
+            if (ModelState.IsValid)
+            {
+                var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date.Date);
+                return PartialView("SummariesBlockView", ordersByDay);
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
         }
 
         public async Task<ActionResult> RemoveSummary(int? summaryId)

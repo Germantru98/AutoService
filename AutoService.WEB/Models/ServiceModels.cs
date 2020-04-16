@@ -49,11 +49,11 @@ namespace AutoService.WEB.Models
         {
             if (Discount == null)
             {
-                return $"{ServiceName} Цена: {Price}";
+                return $"{ServiceName} Цена: {Price} ₽";
             }
             else
             {
-                return $"{ServiceName} Цена: {PriceWithDiscount} Скидка: {Discount.Value}%";
+                return $"{ServiceName} Цена: {PriceWithDiscount} ₽ Скидка: {Discount.Value}%";
             }
         }
     }
