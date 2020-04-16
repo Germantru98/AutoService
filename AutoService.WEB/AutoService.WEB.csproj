@@ -501,6 +501,7 @@
     <Content Include="Views\AdminMenu\ConfirmSummaryRemovingModalView.cshtml" />
     <Content Include="Views\AdminMenu\EditSummaryView.cshtml" />
     <Content Include="Views\AdminMenu\SummaryEditorView.cshtml" />
+    <Content Include="Views\AdminMenu\ServiceNameWithDiscount.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

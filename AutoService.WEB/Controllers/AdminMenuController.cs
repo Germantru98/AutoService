@@ -268,10 +268,7 @@ namespace AutoService.WEB.Controllers
                 await _summariesLogic.EditSummary(summary);
                 return RedirectToAction("Index");
             }
-            else
-            {
-                return HttpNotFound();
-            }
+            return HttpNotFound();
         }
     }
 }

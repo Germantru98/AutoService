@@ -7,33 +7,62 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<h2 class="text-center">Изменение заказа</h2>
+<h2 class="text-center mt-3">Изменение заказа</h2>
 
-<div class="border border-dark col-4 mx-auto">
-    Пользователь: @Model.User.UserName
-    Имя: @Model.User.RealName
-    Номер: @Model.User.PhoneNumber
-    <br />
-    @Html.DisplayFor(s => s.Car.Model)
-    @Html.DisplayFor(s => s.Car.Color)
-    @Html.DisplayFor(s => s.Car.Year)
-    <br />
-    <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
-    <br />
-    @foreach (var service in Model.ServicesList)
-    {
-        <p>
-            @service.ToString()
-        </p>
-    }
-    @Html.DisplayFor(s => s.TotalPrice)
-    @Html.DisplayFor(s => s.Date)
-    <div class="btn-group">
-        @Html.ActionLink("Удалить", "RemoveSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-dark" })
-        <a class="btn btn-dark" data-toggle="collapse" href="#summaryEditor" role="button" aria-expanded="false" aria-controls="summaryEditor">
+<div class="card col-10 shadow rounded p-0 mt-4 mx-auto">
+    <div class="row no-gutters">
+        <div class="col-md-6">
+            <img class="img-fluid" src="@Model.Car.CarImageHref" alt="Alternate Text" />
+        </div>
+        <div class="adminMenuOrderCase col-md-6 card-body p-2">
+            <div>
+                <b>Пользователь:</b> <a href="mailto:@Model.User.UserName" style="color:black">@Model.User.UserName</a>
+            </div>
+            <div>
+                <b>Имя:</b> @Model.User.RealName
+            </div>
+            <div>
+                <b>Номер:</b>
+                @if (Model.User.PhoneNumber != null)
+                {
+                    @Model.User.PhoneNumber
+                }
+                else
+                {
+                    <text>Нет</text>
+                }
+            </div>
+            <div>
+                <b>Автомобиль: </b>@Model.Car.FullName
+            </div>
+
+
+            <div>
+                <b>Итоговая цена: </b> @Model.TotalPrice ₽
+            </div>
+            <div>
+                <b>Дата работ: </b>@Model.Date.ToShortDateString()
+            </div>
+            <div class="card w-100 border-0 mt-2">
+                <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"> Услуги</div>
+                <ol class="card-body overflow-auto" style="max-height:300px">
+                    @foreach (var service in Model.ServicesList)
+                    {
+                        <li>
+                            @service.ToString()
+                        </li>
+                    }
+                </ol>
+            </div>
+        </div>
+    </div>
+    <div class="text-center card-footer">
+        @Html.ActionLink("Провести", "CompleteSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-outline-success" })
+        <a class="btn btn-outline-primary" data-toggle="collapse" href="#summaryEditor" role="button" aria-expanded="false" aria-controls="summaryEditor">
             Изменить
         </a>
-        @Html.ActionLink("Провести", "CompleteSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-dark" })
+        @Html.ActionLink("Удалить", "RemoveSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "dialog btn btn-outline-danger" })
+        @Html.ActionLink("Назад", "Index", new { Model.SummaryId }, new { @class = "btn btn-outline-dark" })
     </div>
 </div>
 @Html.Partial("SummaryEditorView", ViewBag.EditSummary as EditSummaryView)

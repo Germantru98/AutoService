@@ -2,7 +2,7 @@
 
 @model ServicesSummaryAdminView
 
-<div class="modal-content">
+<div class="modal-content mx-auto">
     <!-- Заголовок модального окна -->
     <div class="modal-header">
         <h5 class="modal-title">Вы уверенны, что хотите удалить данный заказ?</h5>
@@ -12,26 +12,36 @@
     </div>
     <!-- Основное содержимое модального окна -->
     <div class="modal-body">
-
-        <div class="border border-dark col-4 w-100">
-            Пользователь: @Model.User.UserName
-            Имя: @Model.User.RealName
-            Номер: @Model.User.PhoneNumber
-            <br />
-            @Html.DisplayFor(s => s.Car.Model)
-            @Html.DisplayFor(s => s.Car.Color)
-            @Html.DisplayFor(s => s.Car.Year)
-            <br />
-            <img src="@Model.Car.CarImageHref" alt="Alternate Text" height="200" width="300" />
-            <br />
-            @foreach (var service in Model.ServicesList)
+        <div>
+            <b>Пользователь:</b> <a href="mailto:@Model.User.UserName" style="color:black">@Model.User.UserName</a>
+        </div>
+        <div>
+            <b>Имя:</b> @Model.User.RealName
+        </div>
+        <div>
+            <b>Номер:</b>
+            @if (Model.User.PhoneNumber != null)
             {
-                <p>
-                    @service.ToString()
-                </p>
+                @Model.User.PhoneNumber
             }
-            @Html.DisplayFor(s => s.TotalPrice)
-            @Html.DisplayFor(s => s.Date)
+            else
+            {
+                <text>Нет</text>
+            }
+        </div>
+        <div>
+            <b>Дата работ: </b>@Model.Date.ToShortDateString()
+        </div>
+        <div class="card w-100 border-0 mt-2">
+            <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"> Услуги</div>
+            <ol class="card-body overflow-auto" style="max-height:300px">
+                @foreach (var service in Model.ServicesList)
+                {
+                    <li>
+                        @service.ToString()
+                    </li>
+                }
+            </ol>
         </div>
     </div>
     <!-- Футер модального окна -->

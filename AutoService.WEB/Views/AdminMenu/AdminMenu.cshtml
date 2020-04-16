@@ -15,6 +15,9 @@
     <li class="nav-item">
         <a class="nav-link" data-toggle="tab" href="#archive">Архив</a>
     </li>
+    <li>
+        <a class="nav-link" data-toggle="tab" href="#news-tab">Новости</a>
+    </li>
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="discount-section">
@@ -25,6 +28,9 @@
     </div>
     <div class="tab-pane fade" id="archive">
         @Html.Partial("ArchiveSection", Model.Archive)
+    </div>
+    <div class="tab-pane fade" id="news-tab">
+        Новости
     </div>
 </div>
 @section Scripts {
