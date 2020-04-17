@@ -259,7 +259,9 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AdminLogic.cs" />
     <Compile Include="Utils\CarLogic.cs" />
+    <Compile Include="Utils\HomePageLogic.cs" />
     <Compile Include="Utils\Interfaces\ICarLogic.cs" />
+    <Compile Include="Utils\Interfaces\IHomePageLogic.cs" />
     <Compile Include="Utils\SummraiesLogic.cs" />
     <Compile Include="Utils\ContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IAdminLogic.cs" />
@@ -502,6 +504,11 @@
     <Content Include="Views\AdminMenu\EditSummaryView.cshtml" />
     <Content Include="Views\AdminMenu\SummaryEditorView.cshtml" />
     <Content Include="Views\AdminMenu\ServiceNameWithDiscount.cshtml" />
+    <Content Include="Views\AdminMenu\SuccessOperation.cshtml" />
+    <Content Include="Views\AdminMenu\RemoveCarouselItemModalView.cshtml" />
+    <Content Include="Views\AdminMenu\MainCarouselSection.cshtml" />
+    <Content Include="Views\AdminMenu\AddNewCarouselItem.cshtml" />
+    <Content Include="Views\AdminMenu\EditCarouselItemModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

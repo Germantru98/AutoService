@@ -1,0 +1,78 @@
+﻿@using AutoService.WEB.Models
+@model EditCarouselItemView
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Изменение содержимого слайда</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("EditHomeCarouselItem", "AdminMenu",null, FormMethod.Post, new { @class = "validate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <div class="modal-body form-horizontal">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Title, new { @class = "col-form-label" })
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.Description, new { @class = "col-form-label" })
+                @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "min-height:200px" })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.ImageHref, new { @class = "col-form-label" })
+                @Html.EditorFor(model => model.ImageHref, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.RouteHref, new { @class = "col-form-label" })
+                @Html.EditorFor(model => model.RouteHref, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer ">
+            <button class="btn btn-dark" type="submit">Изменить</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal">Закрыть</button>
+        </div>
+    }
+</div>
+<script>
+    $('.validate').validate({
+        errorClass:"text-danger",
+        rules: {
+            Title: {
+                required: true,
+                minlength: 10
+            },
+            Description: {
+                required: true,
+            },
+            ImageHref: {
+                required: true,
+                url: true
+            },
+            RouteHref: {
+                required: true,
+            }
+        },
+        messages: {
+            Title: {
+                required: "Поле с заголовком должно быть заполненно",
+                minlength: "Заголовок не должен быть короче 10 символов"
+            },
+            Description: {
+                required: "Поле описания слайда должно быть заполненно",
+            },
+            ImageHref: {
+                required: "Поле с ссылкой на изображение должно быть заполненно",
+                url: "Поле должно содержать ссылку"
+            },
+            RouteHref: {
+                required: "Поле с внешней ссылко должно быть заполненно"
+            }
+
+        }
+    });
+</script>

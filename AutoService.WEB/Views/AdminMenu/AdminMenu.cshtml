@@ -1,4 +1,7 @@
 ﻿@model AutoService.WEB.Models.AdminMenuView
+@{
+    ViewBag.Title = "Меню администратора";
+}
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
@@ -30,10 +33,50 @@
         @Html.Partial("ArchiveSection", Model.Archive)
     </div>
     <div class="tab-pane fade" id="news-tab">
-        Новости
+        @Html.Partial("MainCarouselSection", Model.MainCarouselItems)
     </div>
 </div>
 @section Scripts {
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    <script>
+        $('.validate').validate({
+            errorClass: "text-danger",
+            rules: {
+                Title: {
+                    required: true,
+                    minlength: 10
+                },
+                Description: {
+                    required: true,
+                },
+                ImageHref: {
+                    required: true,
+                    url: true
+                },
+                RouteHref: {
+                    required: true,
+                }
+            },
+            messages: {
+                Title: {
+                    required: "Поле с заголовком должно быть заполненно",
+                    minlength: "Заголовок не должен быть короче 10 символов"
+                },
+                Description: {
+                    required: "Поле описания слайда должно быть заполненно",
+                },
+                ImageHref: {
+                    required: "Поле с ссылкой на изображение должно быть заполненно",
+                    url: "Поле должно содержать ссылку"
+                },
+                RouteHref: {
+                    required: "Поле с внешней ссылко должно быть заполненно"
+                }
+
+            }
+        });
+    </script>
+
 }

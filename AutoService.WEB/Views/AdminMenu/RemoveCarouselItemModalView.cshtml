@@ -1,0 +1,23 @@
+﻿@using AutoService.WEB.Models
+@model HomeMainCarouselItemView
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите удалить этот слайд?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm())
+    {
+       @Html.AntiForgeryToken()
+        <div class="modal-body">
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="dialog btn btn-outline-danger" type="submit">Удалить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        </div>
+    }
+</div>

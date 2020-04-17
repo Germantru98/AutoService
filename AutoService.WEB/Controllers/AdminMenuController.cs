@@ -14,18 +14,22 @@ namespace AutoService.WEB.Controllers
         private IAdminLogic _adminLogic;
         private ISummariesLogic _summariesLogic;
         private ICarLogic _carLogic;
+        private IHomePageLogic _homePageLogic;
 
         public AdminMenuController()
         {
         }
 
-        public AdminMenuController(IServicesLogic logic, IAdminLogic adminLogic, ISummariesLogic summariesLogic, ICarLogic carLogic)
+        public AdminMenuController(IServicesLogic servicesLogic, IAdminLogic adminLogic, ISummariesLogic summariesLogic, ICarLogic carLogic, IHomePageLogic homePageLogic)
         {
-            _servicesLogic = logic;
+            _servicesLogic = servicesLogic;
             _adminLogic = adminLogic;
             _summariesLogic = summariesLogic;
             _carLogic = carLogic;
+            _homePageLogic = homePageLogic;
         }
+
+
 
         // GET: AdminMenu
         public async Task<ActionResult> Index()
@@ -269,6 +273,98 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index");
             }
             return HttpNotFound();
+        }
+        public ActionResult SuccessOperation(string action)
+        {
+            return PartialView(action);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNewHomeCarouselItem(AddNewCarouselItemView newItem)
+        {
+            if (ModelState.IsValid)
+            {
+                await _homePageLogic.AddNewMainCarouselItem(newItem);
+                return PartialView("SuccessOperation","Добавление элемента карусели");
+            }
+            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        }
+        public async Task<ActionResult> RemoveHomeCarouselItem(int? id)
+        {
+            try
+            {
+                var carouselItem = await _homePageLogic.FindCarouselItem(id);
+                return PartialView("RemoveCarouselItemModalView",carouselItem);
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+        [HttpPost,ActionName("RemoveHomeCarouselItem")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult>RemoveCarouselItemConfirmed(int id)
+        {
+            try
+            {
+                await _homePageLogic.RemoveMainCarouselItem(id);
+                return PartialView("SuccessOperation", "Удаление элемента карусели");
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+        public async Task<ActionResult> EditHomeCarouselItem(int? id)
+        {
+            try
+            {
+                var item = await _homePageLogic.FindCarouselItem(id);
+                var editItemView = new EditCarouselItemView()
+                {
+                    Title = item.Title,
+                    Description = item.Description,
+                    ImageHref = item.ImageHref,
+                    RouteHref = item.RouteHref,
+                    Id = item.Id
+                };
+                return PartialView("EditCarouselItemModalView", editItemView);
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult>EditHomeCarouselItem(EditCarouselItemView item)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _homePageLogic.EditMainCarouselItem(item);
+                    return PartialView("SuccessOperation", "Изменение элемента карусели");
+                }
+                return RedirectToAction("Index");
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+
         }
     }
 }
