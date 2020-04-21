@@ -509,6 +509,7 @@
     <Content Include="Views\AdminMenu\MainCarouselSection.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarouselItem.cshtml" />
     <Content Include="Views\AdminMenu\EditCarouselItemModalView.cshtml" />
+    <Content Include="Views\AdminMenu\ErrorModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

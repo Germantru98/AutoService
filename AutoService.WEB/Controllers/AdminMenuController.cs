@@ -28,12 +28,24 @@ namespace AutoService.WEB.Controllers
             _carLogic = carLogic;
             _homePageLogic = homePageLogic;
         }
-
+        public enum AdminMenuMessages
+        {
+            RemoveMainCarouselItemSuccess,
+            AddNewMainCarouselItemSuccess,
+            SuccessMainCarouselItemEdit,
+            Error
+        }
 
 
         // GET: AdminMenu
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(AdminMenuMessages? message)
         {
+            ViewBag.StatusMessage =
+                message == AdminMenuMessages.AddNewMainCarouselItemSuccess ? "Добавление нового слайда прошло успешно"
+                : message == AdminMenuMessages.RemoveMainCarouselItemSuccess ? "Удаление слайда прошло успешно"
+                : message == AdminMenuMessages.SuccessMainCarouselItemEdit ? "Изменение слайда прошло успешно"
+                : message == AdminMenuMessages.Error ? "Ошибка"
+                : null;
             var indexView = await _adminLogic.GetAdminMenuView();
             return View("AdminMenu", indexView);
         }
@@ -285,16 +297,16 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _homePageLogic.AddNewMainCarouselItem(newItem);
-                return PartialView("SuccessOperation","Добавление элемента карусели");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.AddNewMainCarouselItemSuccess });
             }
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
         public async Task<ActionResult> RemoveHomeCarouselItem(int? id)
         {
             try
             {
                 var carouselItem = await _homePageLogic.FindCarouselItem(id);
-                return PartialView("RemoveCarouselItemModalView",carouselItem);
+                return PartialView("RemoveCarouselItemModalView", carouselItem);
             }
             catch (ArgumentNullException)
             {
@@ -305,14 +317,14 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
         }
-        [HttpPost,ActionName("RemoveHomeCarouselItem")]
+        [HttpPost, ActionName("RemoveHomeCarouselItem")]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>RemoveCarouselItemConfirmed(int id)
+        public async Task<ActionResult> RemoveCarouselItemConfirmed(int id)
         {
             try
             {
                 await _homePageLogic.RemoveMainCarouselItem(id);
-                return PartialView("SuccessOperation", "Удаление элемента карусели");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.RemoveMainCarouselItemSuccess });
             }
             catch (ArgumentNullException)
             {
@@ -349,16 +361,16 @@ namespace AutoService.WEB.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>EditHomeCarouselItem(EditCarouselItemView item)
+        public async Task<ActionResult> EditHomeCarouselItem(EditCarouselItemView item)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
                     await _homePageLogic.EditMainCarouselItem(item);
-                    return PartialView("SuccessOperation", "Изменение элемента карусели");
+                    return RedirectToAction("Index", new { message = AdminMenuMessages.SuccessMainCarouselItemEdit });
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {

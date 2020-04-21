@@ -6,8 +6,20 @@
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<h2 class="text-center m-2">Меню администратора</h2>
+<!--Модалка сообщений-->
+@if (ViewBag.StatusMessage != null)
+{
+    if (ViewBag.StatusMessage != "Ошибка")
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
 
+}
+<h2 class="text-center m-2">Меню администратора</h2>
 <ul class="nav nav-tabs">
     <li class="nav-item">
         <a class="nav-link active" data-toggle="tab" href="#discount-section">Скидки</a>
@@ -20,6 +32,9 @@
     </li>
     <li>
         <a class="nav-link" data-toggle="tab" href="#news-tab">Новости</a>
+    </li>
+    <li>
+        <a class="nav-link" data-toggle="tab" href="#settings">Настройки сайта</a>
     </li>
 </ul>
 <div class="tab-content">
@@ -34,6 +49,9 @@
     </div>
     <div class="tab-pane fade" id="news-tab">
         @Html.Partial("MainCarouselSection", Model.MainCarouselItems)
+    </div>
+    <div class="tab-pane fade" id="settings">
+        Автобренды и панель с кнопками для настроек других разделов
     </div>
 </div>
 @section Scripts {
@@ -78,5 +96,9 @@
             }
         });
     </script>
-
+    <script>
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
+        });
+    </script>
 }
