@@ -1,0 +1,49 @@
+﻿@using AutoService.WEB.Models
+@model SettingsView
+<div class="col-10 mx-auto p-2 mt-3">
+    <div class="row justify-content-center">
+        <div class="col-3 rounded shadow p-0 border border-info card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-info text-center font-weight-bold p-2 text-white">Услуги</div>
+            <div class="p-2 text-center card-body">
+                @Html.ActionLink("Изменить", "Index", "Services", null, new { @class = "btn btn-info m-2" })
+                @Html.ActionLink("Добавить", "Create", "Services", null, new { @class = "btn btn-info m-2" })
+            </div>
+        </div>
+        <div class="col-3 border rounded shadow border border-primary p-0 card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-primary text-center font-weight-bold p-2 text-white">Вакансии</div>
+            <div class="p-2 text-center card-body">
+                @Html.ActionLink("Изменить", "Index", "Vacancies", null, new { @class = "btn btn-primary m-2" })
+                @Html.ActionLink("Добавить", "Create", "Vacancies", null, new { @class = "btn btn-primary m-2" })
+            </div>
+        </div>
+        <div class="col-3 border rounded shadow border border-success p-0 card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-success text-center font-weight-bold p-2 text-white">Отзывы</div>
+            <div class="p-2 text-center card-body">
+                @Html.ActionLink("Модерировать", "Index", "UserReviews", null, new { @class = "btn btn-success m-2" })
+            </div>
+        </div>
+    </div>
+</div>
+<div class="card rounded col-xl-8 col-sm-10 mx-auto p-0 m-4 shadow">
+    <div class="bg-secondary text-white p-2 text-center" style="font-size:20px">Автобренды</div>
+    <div class="row justify-content-around p-3 card-body">
+
+        @foreach (var item in Model.CarBrands)
+        {
+            <div class="card m-2" style="min-width:250px">
+                <img class="card-img-top" width="200" height="200" src="@item.ImageHref" title="@item.BrandName" alt="Alternate Text" />
+                <div class="card-footer text-center">
+                    @Html.ActionLink("Удалить", "RemoveCarBrand", "AdminMenu", new { id = item.BrandId }, new { @class = "dialog btn btn-outline-danger" })
+                </div>
+            </div>
+        }
+    </div>
+    <div class="card-footer">
+        <div class="text-center m-2">
+            <a class="btn btn-outline-success" data-toggle="collapse" href="#addNewCarBrand" role="button" aria-expanded="false" aria-controls="addNewCarBrand">
+                Добавить бренд
+            </a>
+        </div>
+        @Html.Partial("AddNewCarBrand", new CarBrand())
+    </div>
+</div>

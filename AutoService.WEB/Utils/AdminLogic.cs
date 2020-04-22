@@ -3,7 +3,6 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace AutoService.WEB.Utils
 {
@@ -13,6 +12,7 @@ namespace AutoService.WEB.Utils
         private IServicesLogic _servicesLogic;
         private ISummariesLogic _summariesLogic;
         private IHomePageLogic _homePageLogic;
+
         public AdminLogic()
         {
         }
@@ -31,9 +31,11 @@ namespace AutoService.WEB.Utils
             var archive = await _summariesLogic.GetCompletedSummaries();
             var discounts = await _servicesLogic.GetAllServicesWithDiscount();
             var mainHomeCarousel = await _homePageLogic.GetMainCarousel();
-            var adminView = new AdminMenuView(discounts, currentOrders, archive,mainHomeCarousel);
+            var settingsView = await GetSettingsView();
+            var adminView = new AdminMenuView(discounts, currentOrders, archive, mainHomeCarousel, settingsView);
             return adminView;
         }
+
         public Task<IEnumerable<ApplicationUser>> GetAllUsers()
         {
             throw new NotImplementedException();
@@ -47,6 +49,13 @@ namespace AutoService.WEB.Utils
         public Task UserDetails(string userId)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<SettingsView> GetSettingsView()
+        {
+            var carBrends = await _homePageLogic.GetCarBrandsCarousel();
+            var view = new SettingsView(carBrends);
+            return view;
         }
     }
 }

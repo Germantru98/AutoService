@@ -1,30 +1,25 @@
 ﻿@using AutoService.WEB.Models
-@model GetPeriodView
+@model CarBrand
 <div class="modal-content">
     <!-- Заголовок модального окна -->
     <div class="modal-header">
-        <h5 class="modal-title">Продление акции</h5>
+        <h5 class="modal-title">Вы уверенны, что хотите удалить этот автобренд?</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    @using (Ajax.BeginForm("GetOrdersByPeriod","AdminMenu",null ,new AjaxOptions { UpdateTargetId = "archiveResults" }))
+    @using (Html.BeginForm())
     {
-        <div class="modal-body form-horizontal">
-            <div class="form-group">
-                @Html.LabelFor(s=>s.StartDate)
-               @Html.EditorFor(s=>s.StartDate)
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(s => s.FinishDate)
-                @Html.EditorFor(s => s.FinishDate)
+        @Html.AntiForgeryToken()
+        <div class="modal-body d-flex">
+            <div class="mx-auto">
+                <img class="img-fluid" src="@Model.ImageHref" title="@Model.BrandName" alt="Alternate Text" />
             </div>
         </div>
         <!-- Футер модального окна -->
         <div class="modal-footer">
-            <button class="btn btn-outline-dark" type="submit">Отправить</button>
+            <button class="btn btn-outline-danger" type="submit">Удалить</button>
             <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
         </div>
     }

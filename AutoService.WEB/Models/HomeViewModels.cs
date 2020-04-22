@@ -30,8 +30,8 @@ namespace AutoService.WEB.Models
 
         public HomeMainCarouselItem()
         {
-
         }
+
         public HomeMainCarouselItem(int id, string title, string description, string imageHref, string routeHref)
         {
             Id = id;
@@ -40,6 +40,7 @@ namespace AutoService.WEB.Models
             ImageHref = imageHref;
             RouteHref = routeHref;
         }
+
         public HomeMainCarouselItem(string title, string description, string imageHref, string routeHref)
         {
             Title = title;
@@ -48,38 +49,48 @@ namespace AutoService.WEB.Models
             RouteHref = routeHref;
         }
     }
+
     public class EditCarouselItemView
     {
         [ScaffoldColumn(false)]
         public int Id { get; set; }
+
         [Required]
         [Display(Name = "Заголовок слайда")]
         public string Title { get; set; }
+
         [Required]
         [Display(Name = "Описание слайда")]
         public string Description { get; set; }
+
         [Required]
         [Display(Name = "Ссылка на изображение слайда")]
         public string ImageHref { get; set; }
+
         [Required]
         [Display(Name = "Переход из слайда")]
         public string RouteHref { get; set; }
     }
+
     public class AddNewCarouselItemView
     {
         [Required]
-        [Display(Name ="Заголовок слайда")]
+        [Display(Name = "Заголовок слайда")]
         public string Title { get; set; }
+
         [Required]
         [Display(Name = "Описание слайда")]
         public string Description { get; set; }
+
         [Required]
         [Display(Name = "Ссылка на изображение слайда")]
         public string ImageHref { get; set; }
+
         [Required]
         [Display(Name = "Переход из слайда")]
         public string RouteHref { get; set; }
     }
+
     public class HomeMainCarouselItemView
     {
         public int Id { get; set; }
@@ -90,8 +101,8 @@ namespace AutoService.WEB.Models
 
         public HomeMainCarouselItemView()
         {
-
         }
+
         public HomeMainCarouselItemView(int id, string title, string description, string imageHref, string routeHref)
         {
             Id = id;

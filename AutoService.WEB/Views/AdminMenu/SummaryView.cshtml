@@ -45,8 +45,6 @@
             </div>
         </div>
     </div>
-    
-    
 
     @if (!Model.IsCompleted)
     {
@@ -54,5 +52,4 @@
             @Html.ActionLink("Изменить", "EditSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "btn btn-dark" })
         </div>
     }
-
 </div>

@@ -51,7 +51,7 @@
         @Html.Partial("MainCarouselSection", Model.MainCarouselItems)
     </div>
     <div class="tab-pane fade" id="settings">
-        Автобренды и панель с кнопками для настроек других разделов
+        @Html.Partial("SettingsSection", Model.SettingsView)
     </div>
 </div>
 @section Scripts {
@@ -90,15 +90,37 @@
                     url: "Поле должно содержать ссылку"
                 },
                 RouteHref: {
-                    required: "Поле с внешней ссылко должно быть заполненно"
+                    required: "Поле с внешней ссылкой должно быть заполненно"
                 }
-
             }
         });
     </script>
     <script>
         $(window).on('load', function () {
             $('#statusMessage').modal('show');
+        });
+    </script>
+    <script>
+        $('.carbrandform').validate({
+            errorClass: "text-danger",
+            rules: {
+                ImageHref: {
+                    required: true,
+                    url: true
+                },
+                BrandName: {
+                    required: true
+                }
+            },
+            messages: {
+                ImageHref: {
+                    required: "Поле с ссылкой на изображение должно быть заполненно",
+                    url: "Поле должно содержать ссылку"
+                },
+                BrandName: {
+                    required: "Поле название бренда не может быть пустым"
+                }
+            }
         });
     </script>
 }

@@ -28,22 +28,26 @@ namespace AutoService.WEB.Controllers
             _carLogic = carLogic;
             _homePageLogic = homePageLogic;
         }
+
         public enum AdminMenuMessages
         {
             RemoveMainCarouselItemSuccess,
             AddNewMainCarouselItemSuccess,
             SuccessMainCarouselItemEdit,
+            AddNewCarBrandSuccess,
+            RemoveCarBrandSuccess,
             Error
         }
-
 
         // GET: AdminMenu
         public async Task<ActionResult> Index(AdminMenuMessages? message)
         {
             ViewBag.StatusMessage =
-                message == AdminMenuMessages.AddNewMainCarouselItemSuccess ? "Добавление нового слайда прошло успешно"
-                : message == AdminMenuMessages.RemoveMainCarouselItemSuccess ? "Удаление слайда прошло успешно"
-                : message == AdminMenuMessages.SuccessMainCarouselItemEdit ? "Изменение слайда прошло успешно"
+                message == AdminMenuMessages.AddNewMainCarouselItemSuccess ? "Операция: \"Добавление нового слайда\" прошла успешно"
+                : message == AdminMenuMessages.RemoveMainCarouselItemSuccess ? "Операция: \"Удаление слайда\" прошла успешно"
+                : message == AdminMenuMessages.SuccessMainCarouselItemEdit ? "Операция: \"Изменение слайда\" прошла успешно"
+                : message == AdminMenuMessages.AddNewCarBrandSuccess ? "Операция: \"Добавление нового автобренда\" прошла успешно"
+                : message == AdminMenuMessages.RemoveCarBrandSuccess ? "Операция: \"Удаление автобренда\" прошла успешно"
                 : message == AdminMenuMessages.Error ? "Ошибка"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
@@ -206,7 +210,6 @@ namespace AutoService.WEB.Controllers
         [HttpPost]
         public async Task<ActionResult> GetAllCompletedOrders()
         {
-
             var orders = await _summariesLogic.GetCompletedSummaries();
             return PartialView("SummariesBlockView", orders);
         }
@@ -286,10 +289,12 @@ namespace AutoService.WEB.Controllers
             }
             return HttpNotFound();
         }
+
         public ActionResult SuccessOperation(string action)
         {
             return PartialView(action);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewHomeCarouselItem(AddNewCarouselItemView newItem)
@@ -301,6 +306,7 @@ namespace AutoService.WEB.Controllers
             }
             return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
+
         public async Task<ActionResult> RemoveHomeCarouselItem(int? id)
         {
             try
@@ -317,6 +323,7 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
         }
+
         [HttpPost, ActionName("RemoveHomeCarouselItem")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveCarouselItemConfirmed(int id)
@@ -335,6 +342,7 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
         }
+
         public async Task<ActionResult> EditHomeCarouselItem(int? id)
         {
             try
@@ -359,6 +367,7 @@ namespace AutoService.WEB.Controllers
                 return HttpNotFound();
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> EditHomeCarouselItem(EditCarouselItemView item)
@@ -376,7 +385,61 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
+        }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddNewCarBrand(CarBrand newBrand)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    await _homePageLogic.AddNewCarBrand(newBrand);
+                    return RedirectToAction("Index", new { message = AdminMenuMessages.AddNewCarBrandSuccess });
+                }
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+
+        public async Task<ActionResult> RemoveCarBrand(int? id)
+        {
+            try
+            {
+                var carBrand = await _homePageLogic.FindCarBrand(id);
+                return PartialView("RemoveCarBrand", carBrand);
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
+        }
+
+        [HttpPost, ActionName("RemoveCarBrand")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveCarBrandConfirmed(int id)
+        {
+            try
+            {
+                await _homePageLogic.RemoveCarBrand(id);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.RemoveCarBrandSuccess });
+            }
+            catch (ArgumentNullException)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
         }
     }
 }

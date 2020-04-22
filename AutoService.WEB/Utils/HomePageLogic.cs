@@ -3,9 +3,7 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AutoService.WEB.Utils
 {
@@ -69,11 +67,11 @@ namespace AutoService.WEB.Utils
 
         public async Task RemoveMainCarouselItem(int? itemId)
         {
-            if (itemId==null)
+            if (itemId == null)
             {
                 throw new ArgumentNullException("itemId = null");
             }
-            var item =await _db.HomeMainCarouselItems.FindAsync(itemId);
+            var item = await _db.HomeMainCarouselItems.FindAsync(itemId);
             if (item == null)
             {
                 throw new NullReferenceException($"Объект с указанным itemId = {itemId} отсутствует в базе данных");
@@ -81,13 +79,55 @@ namespace AutoService.WEB.Utils
             _db.HomeMainCarouselItems.Remove(item);
             await _db.SaveChangesAsync();
         }
+
         private HomeMainCarouselItem MapNewCarouselItemToMainHomeCarousleItem(AddNewCarouselItemView newItem)
         {
-            return new HomeMainCarouselItem(newItem.Title,newItem.Description,newItem.ImageHref,newItem.RouteHref);
+            return new HomeMainCarouselItem(newItem.Title, newItem.Description, newItem.ImageHref, newItem.RouteHref);
         }
+
         private HomeMainCarouselItemView MapCarousleItemToCarousleItemView(HomeMainCarouselItem item)
         {
             return new HomeMainCarouselItemView(item.Id, item.Title, item.Description, item.ImageHref, item.RouteHref);
+        }
+
+        public async Task<List<CarBrand>> GetCarBrandsCarousel()
+        {
+            return await _db.CarBrands.ToListAsync();
+        }
+
+        public async Task RemoveCarBrand(int? brandId)
+        {
+            if (brandId == null)
+            {
+                throw new ArgumentNullException("brandId == null");
+            }
+            var brand = await _db.CarBrands.FindAsync(brandId);
+            if (brand == null)
+            {
+                throw new NullReferenceException($"Объект с brandId = {brandId} отсутствует в базе данных");
+            }
+            _db.CarBrands.Remove(brand);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task AddNewCarBrand(CarBrand newCarBrand)
+        {
+            _db.CarBrands.Add(newCarBrand);
+            await _db.SaveChangesAsync();
+        }
+
+        public async Task<CarBrand> FindCarBrand(int? brandId)
+        {
+            if (brandId == null)
+            {
+                throw new ArgumentNullException("brandId ==null");
+            }
+            var brand = await _db.CarBrands.FindAsync(brandId);
+            if (brand == null)
+            {
+                throw new NullReferenceException($"CarBrand c brandId = {brandId} отсутствует в бд");
+            }
+            return brand;
         }
     }
 }

@@ -26,7 +26,7 @@ namespace AutoService.WEB.Controllers
             HomeView homeView = new HomeView()
             {
                 PopularServices = await _db.Services.Include(s => s.Discount).ToListAsync(),
-                CarBrands = await _db.CarBrands.ToListAsync(),
+                CarBrands = await _homePageLogic.GetCarBrandsCarousel(),
                 Discounts = await _db.Services.Where(s => s.Discount.StartDate <= currentTime && s.Discount.FinishDate >= currentTime).ToListAsync(),
                 HomeMainCarouselItems = await _homePageLogic.GetMainCarousel()
             };

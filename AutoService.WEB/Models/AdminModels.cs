@@ -10,13 +10,25 @@ namespace AutoService.WEB.Models
         public List<ServicesSummaryAdminView> CurrentOrders { get; set; }
         public List<ServicesSummaryAdminView> Archive { get; set; }
         public List<HomeMainCarouselItem> MainCarouselItems { get; set; }
+        public SettingsView SettingsView { get; set; }
 
-        public AdminMenuView(List<ServiceView> discounts, List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> archive, List<HomeMainCarouselItem> mainCarouselItems)
+        public AdminMenuView(List<ServiceView> discounts, List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> archive, List<HomeMainCarouselItem> mainCarouselItems, SettingsView settingsView)
         {
             Discounts = discounts;
             CurrentOrders = currentOrders;
             Archive = archive;
             MainCarouselItems = mainCarouselItems;
+            SettingsView = settingsView;
+        }
+    }
+
+    public class SettingsView
+    {
+        public List<CarBrand> CarBrands { get; set; }
+
+        public SettingsView(List<CarBrand> carBrands)
+        {
+            CarBrands = carBrands;
         }
     }
 
@@ -73,4 +85,4 @@ namespace AutoService.WEB.Models
             Days = days;
         }
     }
-    }
+}
