@@ -58,3 +58,10 @@
 .checkServicesForm {
     font-size: 20px;
 }
+.adminDiscountCardBody{
+    font-size:20px;
+}
+.adminDiscountCardBody h5{
+    font-size:25px;
+    text-align:center
+}

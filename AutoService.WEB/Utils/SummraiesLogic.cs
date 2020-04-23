@@ -93,7 +93,7 @@ namespace AutoService.WEB.Utils
         {
             if (summaryId == null)
             {
-                throw new ArgumentNullException($"Параметр summaryId = {summaryId}");
+                throw new ArgumentNullException($"Параметр summaryId = null");
             }
             else
             {
@@ -118,7 +118,7 @@ namespace AutoService.WEB.Utils
                 var tmpSummary = await MapSummaryOnSummaryAdminView(await _db.ServicesSummaries.FindAsync(completedSummary.SummaryId));
                 result.Add(tmpSummary);
             }
-            return result;
+            return result.OrderBy(s => s.Date).ToList();
         }
 
         public async Task<List<ServicesSummaryAdminView>> GetCurrentSummaries()
@@ -157,14 +157,28 @@ namespace AutoService.WEB.Utils
 
         public async Task<List<ServicesSummaryAdminView>> GetAllUncompletedSummaries()
         {
-            var resultFromDb = await _db.ServicesSummaries.Where(s => !s.IsCompleted).ToListAsync();
+            var resultFromDb = await _db.ServicesSummaries.Where(s => !s.IsCompleted).OrderBy(s=>s.DayOfWork).ToListAsync();
+            resultFromDb = await RemoveNotActualOrders(resultFromDb);
             var result = await MapDbResultToList(resultFromDb);
             return result;
         }
-
+        private async Task<List<ServicesSummary>> RemoveNotActualOrders(List<ServicesSummary> summaries)
+        {
+            var today = DateTime.Today;
+            foreach (var order in summaries)
+            {
+                if (order.DayOfWork<today)
+                {
+                    _db.ServicesSummaries.Remove(order);
+                }
+            }
+            await _db.SaveChangesAsync();
+            summaries.RemoveAll(s => s.DayOfWork < today);
+            return summaries;
+        }
         public async Task<List<ServicesSummaryAdminView>> GetCompletedSummariesByPeriod(DateTime start, DateTime finish)
         {
-            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork >= start && s.DayOfWork <= finish && s.IsCompleted).ToListAsync();
+            var resultFromDb = await _db.ServicesSummaries.Where(s => s.DayOfWork >= start && s.DayOfWork <= finish && s.IsCompleted).OrderBy(s=>s.DayOfWork).ToListAsync();
             var result = await MapDbResultToList(resultFromDb);
             return result;
         }

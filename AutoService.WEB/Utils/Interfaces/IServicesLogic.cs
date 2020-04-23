@@ -24,7 +24,7 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task AddDiscount(AddNewDiscount newDiscount);
 
-        Task RemoveDiscount(int discountId);
+        Task RemoveDiscount(int? discountId);
 
         Task ExtendDiscount(ExtendDiscount extendDiscountItem);
 

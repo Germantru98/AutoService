@@ -70,7 +70,7 @@ namespace AutoService.WEB.Models
         [Required]
         [Display(Name = "Цена на услугу")]
         public int Price { get; set; }
-
+        public int PriceWithDiscount { get; set; }
         [Required]
         [Display(Name = "Ссылка на изображение")]
         public string ServiceImageHref { get; set; }
@@ -78,17 +78,20 @@ namespace AutoService.WEB.Models
         [ScaffoldColumn(false)]
         public Discount Discount { get; set; }
 
+        public bool DiscountRelevancy { get; set; }
         public ServiceView()
         {
         }
 
-        public ServiceView(int serviceId, string name, int price, string imageHref, Discount discount)
+        public ServiceView(int serviceId, string serviceName, int price, int priceWithDiscount, string serviceImageHref, Discount discount)
         {
-            ServiceName = name;
-            Price = price;
-            ServiceImageHref = imageHref;
             ServiceId = serviceId;
+            ServiceName = serviceName;
+            Price = price;
+            PriceWithDiscount = priceWithDiscount;
+            ServiceImageHref = serviceImageHref;
             Discount = discount;
+            DiscountRelevancy = false;
         }
     }
 
@@ -142,8 +145,8 @@ namespace AutoService.WEB.Models
 
         public bool isRelevant()
         {
-            var now = DateTime.Now;
-            if (now >= StartDate && now <= FinishDate)
+            var now = DateTime.Today;
+            if (now >= StartDate && now <= FinishDate || now <= StartDate && now <= FinishDate)
             {
                 return true;
             }

@@ -36,6 +36,9 @@ namespace AutoService.WEB.Controllers
             SuccessMainCarouselItemEdit,
             AddNewCarBrandSuccess,
             RemoveCarBrandSuccess,
+            ExtendDiscountSuccess,
+            AddDiscountSuccess,
+            RemoveDiscountSuccess,
             Error
         }
 
@@ -48,6 +51,9 @@ namespace AutoService.WEB.Controllers
                 : message == AdminMenuMessages.SuccessMainCarouselItemEdit ? "Операция: \"Изменение слайда\" прошла успешно"
                 : message == AdminMenuMessages.AddNewCarBrandSuccess ? "Операция: \"Добавление нового автобренда\" прошла успешно"
                 : message == AdminMenuMessages.RemoveCarBrandSuccess ? "Операция: \"Удаление автобренда\" прошла успешно"
+                : message == AdminMenuMessages.ExtendDiscountSuccess ? "Операция: \"Продление скидки\" прошла успешно"
+                : message == AdminMenuMessages.RemoveDiscountSuccess ? "Операция: \"Удаление скидки\" прошла успешно"
+                : message == AdminMenuMessages.AddDiscountSuccess ? "Операция: \"Добавление скидки\" прошла успешно"
                 : message == AdminMenuMessages.Error ? "Ошибка"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
@@ -63,7 +69,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
@@ -75,9 +81,20 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveDiscountConfirmed(int? serviceId)
         {
-            var service = await _servicesLogic.FindServiceWithDiscount(serviceId);
-            await _servicesLogic.RemoveDiscount(service.Discount.DiscountId);
-            return RedirectToAction("Index");
+            try
+            {
+                var service = await _servicesLogic.FindServiceWithDiscount(serviceId);
+                await _servicesLogic.RemoveDiscount(service.Discount.DiscountId);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.RemoveDiscountSuccess });
+            }
+            catch (ArgumentNullException)
+            {
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
+            }
+            catch (NullReferenceException)
+            {
+                return HttpNotFound();
+            }
         }
 
         public ActionResult AddNewDiscount()
@@ -111,7 +128,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
@@ -126,9 +143,10 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _servicesLogic.ExtendDiscount(extendDiscountItem);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.ExtendDiscountSuccess });
+
             }
-            return PartialView(extendDiscountItem);
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
 
         public async Task<ActionResult> CompleteSummary(int? summaryId)
@@ -221,11 +239,11 @@ namespace AutoService.WEB.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> GetCompletedOrdersByDay(SelectDateView date)
+        public async Task<ActionResult> GetCompletedOrdersByDay(DateTime date)
         {
             if (ModelState.IsValid)
             {
-                var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date.Date);
+                var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date);
                 return PartialView("SummariesBlockView", ordersByDay);
             }
             return new HttpStatusCodeResult(HttpStatusCode.BadRequest);

@@ -9,25 +9,40 @@
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    @using (Html.BeginForm("ExtendDiscount", "AdminMenu", FormMethod.Post))
+    @using (Html.BeginForm("ExtendDiscount", "AdminMenu", FormMethod.Post, new { @class = "addDays" }))
     {
-    @Html.AntiForgeryToken()
-    <div class="modal-body form-horizontal">
-        <div class="form-group">
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            @Html.HiddenFor(model => model.DiscountId)
-        </div>
+        @Html.AntiForgeryToken()
+        <div class="modal-body form-horizontal">
+            <div class="form-group">
+                @Html.HiddenFor(model => model.DiscountId)
+            </div>
 
-        <p class="form-group">
-            Количество дней:<br />
-            @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Days, "", new { @class = "text-danger" })
-        </p>
-    </div>
- <!-- Футер модального окна -->
-    <div class="modal-footer">
-        <button class="btn btn-outline-dark" type="submit">Продлить</button>
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
-    </div>
+            <p class="form-group">
+                Количество дней:<br />
+                @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
+            </p>
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-outline-dark" type="submit">Продлить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        </div>
     }
 </div>
+<script>
+    $('.addDays').validate({
+        errorClass: "text-danger",
+        rules: {
+            Days: {
+                required: true,
+                range: [1, 31]
+            }
+        },
+        messages: {
+            Days: {
+                required: "Поле с кол-вом дней не может быть пустым",
+                range: "Кол-во дней должно быть в промежутке от 1 до 31 дня"
+            }
+        }
+    });
+</script>

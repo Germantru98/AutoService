@@ -23,7 +23,11 @@ namespace AutoService.WEB.Utils
 
         public async Task AddDiscount(AddNewDiscount newDiscount)
         {
-            var service = await _db.Services.FindAsync(newDiscount.ServiceId);
+            var service = await _db.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId == newDiscount.ServiceId);
+            if (service.Discount!=null)
+            {
+                _db.Discounts.Remove(service.Discount);
+            }
             service.Discount = new Discount()
             {
                 Value = newDiscount.DiscountValue,
@@ -122,19 +126,35 @@ namespace AutoService.WEB.Utils
             var services = await _db.Services.Include(s => s.Discount).Where(s => s.DiscountId != null).ToListAsync();
             foreach (var service in services)
             {
-                result.Add(new ServiceView(service.ServiceId, service.ServiceName, service.Price, service.ServiceImageHref, service.Discount));
+                var tmpService = new ServiceView(service.ServiceId, service.ServiceName, service.Price, service.PriceWithDiscount, service.ServiceImageHref, service.Discount);
+                if (service.Discount.isRelevant())
+                {
+                    tmpService.DiscountRelevancy = true;
+                    result.Add(tmpService);
+                }
+                else
+                {
+                    result.Add(tmpService);
+                }
             }
             return result;
         }
-
         public IEnumerable<Service> GetServicesFromDb()
         {
             return _db.Services;
         }
 
-        public async Task RemoveDiscount(int discountId)
+        public async Task RemoveDiscount(int? discountId)
         {
+            if(discountId == null)
+            {
+                throw new ArgumentException("discountId = null");
+            }
             var discount = await _db.Discounts.FindAsync(discountId);
+            if (discount == null)
+            {
+                throw new NullReferenceException($"Объект с dicountId = {discountId} отсутствует в бд");
+            }
             _db.Discounts.Remove(discount);
             await _db.SaveChangesAsync();
         }

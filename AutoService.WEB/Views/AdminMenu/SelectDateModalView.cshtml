@@ -3,7 +3,7 @@
 <div class="modal-content">
     <!-- Заголовок модального окна -->
     <div class="modal-header">
-        <h5 class="modal-title">Продление акции</h5>
+        <h5 class="modal-title">Выберите день</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -12,8 +12,8 @@
     @using (Ajax.BeginForm("GetCompletedOrdersByDay", "AdminMenu", null, new AjaxOptions { UpdateTargetId = "archiveResults" }))
     {
         <div class="modal-body form-horizontal">
-            <p class="form-group">
-                @Html.LabelFor(d => d.Date)
+            <p class="form-group p-2 text-center">
+                <label><i class="fa fa-calendar-check-o fa-lg p-1"></i> День:</label><br />
                 @Html.EditorFor(d => d.Date)
             </p>
         </div>
