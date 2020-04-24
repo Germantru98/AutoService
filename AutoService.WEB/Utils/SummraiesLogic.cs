@@ -24,12 +24,17 @@ namespace AutoService.WEB.Utils
 
         public async Task CompleteSummary(int summaryId)
         {
-            var isCompletedTest = await _db.CompletedSummariesHistory.Where(s => s.SummaryId == summaryId).ToListAsync();
-            if (isCompletedTest.Count > 0)
+            var today = DateTime.Today;
+            var isOrderAlreadyCompletedTest = await _db.CompletedSummariesHistory.FirstAsync(s => s.SummaryId == summaryId);
+            if (isOrderAlreadyCompletedTest!=null)
             {
                 throw new ArgumentException($"Заказ с summaryId = {summaryId} уже выполнен");
             }
             var summaryFromDb = await _db.ServicesSummaries.FindAsync(summaryId);
+            if (summaryFromDb.DayOfWork!=today)
+            {
+                throw new Exception("Ошибка,невозможно завершить заказ, так как дата работ не совпадает с текущей датой");
+            }
             summaryFromDb.IsCompleted = true;
             var completedSummaryHistory = new CompletedSummariesHistory()
             {

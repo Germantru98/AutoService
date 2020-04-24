@@ -1,16 +1,22 @@
 ﻿@using AutoService.WEB.Models
 @model List<ServicesSummaryAdminView>
 
-<div class="row mt-3 p-2 justify-content-center ">
-    @Html.ActionLink("За период", "GetOrdersByPeriod", null, new { @class = "dialog btn btn-dark btn-lg m-1" })
-    <div class="m-1">
-        @using (Ajax.BeginForm("GetAllCompletedOrders", new AjaxOptions { UpdateTargetId = "archiveResults" }))
-        {
-            <button class="btn btn-dark btn-lg" type="submit">Все заказы</button>
-        }
+    <div class="row mt-3 p-2 justify-content-center ">
+        <a href="@Url.Action("GetCompletedOrdersByDay","AdminMenu")" class="dialog btn btn-dark btn-lg m-1">
+            <i class="fa fa-search fa-lg mr-1 p-1"></i>За день
+        </a>
+        <a href="@Url.Action("GetOrdersByPeriod","AdminMenu")" class="dialog btn btn-dark btn-lg m-1">
+            <i class="fa fa-clock-o fa-lg mr-1 p-1"></i>За период
+        </a>
+        <div class="m-1">
+            @using (Ajax.BeginForm("GetAllCompletedOrders", new AjaxOptions { UpdateTargetId = "archiveResults" }))
+            {
+                <button class="btn btn-dark btn-lg" type="submit">
+                    <i class="mr-1 p-1 fa fa-list"></i>Все заказы
+                </button>
+            }
+        </div>
     </div>
-    @Html.ActionLink("За день", "GetCompletedOrdersByDay", null, new { @class = "dialog btn btn-dark btn-lg m-1" })
-</div>
 <div id="archiveResults">
     @Html.Partial("SummariesBlockView", Model)
 </div>

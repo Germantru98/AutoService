@@ -39,6 +39,7 @@ namespace AutoService.WEB.Controllers
             ExtendDiscountSuccess,
             AddDiscountSuccess,
             RemoveDiscountSuccess,
+            CompleteOrderFailure,
             Error
         }
 
@@ -54,6 +55,7 @@ namespace AutoService.WEB.Controllers
                 : message == AdminMenuMessages.ExtendDiscountSuccess ? "Операция: \"Продление скидки\" прошла успешно"
                 : message == AdminMenuMessages.RemoveDiscountSuccess ? "Операция: \"Удаление скидки\" прошла успешно"
                 : message == AdminMenuMessages.AddDiscountSuccess ? "Операция: \"Добавление скидки\" прошла успешно"
+                : message == AdminMenuMessages.CompleteOrderFailure ? "Ошибка,невозможно завершить заказ, так как дата работ не совпадает с текущей датой"
                 : message == AdminMenuMessages.Error ? "Ошибка"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
@@ -101,7 +103,7 @@ namespace AutoService.WEB.Controllers
         {
             SelectList services = new SelectList(_servicesLogic.GetServicesFromDb(), "ServiceId", "ServiceName");
             ViewBag.Services = services;
-            return View("AddNewDiscountWindow");
+            return PartialView("AddNewDiscountWindow");
         }
 
         [HttpPost]
@@ -178,6 +180,10 @@ namespace AutoService.WEB.Controllers
             catch (ArgumentException)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = AdminMenuMessages.CompleteOrderFailure });
             }
         }
 
@@ -278,6 +284,10 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
+                if (summaryId==null)
+                {
+                    return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
+                }
                 var editedSummary = await _summariesLogic.FindSummaryById(summaryId);
                 var userCars = await _carLogic.GetAllUserCars(editedSummary.User.Id);
                 SelectList carsSelectList = new SelectList(userCars, "CarId", "FullName");

@@ -33,7 +33,7 @@
             <b>Дата работ: </b>@Model.Date.ToShortDateString()
         </div>
         <div class="card w-100 border-0 mt-2">
-            <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"> Услуги</div>
+            <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"><i class="fa fa-list p-1 mr-1"></i>Услуги</div>
             <ol class="card-body overflow-auto" style="max-height:300px">
                 @foreach (var service in Model.ServicesList)
                 {
@@ -49,10 +49,11 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <div class="form-actions no-color">
-                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-            </div>
+            <button type="submit" class="btn btn-outline-danger">
+                <i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Удалить
+            </button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"> <i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
         }
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+
     </div>
 </div>

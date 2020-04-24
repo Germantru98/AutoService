@@ -1,6 +1,6 @@
 ﻿@model AutoService.WEB.Models.ServiceView
 
-<div class="card m-3 shadow rounded" style="max-width:400px">
+<div class="card m-3 shadow rounded" style="max-width:420px">
     <div class="p-1">
         <img class="w-100" src="@Model.ServiceImageHref" alt="Alternate Text" height="300" />
     </div>
@@ -24,8 +24,12 @@
     {
         <div class="card-footer text-center">
             <div class="btn-group">
-                @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
-                @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
+                <a href="AdminMenu/ExtendDiscount/@Model.Discount.DiscountId" class="btn btn-outline-dark dialog">
+                    <i class="fa fa-calendar-plus-o fa-lg p-1 mr-1"></i>Продлить
+                </a>
+                <a href="@Url.Action("RemoveDiscount","AdminMenu", new { ServiceId = Model.ServiceId })" class="btn btn-outline-dark dialog">
+                    <i class="fa fa-trash-o fa-lg p-1 mr-1"></i>Убрать
+                </a>
             </div>
         </div>
     }

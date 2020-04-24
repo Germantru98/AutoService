@@ -11,13 +11,20 @@
     <!-- Основное содержимое модального окна -->
     @using (Html.BeginForm())
     {
-       @Html.AntiForgeryToken()
+        @Html.AntiForgeryToken()
         <div class="modal-body">
+            <div class="w-100 m-1">
+                <img class="img-fluid mx-auto w-100" src="@Model.ImageHref" alt="Image" title="@Model.Title">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>@Model.Title</h5>
+                    <p>@Model.Description</p>
+                </div>
+            </div>
         </div>
         <!-- Футер модального окна -->
         <div class="modal-footer">
-            <button class="btn btn-outline-danger" type="submit">Удалить</button>
-            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+            <button class="btn btn-outline-danger" type="submit"><i class="p-1 mr-1 fa fa-trash fa-lg"></i>Удалить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="p-1 mr-1 fa fa-window-close fa-lg"></i>Закрыть</button>
         </div>
     }
 </div>

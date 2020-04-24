@@ -8,6 +8,6 @@
             }
         </div>
         <div class="text-center">
-            @Html.ActionLink("Добавить скидку", "AddNewDiscount", null, new { @class = "btn btn-lg btn-outline-success" })
+            <a href="@Url.Action("AddNewDiscount","AdminMenu")" class="dialog btn btn-lg btn-outline-success"><i class="mr-1 p-1 fa fa-plus-circle fa-lg"></i>Добавить скидку</a>
         </div>
     </div>

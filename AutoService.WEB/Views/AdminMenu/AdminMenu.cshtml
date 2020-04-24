@@ -9,7 +9,8 @@
 <!--Модалка сообщений-->
 @if (ViewBag.StatusMessage != null)
 {
-    if (ViewBag.StatusMessage != "Ошибка")
+    string message = ViewBag.StatusMessage as string;
+    if (!message.Contains("Ошибка"))
     {
         @Html.Partial("SuccessOperation")
     }

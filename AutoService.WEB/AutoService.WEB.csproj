@@ -488,7 +488,6 @@
     <Content Include="Views\Home\PopularServices.cshtml" />
     <Content Include="Views\AdminMenu\DiscountAdminView.cshtml" />
     <Content Include="Views\AdminMenu\ConfirmDiscountDeleteView.cshtml" />
-    <Content Include="Views\AdminMenu\NewDiscountView.cshtml" />
     <Content Include="Views\AdminMenu\AddNewDiscountWindow.cshtml" />
     <Content Include="Views\AdminMenu\ExtendDiscount.cshtml" />
     <Content Include="Views\Manage\ServicesSummary.cshtml" />

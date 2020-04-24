@@ -16,16 +16,15 @@
             <div class="form-group">
                 @Html.HiddenFor(model => model.DiscountId)
             </div>
-
-            <p class="form-group">
-                Количество дней:<br />
+            <div class="form-group">
+                <label><i class="fa fa-calendar-o fa-lg p-1 mr-1"></i>Количество дней:</label><br />
                 @Html.EditorFor(model => model.Days, new { htmlAttributes = new { @class = "form-control" } })
-            </p>
+            </div>
         </div>
         <!-- Футер модального окна -->
         <div class="modal-footer">
             <button class="btn btn-outline-dark" type="submit">Продлить</button>
-            <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
         </div>
     }
 </div>

@@ -7,13 +7,13 @@
         </div>
         <div class="adminMenuOrderCase col-md-6 card-body p-2">
             <div>
-                <b>Пользователь:</b> <a href="mailto:@Model.User.UserName" style="color:black">@Model.User.UserName</a>
+                <i class="fa fa-user-circle p-1"></i><b>Пользователь:</b> <a href="mailto:@Model.User.UserName" style="color:black">@Model.User.UserName</a>
             </div>
             <div>
-                <b>Имя:</b> @Model.User.RealName
+                <i class="fa fa-user mr-1 p-1"></i> <b>Имя:</b> @Model.User.RealName
             </div>
             <div>
-                <b>Номер:</b>
+                <i class="fa fa-phone mr-1 p-1"></i><b>Номер:</b>
                 @if (Model.User.PhoneNumber != null)
                 {
                     @Model.User.PhoneNumber
@@ -24,16 +24,16 @@
                 }
             </div>
             <div>
-                <b>Автомобиль: </b>@Model.Car.FullName
+                <i class="fa fa-car mr-1 p-1"></i><b>Автомобиль: </b>@Model.Car.FullName
             </div>
             <div>
-                <b>Итоговая цена: </b> @Model.TotalPrice ₽
+                <i class="fa fa-shopping-bag mr-1 p-1"></i> <b>Итоговая цена: </b> @Model.TotalPrice ₽
             </div>
             <div>
-                <b>Дата работ: </b>@Model.Date.ToShortDateString()
+                <i class="fa fa-calendar mr-1 p-1"></i> <b>Дата работ: </b>@Model.Date.ToShortDateString()
             </div>
             <div class="card w-100 border-0 mt-2">
-                <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"> Услуги</div>
+                <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"><i class="fa fa-list p-1 mr-1"></i>Услуги</div>
                 <ol class="card-body overflow-auto" style="max-height:300px">
                     @foreach (var service in Model.ServicesList)
                     {
@@ -49,7 +49,10 @@
     @if (!Model.IsCompleted)
     {
         <div class="text-right card-footer">
-            @Html.ActionLink("Изменить", "EditSummary", "AdminMenu", new { Model.SummaryId }, new { @class = "btn btn-dark" })
+            <a href="@Url.Action("EditSummary","AdminMenu",new { SummaryId = Model.SummaryId})" class="btn btn-dark">
+                <i class="p-1 mr-1 fa fa-gear fa-lg"></i>
+                Изменить
+            </a>
         </div>
     }
 </div>

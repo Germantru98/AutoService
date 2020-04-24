@@ -1,30 +1,38 @@
 ﻿@using AutoService.WEB.Models
 @model List<HomeMainCarouselItem>
 
-<div class="col-8 mx-auto m-3">
+<div class="col-8 mx-auto m-3 p-0">
     <div id="carousel" class="carousel slide bg-dark" data-ride="carousel">
         <div class="carousel-inner ">
             <div class="carousel-item maincarousel active">
-                <img class="img-fluid align-self-center" src="@Model[0].ImageHref" alt="Image" title="@Model[0].Title">
+                <img class="img-fluid mx-auto w-100"src="@Model[0].ImageHref" alt="Image" title="@Model[0].Title">
                 <div class="carousel-caption d-none d-md-block">
                     <h5>@Model[0].Title</h5>
                     <p>@Model[0].Description</p>
                     <div>
-                        @Html.ActionLink("Remove", "RemoveHomeCarouselItem", new { Model[0].Id }, new { @class = "dialog btn btn-outline-danger" })
-                        @Html.ActionLink("Edit", "EditHomeCarouselItem", new { Model[0].Id }, new { @class = "dialog btn btn-outline-info" })
+                        <a href="@Url.Action("RemoveHomeCarouselItem","AdminMenu",new {Model[0].Id })" class="dialog btn btn-danger">
+                            <i class="mr-1 p-1 fa fa-trash-o fa-lg"></i>Удалить
+                        </a>
+                        <a href="@Url.Action("EditHomeCarouselItem","AdminMenu",new {Model[0].Id })" class = "dialog btn btn-info">
+                            <i class="mr-1 p-1 fa fa-edit fa-lg"></i>Изменить
+                        </a>
                     </div>
                 </div>
             </div>
             @for (int i = 1; i < Model.Count; i++)
             {
                 <div class="carousel-item maincarousel">
-                    <img class="img-fluid align-self-center" src="@Model[i].ImageHref" alt="Image">
+                    <img class="img-fluid mx-auto w-100" src="@Model[i].ImageHref" alt="Image">
                     <div class="carousel-caption d-none d-md-block">
                         <h5>@Model[i].Title</h5>
                         <p>@Model[i].Description</p>
                         <div>
-                            @Html.ActionLink("Remove", "RemoveHomeCarouselItem", new { Model[i].Id }, new { @class = "dialog btn btn-outline-danger" })
-                            @Html.ActionLink("Edit", "EditHomeCarouselItem", new { Model[i].Id }, new { @class = "dialog btn btn-outline-info" })
+                            <a href="@Url.Action("RemoveHomeCarouselItem","AdminMenu",new {Model[i].Id })" class="dialog btn btn-danger">
+                                <i class="mr-1 p-1 fa fa-trash-o fa-lg"></i>Удалить
+                            </a>
+                            <a href="@Url.Action("EditHomeCarouselItem","AdminMenu",new {Model[i].Id })" class="dialog btn btn-info">
+                                <i class="mr-1 p-1 fa fa-edit fa-lg"></i>Изменить
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -46,7 +54,7 @@
 </div>
 <div class="text-center m-2">
     <a class="btn btn-outline-success" data-toggle="collapse" href="#addNewCarouselElement" role="button" aria-expanded="false" aria-controls="addNewCarouselElement">
-        Добавить слайд
+        <i class="mr-1 p-1 fa fa-plus fa-lg"></i>Добавить слайд
     </a>
 </div>
 

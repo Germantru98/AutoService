@@ -24,10 +24,8 @@
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <div class="form-actions no-color">
-                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-            </div>
+            <button class="btn btn-outline-danger" type="submit"><i class="p-1 mr-1 fa fa-trash fa-lg"></i>Удалить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="p-1 mr-1 fa fa-window-close fa-lg"></i>Закрыть</button>
         }
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
     </div>
 </div>

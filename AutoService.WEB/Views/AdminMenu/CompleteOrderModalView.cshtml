@@ -9,8 +9,8 @@
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    <div class="modal-body">
-       Инфо
+    <div class="modal-body d-flex">
+        <img class="img-fluid mx-auto" width="350" height="350" src="https://vignette.wikia.nocookie.net/fallout/images/c/c0/VaultBoyFO3.png/revision/latest?cb=20110809182235" />
     </div>
     <!-- Футер модального окна -->
     <div class="modal-footer">
@@ -18,7 +18,9 @@
         {
             @Html.AntiForgeryToken()
             <div class="form-actions no-color">
-                <input type="submit" value="Завершить" class="btn btn-success" />
+                <button class="btn btn-success" type="submit">
+                    <i class="fa fa-check p-1 mr-1"></i>Завершить
+                </button>
             </div>
         }
         <button type="button" class="btn btn-dark" data-dismiss="modal">Закрыть</button>
