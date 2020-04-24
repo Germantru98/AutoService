@@ -520,6 +520,16 @@
     <Content Include="Views\AdminMenu\SettingsSection.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarBrand.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarBrand.cshtml" />
+    <Content Include="Views\Manage\UserAccountSection.cshtml" />
+    <Content Include="Views\Manage\UserCarsSection.cshtml" />
+    <Content Include="Views\Manage\UserShopCartSection.cshtml" />
+    <Content Include="Views\Manage\UserCarView.cshtml" />
+    <Content Include="Views\Manage\NewCarCardView.cshtml" />
+    <Content Include="Views\Manage\SuccessOperation.cshtml" />
+    <Content Include="Views\Manage\ErrorModalView.cshtml" />
+    <Content Include="Views\Manage\AddNewCarModalView.cshtml" />
+    <Content Include="Views\Manage\EditUserCarModalView.cshtml" />
+    <Content Include="Views\Manage\RemoveUserCarModalView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

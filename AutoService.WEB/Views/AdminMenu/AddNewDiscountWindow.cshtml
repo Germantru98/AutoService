@@ -3,7 +3,7 @@
 <div class="modal-content">
     <!-- Заголовок модального окна -->
     <div class="modal-header">
-        <h5 class="modal-title">Изменение содержимого слайда</h5>
+        <h5 class="modal-title">Добавление новой скидки на услугу</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -18,15 +18,15 @@
                 @Html.EditorFor(model => model.DiscountValue, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="form-group">
-                Услуга <br />
+                <label class="col-form-label">Услуга</label> 
                 @Html.DropDownListFor(model => model.ServiceId, ViewBag.Services as SelectList, new { @class = "form-control" })
             </div>
             <div class="form-group">
-                Дата начала акции <br />
+                <label class="col-form-label"> Дата начала акции</label>
                 @Html.EditorFor(model => model.StartDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
             <div class="form-group">
-                Дата окончания акции <br />
+                <label class="col-form-label"> Дата окончания акции</label>
                 @Html.EditorFor(model => model.FinishDate, new { htmlAttributes = new { @class = "form-control" } })
             </div>
         </div>

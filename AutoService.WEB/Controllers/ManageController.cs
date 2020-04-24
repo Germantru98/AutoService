@@ -19,8 +19,9 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext _dbContext = new ApplicationDbContext();
+        private ApplicationDbContext _dbContext;
         private IUserLogic _userLogic;
+        private ICarLogic _carLogic;
 
         public ManageController()
         {
@@ -32,9 +33,11 @@ namespace AutoService.WEB.Controllers
             SignInManager = signInManager;
         }
 
-        public ManageController(IUserLogic userLogic)
+        public ManageController(ApplicationDbContext dbContext, IUserLogic userLogic, ICarLogic carLogic)
         {
+            _dbContext = dbContext;
             _userLogic = userLogic;
+            _carLogic = carLogic;
         }
 
         public ApplicationSignInManager SignInManager
@@ -77,7 +80,10 @@ namespace AutoService.WEB.Controllers
                 : message == ManageMessageId.Error ? "Произошла ошибка."
                 : message == ManageMessageId.AddPhoneSuccess ? "Ваш номер телефона добавлен."
                 : message == ManageMessageId.RemovePhoneSuccess ? "Ваш номер телефона удален."
-                : "";
+                : message == ManageMessageId.AddNewCar ? "Добавлен новый автомобиль."
+                : message == ManageMessageId.EditCar ? "Данные об автомобиле обновлены."
+                : message == ManageMessageId.RemoveCar ? "Автомобиль удален."
+                : null;
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
             var model = new IndexViewModel
@@ -87,7 +93,7 @@ namespace AutoService.WEB.Controllers
                 PhoneNumberConfirmed = user.PhoneNumberConfirmed,
                 Email = user.Email,
                 RealName = user.RealName,
-                Cars = _dbContext.Cars.Where(c => c.ApplicationUserId == user.Id),
+                Cars =await _carLogic.GetAllUserCars(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
@@ -368,7 +374,7 @@ namespace AutoService.WEB.Controllers
 
         public ActionResult AddNewCar()
         {
-            return View();
+            return PartialView("AddNewCarModalView");
         }
 
         [HttpPost]
@@ -378,9 +384,9 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _userLogic.AddNewCar(newCar, User.Identity.GetUserId());
-                return RedirectToAction("Index", "Manage");
+                return RedirectToAction("Index", "Manage",new { message = ManageMessageId.AddNewCar});
             }
-            return View();
+            return RedirectToAction("Index", "Manage", new { message = ManageMessageId.Error });
         }
 
         public async Task<ActionResult> RemoveCar(int? id)
@@ -394,7 +400,8 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            return View("RemoveCarView", car);
+            var carView = _carLogic.MapCarToCarView(car);
+            return PartialView("RemoveUserCarModalView", carView);
         }
 
         [HttpPost, ActionName("RemoveCar")]
@@ -416,7 +423,7 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            return View("EditCarView", car);
+            return PartialView("EditUserCarModalView", car);
         }
 
         [HttpPost, ActionName("EditCar")]
@@ -427,9 +434,9 @@ namespace AutoService.WEB.Controllers
             {
                 _dbContext.Entry(car).State = EntityState.Modified;
                 await _dbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = ManageMessageId.EditCar });
             }
-            return View("EditCarView", car);
+            return RedirectToAction("Index", "Manage", new { message = ManageMessageId.Error });
         }
 
         public async Task<ActionResult> RemoveFromBasket(int? id)
@@ -586,6 +593,9 @@ namespace AutoService.WEB.Controllers
             SetPasswordSuccess,
             RemoveLoginSuccess,
             RemovePhoneSuccess,
+            AddNewCar,
+            EditCar,
+            RemoveCar,
             Error
         }
 

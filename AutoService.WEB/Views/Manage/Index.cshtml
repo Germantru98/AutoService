@@ -1,8 +1,57 @@
 ﻿@model AutoService.WEB.Models.IndexViewModel
+@{
+    ViewBag.Title = "Аккаунт";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (ViewBag.StatusMessage != null)
+{
+    string message = ViewBag.StatusMessage as string;
+    message.ToLower();
+    if (!message.Contains("ошибка"))
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
 
-@Html.Partial("UserAccountMenu",Model)
+}
+<div class="mt-3">
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item m-1">
+            <a class="nav-link active btn-outline-dark" data-toggle="tab" href="#account">
+                <i class="fa fa-universal-access fa-lg p-1 mr-1"></i>Аккаунт
+            </a>
+        </li>
+        <li class="nav-item m-1">
+            <a class="nav-link  btn-outline-dark" data-toggle="tab" href="#cars">
+                <i class="fa fa-car fa-lg p-1 mr-1"></i>Мои автомобили
+            </a>
+        </li>
+        <li class="nav-item m-1">
+            <a class="nav-link  btn-outline-dark" data-toggle="tab" href="#basket">
+                <i class="fa fa-shopping-cart fa-lg p-1 mr-1"></i>Корзина
+            </a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        @*@Html.Partial("UserAccountSection")*@
+        @Html.Partial("UserCarsSection", Model.Cars)
+        @*@Html.Partial("UserShopCartSection")*@
+    </div>
+</div>
 
 @section scripts
 {
+    @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    <script>
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
+        });
+    </script>
 }

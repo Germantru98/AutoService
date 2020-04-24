@@ -1,0 +1,65 @@
+﻿@using AutoService.WEB.Models
+@model Car
+    <div class="modal-content">
+        <!-- Заголовок модального окна -->
+        <div class="modal-header">
+            <h5 class="modal-title">Изменение данных об автомобиле</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Основное содержимое модального окна -->
+        @using (Html.BeginForm("AddNewCar", "Manage", null, FormMethod.Post, new { @class = "validate" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.Id)
+            @Html.HiddenFor(model => model.ApplicationUserId)
+            <div class="modal-body form-horizontal">
+                <div class="form-group">
+                    <span><i class="fa fa-book fa-lg p-1 mr-1"></i></span>@Html.LabelFor(m => m.Model, new { @class = "col-form-label" })
+                    @Html.EditorFor(m => m.Model, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="form-group">
+                    <span><i class="fa fa-paint-brush fa-lg p-1 mr-1"></i></span>@Html.LabelFor(m => m.Color, new { @class = "col-form-label" })
+                    @Html.EditorFor(m => m.Color, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+                <div class="form-group">
+                    <span><i class="fa fa-calendar fa-lg p-1 mr-1"></i></span> @Html.LabelFor(m => m.Year, new { @class = "col-form-label" })
+                    @Html.EditorFor(m => m.Year, new { htmlAttributes = new { @class = "form-control" } })
+                </div>
+            </div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer ">
+                <button class="btn btn-primary" type="submit"><i class="mr-1 p-1 fa fa-refresh fa-lg"></i>Обновить</button>
+                <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
+            </div>
+        }
+    </div>
+<script>
+    $('.validate').validate({
+        errorClass: "text-danger",
+        rules: {
+            Model: {
+                required: true
+            },
+            Color: {
+                required: true,
+            },
+            Year: {
+                required: true
+            }
+        },
+        messages: {
+            Model: {
+                required: "Поле с моделью автомобиля не может быть пустым",
+            },
+            Color: {
+                required: "Поле с цветом автомобиля не может быть пустым",
+            },
+            Year: {
+                required: "Поле с годом выпуска автомобиля не может быть пустым"
+            }
+        }
+    });
+</script>
+

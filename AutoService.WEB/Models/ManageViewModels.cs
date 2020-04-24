@@ -33,7 +33,7 @@ namespace AutoService.WEB.Models
         [ScaffoldColumn(false)]
         public bool BrowserRemembered { get; set; }
 
-        public IEnumerable<Car> Cars { get; set; }
+        public List<CarView> Cars { get; set; }
         public Dictionary<int, Service> Basket { get; set; }
     }
 
@@ -95,7 +95,7 @@ namespace AutoService.WEB.Models
 
         [Required]
         [DataType(DataType.Text)]
-        [Display(Name = "Дата выпуска автомобиля")]
+        [Display(Name = "Год выпуска автомобиля")]
         public string CarYear { get; set; }
     }
 
