@@ -461,8 +461,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Manage\RemoveCarView.cshtml" />
-    <Content Include="Views\Manage\EditCarView.cshtml" />
     <Content Include="Views\UserReviews\Create.cshtml" />
     <Content Include="Views\UserReviews\Delete.cshtml" />
     <Content Include="Views\UserReviews\Edit.cshtml" />
@@ -482,7 +480,7 @@
     <Content Include="Views\ContactInfo\Index.cshtml" />
     <Content Include="Views\Home\DiscountCarousel.cshtml" />
     <Content Include="Views\Shared\SuccessView.cshtml" />
-    <Content Include="Views\Manage\ModalDeleteConfirm.cshtml" />
+    <Content Include="Views\Manage\DeleteServiceFromShopCartModalView.cshtml" />
     <Content Include="Views\Manage\UserAccountMenu.cshtml" />
     <Content Include="Views\AdminMenu\AdminMenu.cshtml" />
     <Content Include="Views\AdminMenu\UserView.cshtml" />
@@ -533,6 +531,7 @@
     <Content Include="Views\Manage\AddNewCarModalView.cshtml" />
     <Content Include="Views\Manage\EditUserCarModalView.cshtml" />
     <Content Include="Views\Manage\RemoveUserCarModalView.cshtml" />
+    <Content Include="Views\Manage\ShopCartItemView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

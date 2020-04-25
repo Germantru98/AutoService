@@ -24,7 +24,7 @@ namespace AutoService.WEB.Utils
         public async Task AddDiscount(AddNewDiscount newDiscount)
         {
             var service = await _db.Services.Include(s => s.Discount).FirstOrDefaultAsync(s => s.ServiceId == newDiscount.ServiceId);
-            if (service.Discount!=null)
+            if (service.Discount != null)
             {
                 _db.Discounts.Remove(service.Discount);
             }
@@ -139,6 +139,7 @@ namespace AutoService.WEB.Utils
             }
             return result;
         }
+
         public IEnumerable<Service> GetServicesFromDb()
         {
             return _db.Services;
@@ -146,7 +147,7 @@ namespace AutoService.WEB.Utils
 
         public async Task RemoveDiscount(int? discountId)
         {
-            if(discountId == null)
+            if (discountId == null)
             {
                 throw new ArgumentException("discountId = null");
             }
@@ -184,6 +185,11 @@ namespace AutoService.WEB.Utils
                 result.Add(tmpService);
             }
             return result;
+        }
+
+        public ServiceView MapServiceToServiceView(Service service)
+        {
+            return new ServiceView(service.ServiceId, service.ServiceName, service.Price, service.PriceWithDiscount, service.ServiceImageHref, service.Discount);
         }
     }
 }

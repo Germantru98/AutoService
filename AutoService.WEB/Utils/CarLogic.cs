@@ -1,10 +1,10 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System;
 
 namespace AutoService.WEB.Utils
 {
@@ -77,12 +77,12 @@ namespace AutoService.WEB.Utils
 
         public async Task<CarView> GetUserCar(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 throw new ArgumentNullException("carId равно null");
             }
             var car = await _db.Cars.FindAsync(id);
-            if (car==null)
+            if (car == null)
             {
                 throw new NullReferenceException("Объект с указанным carId отсутствует в бд");
             }
@@ -94,14 +94,14 @@ namespace AutoService.WEB.Utils
             return new CarView(car.Id, car.Model, car.Color, car.Year, car.CarImageHref);
         }
 
-        public async Task RemoveUserCar(int carId,string userId)
+        public async Task RemoveUserCar(int carId, string userId)
         {
             var itemFromUsersCarsStorage = await _db.UsersCarsStorage.FirstAsync(item => item.CarId == carId);
-            if (itemFromUsersCarsStorage==null)
+            if (itemFromUsersCarsStorage == null)
             {
                 throw new NullReferenceException("Объект с указанным carId отсутствует в бд");
             }
-            if (itemFromUsersCarsStorage.UserId!=userId)
+            if (itemFromUsersCarsStorage.UserId != userId)
             {
                 throw new Exception("id владельца авто и текущего пользователя не совпадают");
             }
@@ -120,7 +120,7 @@ namespace AutoService.WEB.Utils
             {
                 throw new NullReferenceException($"Авто с carId = {carId} отсутствует в бд");
             }
-            if (car.ApplicationUserId!=userId)
+            if (car.ApplicationUserId != userId)
             {
                 throw new Exception("id владельца авто и текущего пользователя не совпадают");
             }

@@ -146,7 +146,6 @@ namespace AutoService.WEB.Controllers
             {
                 await _servicesLogic.ExtendDiscount(extendDiscountItem);
                 return RedirectToAction("Index", new { message = AdminMenuMessages.ExtendDiscountSuccess });
-
             }
             return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
@@ -284,7 +283,7 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
-                if (summaryId==null)
+                if (summaryId == null)
                 {
                     return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
                 }

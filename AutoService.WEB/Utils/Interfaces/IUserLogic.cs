@@ -12,10 +12,10 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task RemoveAllItemsFromBasket(string userId);
 
-        Task AddNewCar(AddNewCarViewModel newCar, string userId);
-
-        Task RemoveCar(int id);
-
         int GetTotalPrice(IEnumerable<Service> items);
+
+        Task<Dictionary<int, ServiceView>> GetUserShopCart(string userId);
+
+        Task<ServiceView> StartRemoveFromUserShopCart(int? itemId, string userId);
     }
 }

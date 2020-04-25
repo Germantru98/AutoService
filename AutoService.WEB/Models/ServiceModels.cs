@@ -70,7 +70,9 @@ namespace AutoService.WEB.Models
         [Required]
         [Display(Name = "Цена на услугу")]
         public int Price { get; set; }
+
         public int PriceWithDiscount { get; set; }
+
         [Required]
         [Display(Name = "Ссылка на изображение")]
         public string ServiceImageHref { get; set; }
@@ -79,6 +81,7 @@ namespace AutoService.WEB.Models
         public Discount Discount { get; set; }
 
         public bool DiscountRelevancy { get; set; }
+
         public ServiceView()
         {
         }

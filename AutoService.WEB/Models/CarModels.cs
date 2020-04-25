@@ -20,8 +20,8 @@ namespace AutoService.WEB.Models
         public int? CarId { get; set; }
         public Car Car { get; set; }
         public string UserId { get; set; }
-        
     }
+
     public class CarView
     {
         public int CarId { get; set; }
@@ -50,18 +50,21 @@ namespace AutoService.WEB.Models
     public class EditCarView
     {
         public int CarId { get; set; }
+
         [Display(Name = "Модель автомобиля")]
         public string Model { get; set; }
+
         [Display(Name = "Цвет автомобиля")]
         public string Color { get; set; }
+
         [Display(Name = "Год выпуска автомобиля")]
         public string Year { get; set; }
+
         [Display(Name = "Ссылка на изображение авто")]
         public string CarImgHref { get; set; }
 
         public EditCarView()
         {
-
         }
 
         public EditCarView(int carId, string model, string color, string year, string carImgHref)
@@ -73,6 +76,7 @@ namespace AutoService.WEB.Models
             CarImgHref = carImgHref;
         }
     }
+
     public class AddNewCarViewModel
     {
         [Required]
@@ -89,16 +93,18 @@ namespace AutoService.WEB.Models
         [DataType(DataType.Text)]
         [Display(Name = "Год выпуска автомобиля")]
         public string CarYear { get; set; }
+
         [Display(Name = "Ссылка на изображение авто")]
         public string CarImgHref { get; set; }
     }
+
     public class DeleteCarView
     {
         public int CarId { get; set; }
         public string UserId { get; set; }
+
         public DeleteCarView()
         {
-
         }
 
         public DeleteCarView(int carId, string userId)

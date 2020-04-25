@@ -29,5 +29,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task ExtendDiscount(ExtendDiscount extendDiscountItem);
 
         Task<List<Service>> GetServicesFromSummary(string serviceList);
+
+        ServiceView MapServiceToServiceView(Service service);
     }
 }

@@ -1,8 +1,7 @@
 namespace AutoService.WEB.Migrations
 {
-    using System;
     using System.Data.Entity.Migrations;
-    
+
     public partial class newCarStorage : DbMigration
     {
         public override void Up()
@@ -12,18 +11,18 @@ namespace AutoService.WEB.Migrations
             CreateTable(
                 "dbo.CarsStorageItems",
                 c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        CarId = c.Int(),
-                        UserId = c.String(),
-                    })
+                {
+                    Id = c.Int(nullable: false, identity: true),
+                    CarId = c.Int(),
+                    UserId = c.String(),
+                })
                 .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Cars", t => t.CarId)
                 .Index(t => t.CarId);
-            
+
             DropColumn("dbo.BasketItems", "ApplicationUser_Id");
         }
-        
+
         public override void Down()
         {
             AddColumn("dbo.BasketItems", "ApplicationUser_Id", c => c.String(maxLength: 128));

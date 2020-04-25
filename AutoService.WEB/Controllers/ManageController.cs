@@ -7,7 +7,6 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -73,8 +72,28 @@ namespace AutoService.WEB.Controllers
             {
                 return Redirect("/AdminMenu");
             }
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
+            ViewBag.StatusMessage = MessageGenerator(message);
+            var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+            var model = new IndexViewModel
+            {
+                HasPassword = HasPassword(),
+                PhoneNumber = user.PhoneNumber,
+                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
+                Email = user.Email,
+                RealName = user.RealName,
+                Cars = await _carLogic.GetAllUserCars(userId),
+                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
+                Logins = await UserManager.GetLoginsAsync(userId),
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Basket = await _userLogic.GetUserShopCart(userId)
+            };
+            return View(model);
+        }
+
+        private string MessageGenerator(ManageMessageId? message)
+        {
+            return message == ManageMessageId.ChangePasswordSuccess ? "Ваш пароль изменен."
                 : message == ManageMessageId.SetPasswordSuccess ? "Пароль задан."
                 : message == ManageMessageId.SetTwoFactorSuccess ? "Настроен поставщик двухфакторной проверки подлинности."
                 : message == ManageMessageId.Error ? "Произошла ошибка."
@@ -85,38 +104,12 @@ namespace AutoService.WEB.Controllers
                 : message == ManageMessageId.RemoveCar ? "Автомобиль удален."
                 : message == ManageMessageId.RemoveCarError ? "Ошибка при удалении автомобиля."
                 : message == ManageMessageId.EditCarError ? "Ошибка при обновлении информации об автомобиле."
+                : message == ManageMessageId.RemoveFromShopCart ? "Услуга была удалена из корзины"
+                : message == ManageMessageId.RemoveFromShopCartError ? "Ошибка при удалении услуги из корзины"
+                : message == ManageMessageId.ClearShopCart ? "Корзина очищена"
                 : null;
-            var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
-            var model = new IndexViewModel
-            {
-                HasPassword = HasPassword(),
-                PhoneNumber = user.PhoneNumber,
-                PhoneNumberConfirmed = user.PhoneNumberConfirmed,
-                Email = user.Email,
-                RealName = user.RealName,
-                Cars =await _carLogic.GetAllUserCars(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                Basket = await GetServicesFromBasketItem(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync())
-            };
-            return View(model);
         }
 
-        public async Task<Dictionary<int, Service>> GetServicesFromBasketItem(List<BasketItem> items)
-        {
-            var result = new Dictionary<int, Service>();
-            foreach (var item in items)
-            {
-                var service = await _dbContext.Services.FindAsync(item.ServiceId);
-                service.Discount = await _dbContext.Discounts.FindAsync(service.DiscountId);
-                result.Add(item.Id, service);
-            }
-            return result;
-        }
-
-        //
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -387,7 +380,7 @@ namespace AutoService.WEB.Controllers
             {
                 var userId = User.Identity.GetUserId();
                 await _carLogic.AddNewUserCar(userId, newCar);
-                return RedirectToAction("Index", "Manage",new { message = ManageMessageId.AddNewCar});
+                return RedirectToAction("Index", "Manage", new { message = ManageMessageId.AddNewCar });
             }
             return RedirectToAction("Index", "Manage", new { message = ManageMessageId.Error });
         }
@@ -437,11 +430,10 @@ namespace AutoService.WEB.Controllers
 
         public async Task<ActionResult> EditCar(int? id)
         {
-
             try
             {
                 var userId = User.Identity.GetUserId();
-                var carView = await _carLogic.StartEditUserCarOperation(id,userId);
+                var carView = await _carLogic.StartEditUserCarOperation(id, userId);
                 return PartialView("EditUserCarModalView", carView);
             }
             catch (ArgumentNullException)
@@ -472,26 +464,36 @@ namespace AutoService.WEB.Controllers
 
         public async Task<ActionResult> RemoveFromBasket(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var userId = User.Identity.GetUserId();
+                var serviceView = await _userLogic.StartRemoveFromUserShopCart(id, userId);
+                return PartialView("DeleteServiceFromShopCartModalView", serviceView);
             }
-            BasketItem item = await _dbContext.BasketItems.FindAsync(id);
-            if (item == null)
+            catch (ArgumentNullException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
             }
-            var service = await _dbContext.Services.FindAsync(item.ServiceId);
-            service.Discount = await _dbContext.Discounts.FindAsync(service.DiscountId);
-            return PartialView("ModalDeleteConfirm", service);
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
+            }
         }
 
         [HttpPost, ActionName("RemoveFromBasket")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveFromBasketConfirmed(int id)
         {
-            await _userLogic.RemoveFromBasket(id);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                await _userLogic.RemoveFromBasket(id);
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCart });
+            }
+            return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
         }
 
         public async Task<ActionResult> GetServiceSummary()
@@ -629,6 +631,9 @@ namespace AutoService.WEB.Controllers
             EditCarError,
             RemoveCar,
             RemoveCarError,
+            RemoveFromShopCart,
+            RemoveFromShopCartError,
+            ClearShopCart,
             Error
         }
 

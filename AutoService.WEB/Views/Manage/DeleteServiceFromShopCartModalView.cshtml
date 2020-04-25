@@ -1,0 +1,57 @@
+﻿@model AutoService.WEB.Models.ServiceView
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите убрать услугу из корзины?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    <div class="modal-body">
+        <div class="w-100  mt-2 mb-2">
+            <div class="card mx-auto rounded shadow-sm" style="max-width:350px;">
+                <div class="card-img-top" style="height:220px">
+                    <img src="@Model.ServiceImageHref" class=" w-100 h-100" alt="Alternate Text" />
+                </div>
+                <div class="text-center p-2 font-weight-bold" style="height:70px;">
+                    @if (Model.Discount == null)
+                    {
+                        @Model.ServiceName
+                    }
+                    else if (Model.Discount.Value <= 30)
+                    {
+                        @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+                    }
+                    else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
+                    {
+                        @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                    }
+                    else
+                    {
+                        @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                    }
+                </div>
+                <div class="card-body text-center pt-1">
+                    @if (Model.Discount != null)
+                    {
+                        <label>Цена:</label> @Model.PriceWithDiscount <i class="fa fa-ruble"></i>
+                    }
+                    else
+                    {
+                        <label>Цена:</label> @Model.Price <i class="fa fa-ruble"></i>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Футер модального окна -->
+    <div class="modal-footer">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+        <button type="submit" class="btn btn-outline-danger"><i class="mr-1 p-1 fa fa-trash-o fa-lg"></i>Удалить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
+        }
+    </div>
+</div>

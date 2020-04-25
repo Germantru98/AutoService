@@ -1,4 +1,4 @@
-﻿
+﻿@model AutoService.WEB.Models.IndexViewModel
 <div class="tab-pane fade show active " id="account">
     <div>
         <h4>Аккаунт</h4>
@@ -12,15 +12,15 @@
             <dd>
                 @if (Model.PhoneNumber == null)
                 {
-                    <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")">Добавить</a>
+                <a class="btn btn-outline-dark btn-sm " href="@Url.Action("AddPhoneNumber")">Добавить</a>
                 }
                 else if (Model.PhoneNumberConfirmed)
                 {
-                    @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-dark btn-sm ml-2" href="@Url.Action("AddPhoneNumber")">Изменить</a>
+                @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-dark btn-sm ml-2" href="@Url.Action("AddPhoneNumber")">Изменить</a>
                 }
                 else
                 {
-                    @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-info btn-sm ml-2" href="@Url.Action("VerifyPhoneNumber")">Подтвердить</a>
+                @Html.DisplayFor(m => m.PhoneNumber)<a class="btn btn-outline-info btn-sm ml-2" href="@Url.Action("VerifyPhoneNumber")">Подтвердить</a>
                 }
             </dd>
             <dt>@Html.LabelFor(m => m.Email, new { @class = "h5" })</dt>
@@ -31,11 +31,11 @@
             <dd>
                 @if (Model.HasPassword)
                 {
-                    <a class="btn btn-outline-dark btn-sm" href="@Url.Action("ChangePassword")">Сменить пароль</a>
+                <a class="btn btn-outline-dark btn-sm" href="@Url.Action("ChangePassword")">Сменить пароль</a>
                 }
                 else
                 {
-                    <a class="btn btn-outline-dark btn-sm" href="@Url.Action("SetPassword")">Добавить</a>
+                <a class="btn btn-outline-dark btn-sm" href="@Url.Action("SetPassword")">Добавить</a>
                 }
             </dd>
             @*<dt>External Logins:</dt>
@@ -49,20 +49,20 @@
                 {
                     using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
-                        @Html.AntiForgeryToken()
-                        <text>
-                            <input type="submit" value="Выключена" class="btn btn-secondary" />
-                        </text>
+                @Html.AntiForgeryToken()
+                <text>
+                    <input type="submit" value="Выключена" class="btn btn-secondary" />
+                </text>
                     }
                 }
                 else
                 {
                     using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
-                        @Html.AntiForgeryToken()
-                        <text>
-                            <input type="submit" value="Включена" class="btn btn-success" />
-                        </text>
+                @Html.AntiForgeryToken()
+                <text>
+                    <input type="submit" value="Включена" class="btn btn-success" />
+                </text>
                     }
                 }
             </dd>

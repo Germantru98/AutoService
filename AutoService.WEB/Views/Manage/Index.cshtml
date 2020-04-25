@@ -38,9 +38,9 @@
         </li>
     </ul>
     <div class="tab-content">
-        @*@Html.Partial("UserAccountSection")*@
+        @Html.Partial("UserAccountSection",Model)
         @Html.Partial("UserCarsSection", Model.Cars)
-        @*@Html.Partial("UserShopCartSection")*@
+        @Html.Partial("UserShopCartSection",Model.Basket)
     </div>
 </div>
 

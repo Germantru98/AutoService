@@ -34,7 +34,7 @@ namespace AutoService.WEB.Models
         public bool BrowserRemembered { get; set; }
 
         public List<CarView> Cars { get; set; }
-        public Dictionary<int, Service> Basket { get; set; }
+        public Dictionary<int, ServiceView> Basket { get; set; }
     }
 
     public class ManageLoginsViewModel
@@ -80,8 +80,6 @@ namespace AutoService.WEB.Models
         [Compare("NewPassword", ErrorMessage = "Новый пароль и его подтверждение не совпадают.")]
         public string ConfirmPassword { get; set; }
     }
-
-   
 
     public class AddPhoneNumberViewModel
     {

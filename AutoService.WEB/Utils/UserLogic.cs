@@ -2,6 +2,7 @@
 using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,21 +11,16 @@ namespace AutoService.WEB.Utils
     public class UserLogic : IUserLogic
     {
         private ApplicationDbContext _db;
+        private IServicesLogic _servicesLogic;
 
         public UserLogic()
         {
         }
 
-        public UserLogic(ApplicationDbContext db)
+        public UserLogic(ApplicationDbContext db, IServicesLogic servicesLogic)
         {
             _db = db;
-        }
-
-        public async Task AddNewCar(AddNewCarViewModel newCar, string userId)
-        {
-            var car = new Car { Color = newCar.CarColor, Model = newCar.CarModel, Year = newCar.CarYear, ApplicationUserId = userId, };
-            _db.Cars.Add(car);
-            await _db.SaveChangesAsync();
+            _servicesLogic = servicesLogic;
         }
 
         public async Task AddToBasket(int? serviceId, string userId)
@@ -65,13 +61,6 @@ namespace AutoService.WEB.Utils
             return totalPrice;
         }
 
-        public async Task RemoveCar(int carId)
-        {
-            Car car = await _db.Cars.FindAsync(carId);
-            _db.Cars.Remove(car);
-            await _db.SaveChangesAsync();
-        }
-
         public async Task RemoveFromBasket(int itemId)
         {
             BasketItem item = await _db.BasketItems.FindAsync(itemId);
@@ -84,6 +73,37 @@ namespace AutoService.WEB.Utils
             var items = _db.BasketItems.Where(item => item.UserId == userId);
             _db.BasketItems.RemoveRange(items);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<Dictionary<int, ServiceView>> GetUserShopCart(string userId)
+        {
+            var shopCartItems = await _db.BasketItems.Where(s => s.UserId == userId).ToListAsync();
+            var result = new Dictionary<int, ServiceView>();
+            foreach (var item in shopCartItems)
+            {
+                var tmpService = await _db.Services.Include(s => s.Discount).FirstAsync(s => s.ServiceId == item.ServiceId);
+                result.Add(item.Id, _servicesLogic.MapServiceToServiceView(tmpService));
+            }
+            return result;
+        }
+
+        public async Task<ServiceView> StartRemoveFromUserShopCart(int? itemId, string userId)
+        {
+            if (itemId == null)
+            {
+                throw new ArgumentNullException("itemId = null");
+            }
+            var shopCartItem = await _db.BasketItems.FindAsync(itemId);
+            if (shopCartItem == null)
+            {
+                throw new NullReferenceException($"basketItem с itemId = {itemId} отсутсвует в бд");
+            }
+            if (shopCartItem.UserId != userId)
+            {
+                throw new Exception("Элемент корзины имеет другого владельца");
+            }
+            var service = await _db.Services.Include(s => s.Discount).FirstAsync(s => s.ServiceId == shopCartItem.ServiceId);
+            return _servicesLogic.MapServiceToServiceView(service);
         }
     }
 }
