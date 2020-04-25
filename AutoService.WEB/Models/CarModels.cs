@@ -12,6 +12,14 @@
         public ApplicationUser ApplicationUser { get; set; }
     }
 
+    public class CarsStorageItem
+    {
+        public int Id { get; set; }
+        public int? CarId { get; set; }
+        public Car Car { get; set; }
+        public string UserId { get; set; }
+        
+    }
     public class CarView
     {
         public int CarId { get; set; }
@@ -34,6 +42,44 @@
         public override string ToString()
         {
             return $"Модель: {Model} Цвет: {Color} Год выпуска: {Year}";
+        }
+    }
+
+    public class EditCarView
+    {
+        public int CarId { get; set; }
+        public string Model { get; set; }
+        public string Color { get; set; }
+        public string Year { get; set; }
+        public string CarImgHref { get; set; }
+
+        public EditCarView()
+        {
+
+        }
+
+        public EditCarView(int carId, string model, string color, string year, string carImgHref)
+        {
+            CarId = carId;
+            Model = model;
+            Color = color;
+            Year = year;
+            CarImgHref = carImgHref;
+        }
+    }
+    public class DeleteCarView
+    {
+        public int CarId { get; set; }
+        public string UserId { get; set; }
+        public DeleteCarView()
+        {
+
+        }
+
+        public DeleteCarView(int carId, string userId)
+        {
+            CarId = carId;
+            UserId = userId;
         }
     }
 }

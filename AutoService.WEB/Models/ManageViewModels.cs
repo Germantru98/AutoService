@@ -97,6 +97,7 @@ namespace AutoService.WEB.Models
         [DataType(DataType.Text)]
         [Display(Name = "Год выпуска автомобиля")]
         public string CarYear { get; set; }
+        public string CarImgHref { get; set; }
     }
 
     public class AddPhoneNumberViewModel

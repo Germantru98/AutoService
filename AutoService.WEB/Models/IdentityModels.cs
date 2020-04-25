@@ -10,8 +10,6 @@ namespace AutoService.WEB.Models
     // В профиль пользователя можно добавить дополнительные данные, если указать больше свойств для класса ApplicationUser. Подробности см. на странице https://go.microsoft.com/fwlink/?LinkID=317594.
     public class ApplicationUser : IdentityUser
     {
-        public ICollection<Car> Cars { get; set; }
-        public ICollection<BasketItem> Basket { get; set; }
         public string RealName { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
@@ -25,8 +23,6 @@ namespace AutoService.WEB.Models
         public ApplicationUser()
             : base()
         {
-            Cars = new List<Car>();
-            Basket = new List<BasketItem>();
         }
     }
 
@@ -53,5 +49,6 @@ namespace AutoService.WEB.Models
         public DbSet<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
         public DbSet<ServicesSummary> ServicesSummaries { get; set; }
         public DbSet<CompletedSummariesHistory> CompletedSummariesHistory { get; set; }
+        public DbSet<CarsStorageItem> UsersCarsStorage { get; set; }
     }
 }
