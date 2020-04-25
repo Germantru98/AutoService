@@ -81,24 +81,7 @@ namespace AutoService.WEB.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class AddNewCarViewModel
-    {
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Модель автомобиля")]
-        public string CarModel { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Цвет автомобиля")]
-        public string CarColor { get; set; }
-
-        [Required]
-        [DataType(DataType.Text)]
-        [Display(Name = "Год выпуска автомобиля")]
-        public string CarYear { get; set; }
-        public string CarImgHref { get; set; }
-    }
+   
 
     public class AddPhoneNumberViewModel
     {

@@ -1,4 +1,6 @@
-﻿namespace AutoService.WEB.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AutoService.WEB.Models
 {
     public class Car
     {
@@ -48,9 +50,13 @@
     public class EditCarView
     {
         public int CarId { get; set; }
+        [Display(Name = "Модель автомобиля")]
         public string Model { get; set; }
+        [Display(Name = "Цвет автомобиля")]
         public string Color { get; set; }
+        [Display(Name = "Год выпуска автомобиля")]
         public string Year { get; set; }
+        [Display(Name = "Ссылка на изображение авто")]
         public string CarImgHref { get; set; }
 
         public EditCarView()
@@ -66,6 +72,25 @@
             Year = year;
             CarImgHref = carImgHref;
         }
+    }
+    public class AddNewCarViewModel
+    {
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Модель автомобиля")]
+        public string CarModel { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Цвет автомобиля")]
+        public string CarColor { get; set; }
+
+        [Required]
+        [DataType(DataType.Text)]
+        [Display(Name = "Год выпуска автомобиля")]
+        public string CarYear { get; set; }
+        [Display(Name = "Ссылка на изображение авто")]
+        public string CarImgHref { get; set; }
     }
     public class DeleteCarView
     {

@@ -242,6 +242,10 @@
     <Compile Include="Migrations\202003251022194_1.Designer.cs">
       <DependentUpon>202003251022194_1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202004251411510_newCarStorage.cs" />
+    <Compile Include="Migrations\202004251411510_newCarStorage.Designer.cs">
+      <DependentUpon>202004251411510_newCarStorage.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -457,7 +461,6 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Manage\AddNewCar.cshtml" />
     <Content Include="Views\Manage\RemoveCarView.cshtml" />
     <Content Include="Views\Manage\EditCarView.cshtml" />
     <Content Include="Views\UserReviews\Create.cshtml" />
@@ -545,6 +548,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202003251022194_1.resx">
       <DependentUpon>202003251022194_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202004251411510_newCarStorage.resx">
+      <DependentUpon>202004251411510_newCarStorage.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

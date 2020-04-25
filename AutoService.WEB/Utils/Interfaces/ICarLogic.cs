@@ -15,5 +15,6 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<List<CarView>> GetAllUsersCarsFromDb();
         Task<EditCarView> StartEditUserCarOperation(int? carId, string userId);
         Task<DeleteCarView> StartRemoveUserCarOperation(int? carId, string userId);
+        Task<CarView> GetUserCar(int? id);
     }
 }

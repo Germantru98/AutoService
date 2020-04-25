@@ -1,35 +1,38 @@
 ﻿@using AutoService.WEB.Models
-@model CarView
-<div class="modal-content">
-    <!-- Заголовок модального окна -->
-    <div class="modal-header">
-        <h5 class="modal-title">Вы уверенны, что хотите удалить этот автомобиль?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <!-- Основное содержимое модального окна -->
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-        <div class="modal-body d-flex">
-            <div class="card shadow-sm">
-                <div class="card-img-top">
-                    <img class="img-fluid" src="@Model.CarImageHref" alt="Alternate Text" />
-                </div>
-                <div class="card-body">
-                    <div class="card-text">
-                        <label class="mr-1"><i class="mr-1 p-1 fa fa-modx fa-lg"></i>Модель: </label> @Model.Model<br />
-                        <label class="mr-1"><i class="mr-1 p-1 fa fa-paint-brush fa-lg"></i>Цвет: </label> @Model.Color<br />
-                        <label class="mr-1"><i class="mr-1 p-1 fa fa-calendar fa-lg"></i> Год: </label>@Model.Year<br />
+@model DeleteCarView
+    <div class="modal-content">
+        <!-- Заголовок модального окна -->
+        <div class="modal-header">
+            <h5 class="modal-title">Вы уверенны, что хотите удалить этот автомобиль?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Основное содержимое модального окна -->
+        @using (Html.BeginForm())
+        {
+            var carModel = ViewBag.DeletedCarModel as CarView;
+            @Html.AntiForgeryToken()
+            @Html.HiddenFor(model => model.CarId)
+            @Html.HiddenFor(model => model.CarId)
+            <div class="modal-body d-flex">
+                <div class="card shadow-sm">
+                    <div class="card-img-top">
+                        <img class="img-fluid" src="@carModel.CarImageHref" alt="Alternate Text" />
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <label class="mr-1"><i class="mr-1 p-1 fa fa-modx fa-lg"></i>Модель: </label> @carModel.Model<br />
+                            <label class="mr-1"><i class="mr-1 p-1 fa fa-paint-brush fa-lg"></i>Цвет: </label> @carModel.Color<br />
+                            <label class="mr-1"><i class="mr-1 p-1 fa fa-calendar fa-lg"></i> Год: </label>@carModel.Year<br />
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <!-- Футер модального окна -->
-        <div class="modal-footer">
-            <button class="btn btn-outline-danger" type="submit"><i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Удалить</button>
-            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
-        </div>
-    }
-</div>
+            <!-- Футер модального окна -->
+            <div class="modal-footer">
+                <button class="btn btn-outline-danger" type="submit"><i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Удалить</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
+            </div>
+        }
+    </div>

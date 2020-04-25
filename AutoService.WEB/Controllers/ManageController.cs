@@ -83,6 +83,8 @@ namespace AutoService.WEB.Controllers
                 : message == ManageMessageId.AddNewCar ? "Добавлен новый автомобиль."
                 : message == ManageMessageId.EditCar ? "Данные об автомобиле обновлены."
                 : message == ManageMessageId.RemoveCar ? "Автомобиль удален."
+                : message == ManageMessageId.RemoveCarError ? "Ошибка при удалении автомобиля."
+                : message == ManageMessageId.EditCarError ? "Ошибка при обновлении информации об автомобиле."
                 : null;
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
@@ -383,7 +385,8 @@ namespace AutoService.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                await _userLogic.AddNewCar(newCar, User.Identity.GetUserId());
+                var userId = User.Identity.GetUserId();
+                await _carLogic.AddNewUserCar(userId, newCar);
                 return RedirectToAction("Index", "Manage",new { message = ManageMessageId.AddNewCar});
             }
             return RedirectToAction("Index", "Manage", new { message = ManageMessageId.Error });
@@ -391,52 +394,80 @@ namespace AutoService.WEB.Controllers
 
         public async Task<ActionResult> RemoveCar(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var userId = User.Identity.GetUserId();
+                var carView = await _carLogic.StartRemoveUserCarOperation(id, userId);
+                ViewBag.DeletedCarModel = await _carLogic.GetUserCar(id);
+                return PartialView("RemoveUserCarModalView", carView);
             }
-            Car car = await _dbContext.Cars.FindAsync(id);
-            if (car == null)
+            catch (ArgumentNullException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveCarError });
             }
-            var carView = _carLogic.MapCarToCarView(car);
-            return PartialView("RemoveUserCarModalView", carView);
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveCarError });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveCarError });
+            }
         }
 
         [HttpPost, ActionName("RemoveCar")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            await _userLogic.RemoveCar(id);
-            return RedirectToAction("Index");
+            try
+            {
+                var userId = User.Identity.GetUserId();
+                await _carLogic.RemoveUserCar(id, userId);
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveCar });
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.RemoveCarError });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.Error });
+            }
         }
 
         public async Task<ActionResult> EditCar(int? id)
         {
-            if (id == null)
+
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var userId = User.Identity.GetUserId();
+                var carView = await _carLogic.StartEditUserCarOperation(id,userId);
+                return PartialView("EditUserCarModalView", carView);
             }
-            Car car = await _dbContext.Cars.FindAsync(id);
-            if (car == null)
+            catch (ArgumentNullException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = ManageMessageId.EditCarError });
             }
-            return PartialView("EditUserCarModalView", car);
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.EditCarError });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.EditCarError });
+            }
         }
 
-        [HttpPost, ActionName("EditCar")]
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditCar(Car car)
+        public async Task<ActionResult> EditCar(EditCarView car)
         {
             if (ModelState.IsValid)
             {
-                _dbContext.Entry(car).State = EntityState.Modified;
-                await _dbContext.SaveChangesAsync();
+                await _carLogic.EditUserCar(car);
                 return RedirectToAction("Index", new { message = ManageMessageId.EditCar });
             }
-            return RedirectToAction("Index", "Manage", new { message = ManageMessageId.Error });
+            return RedirectToAction("Index", "Manage", new { message = ManageMessageId.EditCarError });
         }
 
         public async Task<ActionResult> RemoveFromBasket(int? id)
@@ -595,7 +626,9 @@ namespace AutoService.WEB.Controllers
             RemovePhoneSuccess,
             AddNewCar,
             EditCar,
+            EditCarError,
             RemoveCar,
+            RemoveCarError,
             Error
         }
 

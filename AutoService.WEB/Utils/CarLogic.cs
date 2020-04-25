@@ -74,7 +74,21 @@ namespace AutoService.WEB.Utils
             }
             return result;
         }
-     
+
+        public async Task<CarView> GetUserCar(int? id)
+        {
+            if (id==null)
+            {
+                throw new ArgumentNullException("carId равно null");
+            }
+            var car = await _db.Cars.FindAsync(id);
+            if (car==null)
+            {
+                throw new NullReferenceException("Объект с указанным carId отсутствует в бд");
+            }
+            return MapCarToCarView(car);
+        }
+
         public CarView MapCarToCarView(Car car)
         {
             return new CarView(car.Id, car.Model, car.Color, car.Year, car.CarImageHref);
