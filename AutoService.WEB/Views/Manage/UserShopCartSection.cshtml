@@ -3,58 +3,64 @@
     <div class="tab-pane fade" id="basket">
         @if (Model.Count > 0)
         {
-        <div class="row justify-content-center m-2 p-2">
-            <a href="@Url.Action("GetServiceSummary")" class="btn btn-outline-dark m-1">
-                <i class="mr-1 p-1 fa fa-dollar fa-lg"></i>Рассчитать
-            </a>
-            <a href="@Url.Action("ClearBasket")" class="dialog btn btn-outline-dark m-1">
-                <i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить все
-            </a>
-        </div>
-        }
-        <div class="row justify-content-center">
-            @foreach (var item in Model)
-            {
-                <div class="col-xl-3 col-md-5 col-sm-10  mt-2 mb-2">
-                    <div class="card mx-auto rounded shadow-sm" style="max-width:350px;">
-                        <div class="card-img-top" style="height:220px">
-                            <img src="@item.Value.ServiceImageHref" class=" w-100 h-100" alt="Alternate Text" />
-                        </div>
-                        <div class="text-center p-2 font-weight-bold" style="height:70px;">
-                            @if (item.Value.Discount == null)
-                            {
-                                @item.Value.ServiceName
-                            }
-                            else if (item.Value.Discount.Value <= 30)
-                            {
-                                @item.Value.ServiceName <span class="badge badge-success">-@item.Value.Discount.Value%</span>
-                            }
-                            else if (item.Value.Discount.Value > 30 && item.Value.Discount.Value < 60)
-                            {
-                                @item.Value.ServiceName <span class="badge badge-warning">-@item.Value.Discount.Value%</span>
-                            }
-                            else
-                            {
-                                @item.Value.ServiceName <span class="badge badge-danger">-@item.Value.Discount.Value%</span>
-                            }
-                        </div>
-                        <div class="card-body text-center pt-1">
-                            @if (item.Value.Discount != null)
-                            {
-                                <label>Цена:</label> @item.Value.PriceWithDiscount <i class="fa fa-ruble"></i>
-                            }
-                            else
-                            {
-                                <label>Цена:</label> @item.Value.Price <i class="fa fa-ruble"></i>
-                            }
-                        </div>
-                        <div class="card-footer text-center">
-                            <a href="@Url.Action("RemoveFromBasket", new { id = item.Key })" class="dialog btn btn-outline-dark btn-sm">
-                                <i class="mr-1 p-1 fa fa-trash-o"></i>Удалить
-                            </a>
+            <div class="row justify-content-center m-2 p-2">
+                <a href="@Url.Action("GetServiceSummary")" class="btn btn-outline-dark m-1">
+                    <i class="mr-1 p-1 fa fa-dollar fa-lg"></i>Рассчитать
+                </a>
+                <a href="@Url.Action("ClearBasket")" class="dialog btn btn-outline-dark m-1">
+                    <i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить все
+                </a>
+            </div>
+            <div class="row justify-content-center">
+                @foreach (var item in Model)
+                {
+                    <div class="col-xl-3 col-md-5 col-sm-10  mt-2 mb-2">
+                        <div class="card mx-auto rounded shadow-sm" style="max-width:350px;">
+                            <div class="card-img-top" style="height:220px">
+                                <img src="@item.Value.ServiceImageHref" class=" w-100 h-100" alt="Alternate Text" />
+                            </div>
+                            <div class="text-center p-2 font-weight-bold" style="height:70px;">
+                                @if (item.Value.Discount == null)
+                                {
+                                    @item.Value.ServiceName
+                                }
+                                else if (item.Value.Discount.Value <= 30)
+                                {
+                                    @item.Value.ServiceName <span class="badge badge-success">-@item.Value.Discount.Value%</span>
+                                }
+                                else if (item.Value.Discount.Value > 30 && item.Value.Discount.Value < 60)
+                                {
+                                    @item.Value.ServiceName <span class="badge badge-warning">-@item.Value.Discount.Value%</span>
+                                }
+                                else
+                                {
+                                    @item.Value.ServiceName <span class="badge badge-danger">-@item.Value.Discount.Value%</span>
+                                }
+                            </div>
+                            <div class="card-body text-center pt-1">
+                                @if (item.Value.Discount != null)
+                                {
+                                    <label>Цена:</label> @item.Value.PriceWithDiscount <i class="fa fa-ruble"></i>
+                                }
+                                else
+                                {
+                                    <label>Цена:</label> @item.Value.Price <i class="fa fa-ruble"></i>
+                                }
+                            </div>
+                            <div class="card-footer text-center">
+                                <a href="@Url.Action("RemoveFromBasket", new { id = item.Key })" class="dialog btn btn-outline-dark btn-sm">
+                                    <i class="mr-1 p-1 fa fa-trash-o"></i>Удалить
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        }
+        else
+        {
+    <div class="text-center mt-4">
+        <h3>Ваша корзина пока что пуста</h3>
+    </div>
+        }
     </div>

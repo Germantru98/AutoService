@@ -442,7 +442,7 @@
     <Content Include="Views\Account\SendCode.cshtml" />
     <Content Include="Views\Account\VerifyCode.cshtml" />
     <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Manage\ChangePasswordModalView.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\ManageLogins.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
@@ -532,6 +532,7 @@
     <Content Include="Views\Manage\EditUserCarModalView.cshtml" />
     <Content Include="Views\Manage\RemoveUserCarModalView.cshtml" />
     <Content Include="Views\Manage\ShopCartItemView.cshtml" />
+    <Content Include="Views\Manage\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -2,42 +2,69 @@
 @{
     ViewBag.Title = "Регистрация";
 }
-<h2>@ViewBag.Title.</h2>
-<h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
+    <div class="text-center mt-3">
+        <h2>@ViewBag.Title.</h2>
+        <h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
+    </div>
 
-@using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-@Html.AntiForgeryToken()
+<div class="card col-xl-5 col-md-7 col-sm-10 shadow-sm rounded mx-auto p-0 mt-4">
+    <div class="card-header bg-primary text-white text-center"> <h4>Форма связывания</h4></div>
+    @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "validate", role = "form" }))
+    {
+        <div class="card-body">
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <p class="text-info">
+                Вы успешно прошли проверку подлинности с помощью <strong>@ViewBag.LoginProvider</strong>
+                Введите имя пользователя на этом сайте ниже и нажмите кнопку "Зарегистрировать", чтобы завершить
+                вход.
+            </p>
+            <div class="form-group col-md-10 mx-auto">
+                @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="form-group col-md-10 mx-auto">
+                @Html.LabelFor(m => m.RealName, new { @class = "col-form-label" })
+                    @Html.TextBoxFor(m => m.RealName, new { @class = "form-control " })
+                    @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
+            </div>
 
-<h4>Форма связывания</h4>
-<hr />
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
-<p class="text-info">
-    Вы успешно прошли проверку подлинности с помощью <strong>@ViewBag.LoginProvider</strong>
-    Введите имя пользователя на этом сайте ниже и нажмите кнопку "Зарегистрировать", чтобы завершить
-    вход.
-</p>
-<div class="form-group">
-    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-    </div>
+        </div>
+        <div class="card-footer text-center">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-check fa-lg p-1 mr-1"></i>Регистрация</button>
+        </div>
+    }
 </div>
-<div class="form-group">
-    @Html.LabelFor(m => m.RealName, new { @class = "col-md-2 control-label" })
-    <div class="col-md-10">
-        @Html.TextBoxFor(m => m.RealName, new { @class = "form-control" })
-        @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
-    </div>
-</div>
-<div class="form-group">
-    <div class="col-md-offset-2 col-md-10">
-        <input type="submit" class="btn btn-default" value="Регистрация" />
-    </div>
-</div>
-}
+
+
+
+
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $('.validate').validate({
+            errorClass: "text-danger",
+            rules: {
+                Email: {
+                    required: true,
+                    email: true
+                },
+                RealName: {
+                    required: true,
+                }
+
+            },
+            messages: {
+                Email: {
+                    required: "Введите вашу почту",
+                    email: "Данное поле должно содержать вашу почту"
+                },
+                RealName: {
+                    required: "Введите ваше полное имя (ФИО)",
+                }
+            }
+        });
+    </script>
 }

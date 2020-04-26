@@ -7,11 +7,11 @@ namespace AutoService.WEB.Models
 {
     public class IndexViewModel
     {
-        [Display(Name = "ФИО")]
+        [Display(Name = "ФИО:")]
         [UIHint("String")]
         public string RealName { get; set; }
 
-        [Display(Name = "Почта")]
+        [Display(Name = "Почта:")]
         [UIHint("EmailAddress")]
         public string Email { get; set; }
 
@@ -20,7 +20,7 @@ namespace AutoService.WEB.Models
 
         public IList<UserLoginInfo> Logins { get; set; }
 
-        [Display(Name = "Номер телефона")]
+        [Display(Name = "Номер телефона:")]
         [UIHint("String")]
         public string PhoneNumber { get; set; }
 
