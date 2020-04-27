@@ -1,44 +1,38 @@
-﻿@model IEnumerable<AutoService.WEB.Models.Service>
+﻿@model IEnumerable<AutoService.WEB.Models.ServiceView>
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Услуги";
 }
 <h2 class="display-4 text-center">Услуги</h2>
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-
-<div class="mr-auto ml-auto m-2">
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-75 mr-xl-auto ml-xl-auto pt-2 pb-2">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                @Html.ActionLink("По имени", "Index", new { sortOrder = @ViewBag.NameSort }, new { @class = "nav-link" })
-            </li>
-            <li class="nav-item">
-                @Html.ActionLink("По цене", "Index", new { sortOrder = @ViewBag.PriceSort }, new { @class = "nav-link" })
-            </li>
-            <li class="nav-item">
-                @Html.ActionLink("По наличию акции", "Index", new { sortOrder = @ViewBag.DiscountSort }, new { @class = "nav-link" })
-            </li>
-            <li class="nav-item">
-                @Html.ActionLink("Все", "Index", null, new { @class = "nav-link" })
-            </li>
-        </ul>
-        @using (Ajax.BeginForm("SearchServicesByName", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = " ml-auto form-inline" }))
-        {
-            <input type="text" class="form-control" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
-            <div class="input-group-append">
-                <button class="btn btn-info" type="submit" id="button">Поиск</button>
-            </div>
-        }
-    </nav>
-    <div class=" row w-75 row-cols-xl-3 row-cols-md-1 mr-auto ml-auto justify-content-between p-0" id="results">
-        @foreach (var service in Model)
-        {
-            @Html.Partial("ServiceView", service)
-        }
-    </div>
+<div class="row justify-content-center">
+    @using (Ajax.BeginForm("GetAllServices", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <button class="btn btn-outline-primary m-1" type="submit"><i class="fa fa-book mr-1 p-1"></i>Все</button>
+    }
+    @using (Ajax.BeginForm("GetServicesSortedByPrice", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <button class="btn btn-outline-primary m-1" type="submit"><i class="fa fa-bank mr-1 p-1"></i>По цене</button>
+    }
+    @using (Ajax.BeginForm("GetServicesSortedByDiscount", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <button class="btn btn-outline-primary m-1" type="submit"><i class="fa fa-percent mr-1 p-1"></i>По наличию акции</button>
+    }
+    @using (Ajax.BeginForm("SearchServicesByName", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "form-inline" }))
+    {
+        <input type="text" class="form-control ml-2" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
+        <div class="input-group-append">
+            <button class="btn btn-primary" type="submit" id="button"><i class="fa fa-search mr-1 p-1"></i>Поиск</button>
+        </div>
+    }
+</div>
+<div class="row justify-content-start" id="results">
+    @foreach (var service in Model)
+    {
+        @Html.Partial("ServiceView", service)
+    }
 </div>
 @if (User.IsInRole("Admin"))
 {

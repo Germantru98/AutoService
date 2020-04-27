@@ -29,19 +29,23 @@ namespace AutoService.WEB.Utils
             {
                 throw new ArgumentNullException("Отсутствует id услуги");
             }
+            var service = await _db.Services.FindAsync(serviceId);
+            if (service == null)
+            {
+                throw new NullReferenceException($"Услуга с serviceId = {serviceId} отсутсвует в базе данных");
+            }
+            var isInUserShopCart = await isUserShopCartContainsCurService((int)serviceId, userId);
+            if (!isInUserShopCart)
+            {
+                _db.BasketItems.Add(new BasketItem((int)serviceId, userId));
+                await _db.SaveChangesAsync();
+            }
             else
             {
-                var service = await _db.Services.FindAsync(serviceId);
-                if (service == null)
-                {
-                    throw new NullReferenceException($"Услуга с serviceId = {serviceId} отсутсвует в базе данных");
-                }
-                else
-                {
-                    _db.BasketItems.Add(new BasketItem((int)serviceId, userId));
-                    await _db.SaveChangesAsync();
-                }
+                throw new Exception("Услуга уже имеется в вашей корзине");
             }
+            
+
         }
 
         public int GetTotalPrice(IEnumerable<Service> items)
@@ -104,6 +108,12 @@ namespace AutoService.WEB.Utils
             }
             var service = await _db.Services.Include(s => s.Discount).FirstAsync(s => s.ServiceId == shopCartItem.ServiceId);
             return _servicesLogic.MapServiceToServiceView(service);
+        }
+
+        public async Task<bool> isUserShopCartContainsCurService(int serviceId,string userId)
+        {
+            var basketItem = await _db.BasketItems.FirstOrDefaultAsync(item => item.ServiceId == serviceId && item.UserId == userId);
+            return basketItem==null ? false : true;
         }
     }
 }

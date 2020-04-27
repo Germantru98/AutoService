@@ -1,51 +1,56 @@
 ﻿@using AutoService.WEB.Models
-@model Service
-<div class="col-xl-4 mt-3 text-center border border-dark p-0" style="max-width:400px">
-    <img class="w-100" src="@Model.ServiceImageHref" alt="..." width="360" height="250">
-    <div class="p-2">
-        <h3 class="title" style="height: 72px;">
-            @if (Model.Discount == null)
-            {
-                @Model.ServiceName
-            }
-            else if (Model.Discount.isRelevant())
-            {
-                if (Model.Discount.Value <= 20)
+@model ServiceView
+
+<div class="col-xl-2 col-md-3 col-sm-4 p-1 m-2 mr-xl-3 ml-xl-3 mr-md-4 ml-md-4 mr-sm-4 ml-sm-4">
+    <div class="card h-100 shadow-sm rounded mx-auto" style="min-height:280px;max-height:280px; min-width:180px; width:220px">
+        <img class="card-img-top h-50" src="@Model.ServiceImageHref" alt="...">
+        <div class="card-body text-center p-1">
+            <div class="card-header h6 border-0 bg-transparent p-1" style="min-height:40px">
+                @if (Model.Discount == null)
                 {
-                    @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+                    @Model.ServiceName
                 }
-                else if (Model.Discount.Value > 20 && Model.Discount.Value < 70)
+                else if (Model.Discount.isRelevant())
                 {
-                    @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                    if (Model.Discount.Value <= 30)
+                    {
+                        @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+                    }
+                    else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
+                    {
+                        @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                    }
+                    else
+                    {
+                        @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                    }
+                }
+            </div>
+            <div class="card-text">
+                @if (Model.Discount != null && Model.Discount.isRelevant())
+                {
+                    <div>Цена: @Model.PriceWithDiscount <i class="fa fa-ruble p-1"></i></div>
                 }
                 else
                 {
-                    @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                    <div>Цена: @Model.Price <i class="fa fa-ruble p-1"></i></div>
                 }
-            }
-        </h3>
-        <div class="text" style="height: 52px;">
-            @if (Model.Discount != null &&Model.Discount.isRelevant())
-            {
-                <p>Цена(руб): @Model.PriceWithDiscount </p>
-            }
-            else
-            {
-                <p>Цена(руб): @Model.Price </p>
-            }
+            </div>
         </div>
-        <div>
+        <div class="card-footer text-right p-1 border-0 bg-transparent">
             @if (User.IsInRole("Admin"))
             {
-            <p class="m-1">
-                @Html.ActionLink("Удалить", "Delete", new {@Model.ServiceId }, new { @class = "dialog btn btn-dark m-1" })
-                @Html.ActionLink("Изменить", "Edit", new {@Model.ServiceId }, new { @class = "btn btn-dark m-1" })
-            </p>
+                <p class="m-1">
+                    @Html.ActionLink("Удалить", "Delete", new { @Model.ServiceId }, new { @class = "dialog btn btn-dark m-1" })
+                    @Html.ActionLink("Изменить", "Edit", new { @Model.ServiceId }, new { @class = "btn btn-dark m-1" })
+                </p>
 
             }
             else if (User.Identity.IsAuthenticated)
             {
-                @Html.ActionLink("Добавить в корзину", "AddToBasket", new { ServiceId = Model.ServiceId }, new { @class = "dialog btn btn-dark" })
+                <a class="dialog btn btn-dark btn-sm" href="@Url.Action("AddToBasket",new { ServiceId = Model.ServiceId })" title="Добавить в корзину">
+                    <i class="fa fa-shopping-cart"></i>+
+                </a>
             }
         </div>
     </div>

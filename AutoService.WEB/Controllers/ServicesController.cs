@@ -25,52 +25,12 @@ namespace AutoService.WEB.Controllers
             _userLogic = userLogic;
             _servicesLogic = servicesLogic;
         }
-
-        public enum SortState
-        {
-            NameAsc,    // по имени по возрастанию
-            NameDesc,   // по имени по убыванию
-            PriceAsc,
-            PriceDesc,
-            WithDiscount,
-            WithoutDiscount
-        }
-
         // GET: Services
         [AllowAnonymous]
-        public async Task<ActionResult> Index(SortState sortOrder = SortState.NameAsc)
+        public async Task<ActionResult> Index()
         {
-            var services = db.Services.Include(s => s.Discount);
-
-            ViewData["NameSort"] = sortOrder == SortState.NameAsc ? SortState.NameDesc : SortState.NameAsc;
-            ViewData["PriceSort"] = sortOrder == SortState.PriceAsc ? SortState.PriceDesc : SortState.PriceAsc;
-            ViewData["DiscountSort"] = sortOrder == SortState.WithDiscount ? SortState.WithoutDiscount : SortState.WithDiscount;
-
-            if (sortOrder == SortState.PriceAsc)
-            {
-                services = services.OrderBy(s => s.Price);
-            }
-            else if (sortOrder == SortState.PriceDesc)
-            {
-                services = services.OrderByDescending(s => s.Price);
-            }
-            else if (sortOrder == SortState.NameAsc)
-            {
-                services = services.OrderBy(s => s.ServiceName);
-            }
-            else if (sortOrder == SortState.NameDesc)
-            {
-                services = services.OrderByDescending(s => s.ServiceName);
-            }
-            else if (sortOrder == SortState.WithDiscount)
-            {
-                services = services.Where(s => s.Discount != null);
-            }
-            else
-            {
-                services = services.Where(s => s.Discount == null);
-            }
-            return View(await services.AsNoTracking().ToListAsync());
+            var services = await _servicesLogic.GetAllServices();
+            return View(services);
         }
 
         // GET: Services/Details/5
@@ -187,18 +147,36 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
+            catch (Exception)
+            {
+                return PartialView("ExistsInUserShopCartModalView");
+            }
         }
 
-        public ActionResult SearchServicesByName(string serviceName)
+        public async Task<ActionResult> SearchServicesByName(string serviceName)
         {
-            var services = db.Services.Where(s => s.ServiceName.Contains(serviceName)).ToList();
+            var services = await _servicesLogic.SearchServicesByName(serviceName);
             if (services.Count <= 0)
             {
                 return HttpNotFound();
             }
             return PartialView("ServicesSearch", services);
         }
-
+        public async Task<ActionResult> GetServicesSortedByDiscount()
+        {
+            var sortedServices = await _servicesLogic.GetServicesSortedByDiscount();
+            return PartialView("SortedServices", sortedServices);
+        }
+        public async Task<ActionResult> GetServicesSortedByPrice()
+        {
+            var sortedServices = await _servicesLogic.GetServicesSortedByPrice();
+            return PartialView("SortedServices", sortedServices);
+        }
+        public async Task<ActionResult> GetAllServices()
+        {
+            var services = await _servicesLogic.GetAllServices();
+            return PartialView("SortedServices", services);
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

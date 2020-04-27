@@ -39,7 +39,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                         <div class="text-center mt-2">
-                            @Html.ActionLink("Добавить в корзину", "AddToBasket", "Services", new { id = Model[0].ServiceId }, new { @class = " dialog btn btn-outline-dark" })
+                            @Html.ActionLink("Добавить в корзину", "AddToBasket", "Services", new { ServiceId = Model[0].ServiceId }, new { @class = " dialog btn btn-outline-dark" })
                         </div>
                         }
                     </div>
@@ -75,7 +75,7 @@
                         @if (User.Identity.IsAuthenticated)
                             {
                         <div class="text-right mt-2">
-                            @Html.ActionLink("Добавить в корзину", "AddToBasket", "Services", new { id = Model[i].ServiceId }, new { @class = " service btn btn-outline-dark" })
+                            @Html.ActionLink("Добавить в корзину", "AddToBasket", "Services", new { ServiceId = Model[i].ServiceId }, new { @class = " service btn btn-outline-dark" })
                         </div>
                             }
                     </div>

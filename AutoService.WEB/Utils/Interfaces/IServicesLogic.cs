@@ -31,5 +31,9 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<List<Service>> GetServicesFromSummary(string serviceList);
 
         ServiceView MapServiceToServiceView(Service service);
+        Task<List<ServiceView>> GetServicesSortedByPrice();
+        Task<List<ServiceView>> GetServicesSortedByDiscount();
+        Task<List<ServiceView>> GetAllServices();
+        Task<List<ServiceView>> SearchServicesByName(string name);
     }
 }

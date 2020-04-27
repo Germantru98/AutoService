@@ -533,6 +533,8 @@
     <Content Include="Views\Manage\RemoveUserCarModalView.cshtml" />
     <Content Include="Views\Manage\ShopCartItemView.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
+    <Content Include="Views\Services\ExistsInUserShopCartModalView.cshtml" />
+    <Content Include="Views\Services\SortedServices.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -17,5 +17,6 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<Dictionary<int, ServiceView>> GetUserShopCart(string userId);
 
         Task<ServiceView> StartRemoveFromUserShopCart(int? itemId, string userId);
+        Task<bool> isUserShopCartContainsCurService(int serviceId, string userId);
     }
 }

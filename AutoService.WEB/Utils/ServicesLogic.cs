@@ -191,5 +191,77 @@ namespace AutoService.WEB.Utils
         {
             return new ServiceView(service.ServiceId, service.ServiceName, service.Price, service.PriceWithDiscount, service.ServiceImageHref, service.Discount);
         }
+
+        public async Task<List<ServiceView>> GetServicesSortedByPrice()
+        {
+            var result = await _db.Services.Include(s => s.Discount).ToListAsync();
+            result.Sort(delegate (Service s1, Service s2)
+            {
+                if (s1.Discount == null && s2.Discount == null)
+                {
+                    return s1.Price.CompareTo(s2.Price);
+                }
+                else if (s1.Discount != null && s2.Discount == null)
+                {
+                    return s1.PriceWithDiscount.CompareTo(s2.Price);
+                }
+                else if (s1.Discount == null && s2.Discount != null)
+                {
+                    return s1.Price.CompareTo(s2.PriceWithDiscount);
+                }
+                else if (s1.Discount != null && s2.Discount != null)
+                {
+                    return s1.PriceWithDiscount.CompareTo(s2.PriceWithDiscount);
+                }
+                else
+                {
+                    return 0;
+                }
+            });
+             return MapListServiceToListServiceView(result);
+        }
+
+        public async Task<List<ServiceView>> GetServicesSortedByDiscount()
+        {
+            var result = await _db.Services.Include(s => s.Discount).AsNoTracking().ToListAsync();
+
+            result.Sort(delegate (Service s1, Service s2)
+            {
+                if (s1.Discount == null && s2.Discount == null || s1.Discount != null && s2.Discount != null)
+                {
+                    return 0;
+                }
+                else if (s1.Discount == null && s2.Discount != null)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            });
+
+            return MapListServiceToListServiceView(result);
+        }
+        private List<ServiceView> MapListServiceToListServiceView(List<Service> services)
+        {
+            var result = new List<ServiceView>();
+            foreach (var service in services)
+            {
+                result.Add(MapServiceToServiceView(service));
+            }
+            return result;
+        }
+
+        public async Task<List<ServiceView>> GetAllServices()
+        {
+           return MapListServiceToListServiceView(await _db.Services.Include(s => s.Discount).ToListAsync());
+        }
+
+        public async Task<List<ServiceView>> SearchServicesByName(string name)
+        {
+            var services = await _db.Services.Where(s => s.ServiceName.ToLower().Contains(name.ToLower())).ToListAsync();
+            return MapListServiceToListServiceView(services);
+        }
     }
 }
