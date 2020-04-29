@@ -21,23 +21,19 @@ namespace AutoService.WEB
         public Task SendAsync(IdentityMessage message)
         {
             // настройка логина, пароля отправителя
-            var from = "germantruhanov@rambler.ru";
-            var pass = "Epehyzyru98!";
+            var from = ConfigurationManager.AppSettings["EmailAddress"];
+            var pass = ConfigurationManager.AppSettings["EmailPass"];
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
-            SmtpClient client = new SmtpClient
-            {
-                Host = "smtp.rambler.ru",
-                Port = 465,
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                UseDefaultCredentials = false,
-                Credentials = new System.Net.NetworkCredential(from, pass)
-            };
+            SmtpClient client = new SmtpClient("mail.hosting.reg.ru", 25);
+
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new System.Net.NetworkCredential(from, pass);
+            client.EnableSsl = true;
 
             // создаем письмо: message.Destination - адрес получателя
             var mail = new MailMessage(from, message.Destination);
-
             mail.Subject = message.Subject;
             mail.Body = message.Body;
             mail.IsBodyHtml = true;

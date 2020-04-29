@@ -23,7 +23,9 @@ namespace AutoService.WEB
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/font-awesome.min.css",
+                      "~/Content/owl.carousel.css", "~/Content/owl.theme.default.css"));
         }
     }
 }

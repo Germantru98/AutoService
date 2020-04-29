@@ -15,14 +15,14 @@
     <!--БлокСкидки-->
     @if (Model.Discounts.Count > 0)
     {
-    @Html.Partial("DiscountCarousel", Model.Discounts)
+        @Html.Partial("DiscountCarousel", Model.Discounts)
     }
 </div>
 <!--Автобренды-->
 <h3 class="text-center m-3">Марки с которыми мы работаем</h3>
 @Html.Partial("BrandCarousel", Model.CarBrands)
 @section Scripts {
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
     @Scripts.Render("~/scripts/owl.carousel.js")
     @Scripts.Render("~/scripts/Script.js")
-    @Scripts.Render("~/scripts/InvokeModalDialog.js")
 }
