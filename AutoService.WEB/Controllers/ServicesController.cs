@@ -51,7 +51,7 @@ namespace AutoService.WEB.Controllers
         // GET: Services/Create
         public ActionResult Create()
         {
-            return View();
+            return PartialView("AddNewService");
         }
 
         // POST: Services/Create
@@ -67,7 +67,6 @@ namespace AutoService.WEB.Controllers
                 await _servicesLogic.AddNewService(service);
                 return RedirectToAction("Index");
             }
-
             return View(serviceView);
         }
 

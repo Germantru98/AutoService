@@ -2,7 +2,6 @@
 @model ServiceView
 
 @{
-    Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Новая услуга";
 }
 
@@ -12,7 +11,7 @@
 
 <div class="form-horizontal col-6 mr-auto ml-auto mt-5">
     <h2 class="text-dark text-center">Новая услуга</h2>
-    <div class="form-group ">
+    <div class="form-group">
         @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "text-dark" })
 
         @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
@@ -53,7 +52,8 @@
                 },
                 ServiceImageHref:
                 {
-                    required: true
+                    required: true,
+                    url:true
                 }
             },
             messages: {
@@ -68,7 +68,8 @@
                 },
                 ServiceImageHref:
                 {
-                    required: "Поле с ссылкой на изображение не может быть пустым"
+                    required: "Поле с ссылкой на изображение не может быть пустым",
+                    url: "Поле должно содержать ссылку"
                 }
             }
         });

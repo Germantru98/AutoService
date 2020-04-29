@@ -40,11 +40,8 @@
         <div class="card-footer text-right p-1 border-0 bg-transparent">
             @if (User.IsInRole("Admin"))
             {
-                <p class="m-1">
                     @Html.ActionLink("Удалить", "Delete", new { @Model.ServiceId }, new { @class = "dialog btn btn-dark m-1" })
                     @Html.ActionLink("Изменить", "Edit", new { @Model.ServiceId }, new { @class = "btn btn-dark m-1" })
-                </p>
-
             }
             else if (User.Identity.IsAuthenticated)
             {

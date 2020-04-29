@@ -5,9 +5,8 @@ namespace AutoService.WEB.Models
 {
     public class HomeView
     {
-        public List<Service> PopularServices { get; set; }
         public List<CarBrand> CarBrands { get; set; }
-        public List<Service> Discounts { get; set; }
+        public List<ServiceView> Discounts { get; set; }
         public List<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
     }
 

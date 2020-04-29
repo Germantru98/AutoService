@@ -12,7 +12,7 @@
     @using (Html.BeginForm("AddNewDiscount", "AdminMenu", null, FormMethod.Post, new { @class = "validate" }))
     {
         @Html.AntiForgeryToken()
-        <div class="modal-body form-horizontal">
+        <div class="modal-body">
             <div class="form-group">
                 Размер скидки<br />
                 @Html.EditorFor(model => model.DiscountValue, new { htmlAttributes = new { @class = "form-control" } })

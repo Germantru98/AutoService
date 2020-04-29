@@ -3,7 +3,6 @@
 
 @{
     ViewBag.Title = "Изменение услуги";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2 class="mt-3">Изменить услугу</h2>
@@ -55,7 +54,8 @@
                 },
                 ServiceImageHref:
                 {
-                    required: true
+                    required: true,
+                    url:true
                 }
             },
             messages: {
@@ -70,7 +70,8 @@
                 },
                 ServiceImageHref:
                 {
-                    required: "Поле с ссылкой на изображение не может быть пустым"
+                    required: "Поле с ссылкой на изображение не может быть пустым",
+                    url: "Поле должно содержать ссылку"
                 }
             }
         });

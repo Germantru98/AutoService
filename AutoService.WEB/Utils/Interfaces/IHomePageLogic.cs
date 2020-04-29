@@ -23,5 +23,6 @@ namespace AutoService.WEB.Utils.Interfaces
         Task AddNewCarBrand(CarBrand newCarBrand);
 
         Task<CarBrand> FindCarBrand(int? brandId);
+        Task<List<ServiceView>> GetRelevantDiscountsForHomePage();
     }
 }

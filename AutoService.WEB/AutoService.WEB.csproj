@@ -329,6 +329,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
     <None Include="Properties\PublishProfiles\kindpolecat-b0bd - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\kindpolecat-b0bd - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\WebDeploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\InvokeModalDialog.js" />
     <Content Include="Scripts\jquery-3.4.1.js" />
@@ -535,6 +536,7 @@
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Services\ExistsInUserShopCartModalView.cshtml" />
     <Content Include="Views\Services\SortedServices.cshtml" />
+    <Content Include="Views\Services\AddNewService.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

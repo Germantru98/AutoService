@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace AutoService.WEB.Models
 {
-    public class Service : IComparable<Service>
+    public class Service
     {
         public int ServiceId { get; set; }
 
@@ -28,22 +28,6 @@ namespace AutoService.WEB.Models
         }
 
         public int Counter { get; set; }
-
-        public int CompareTo(Service other)
-        {
-            if (Counter < other.Counter)
-            {
-                return 1;
-            }
-            else if (Counter > other.Counter)
-            {
-                return -1;
-            }
-            else
-            {
-                return 0;
-            }
-        }
 
         public override string ToString()
         {
@@ -101,8 +85,11 @@ namespace AutoService.WEB.Models
     public class EditServiceView
     {
         public int ServiceId { get; set; }
+        [Display(Name ="Название услуги")]
         public string ServiceName { get; set; }
+        [Display(Name = "Цена за услугу")]
         public int Price { get; set; }
+        [Display(Name = "Ссылка наизображение услуги")]
         public string ServiceImageHref { get; set; }
 
         public EditServiceView()

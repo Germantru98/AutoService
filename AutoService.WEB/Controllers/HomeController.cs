@@ -22,15 +22,12 @@ namespace AutoService.WEB.Controllers
 
         public async Task<ActionResult> Index()
         {
-            DateTime currentTime = DateTime.Now;
             HomeView homeView = new HomeView()
             {
-                PopularServices = await _db.Services.Include(s => s.Discount).ToListAsync(),
                 CarBrands = await _homePageLogic.GetCarBrandsCarousel(),
-                Discounts = await _db.Services.Where(s => s.Discount.StartDate <= currentTime && s.Discount.FinishDate >= currentTime).ToListAsync(),
+                Discounts = await _homePageLogic.GetRelevantDiscountsForHomePage(),
                 HomeMainCarouselItems = await _homePageLogic.GetMainCarousel()
             };
-            homeView.PopularServices.Sort();
             if (homeView.Discounts.Count > 0)
             {
                 ViewBag.MainCarouselSize = "withDisc";

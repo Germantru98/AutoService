@@ -3,6 +3,7 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils
@@ -10,10 +11,12 @@ namespace AutoService.WEB.Utils
     public class HomePageLogic : IHomePageLogic
     {
         private ApplicationDbContext _db;
+        private ServicesLogic _servicesLogic;
 
-        public HomePageLogic(ApplicationDbContext db)
+        public HomePageLogic(ApplicationDbContext db, ServicesLogic servicesLogic)
         {
             _db = db;
+            _servicesLogic = servicesLogic;
         }
 
         public async Task AddNewMainCarouselItem(AddNewCarouselItemView item)
@@ -128,6 +131,23 @@ namespace AutoService.WEB.Utils
                 throw new NullReferenceException($"CarBrand c brandId = {brandId} отсутствует в бд");
             }
             return brand;
+        }
+
+        public async Task<List<ServiceView>> GetRelevantDiscountsForHomePage()
+        {
+            var servicesWithDiscount = await _db.Services.Include(s => s.Discount).ToListAsync();
+            var result = new List<ServiceView>();
+            foreach (var item in servicesWithDiscount)
+            {
+                if (item.Discount!=null)
+                {
+                    if (item.Discount.isRelevant())
+                    {
+                        result.Add(_servicesLogic.MapServiceToServiceView(item));
+                    }
+                }
+            }
+            return result;
         }
     }
 }
