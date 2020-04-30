@@ -1,34 +1,31 @@
 ﻿@model AutoService.WEB.Models.UserReview
-<div class="modal-content">
-    <!-- Заголовок модального окна -->
-    <div class="modal-header">
-        <h5 class="modal-title">Вы уверенны, что хотите удалить свой отзыв?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <!-- Основное содержимое модального окна -->
-    <div class="modal-body text-center ">
-        <div>
+    <div class="modal-content">
+        <!-- Заголовок модального окна -->
+        <div class="modal-header">
+            <h5 class="modal-title">Вы уверенны, что хотите удалить свой отзыв?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <!-- Основное содержимое модального окна -->
+        <div class="modal-body overflow-auto" style="max-height:250px">
             <div>
-                @Html.LabelFor(model => model.DateOfCreation, new { @class = "font-weight-bold" }):
-                @Html.DisplayFor(model => model.DateOfCreation)
-            </div>
-            <div>
-                @Html.LabelFor(model => model.ReviewText, new { @class = "font-weight-bold" }):
-                @Html.DisplayFor(model => model.ReviewText)
+                <div style="min-height:150px">
+                    @Html.DisplayFor(model => model.ReviewText)
+                </div>
             </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
+        <div class="text-muted text-right m-2 mr-3">
+            <label><i class="fa fa-calendar mr-1 p-1"></i>Дата: </label>
+            @Model.DateOfCreation.ToShortDateString()
+        </div>
+        <div class="modal-footer">
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash mr-1 p-1"></i>Удалить</button>
+                <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close mr-1 p-1"></i>Закрыть</button>
+            }
 
-            <div class="form-actions no-color">
-                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-            </div>
-        }
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        </div>
     </div>
-</div>
