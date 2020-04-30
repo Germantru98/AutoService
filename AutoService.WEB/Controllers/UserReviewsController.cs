@@ -9,6 +9,7 @@ using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Linq;
 
 namespace AutoService.WEB.Controllers
 {
@@ -42,18 +43,19 @@ namespace AutoService.WEB.Controllers
 
         // GET: UserRewiews
         [AllowAnonymous]
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, Messages? message)
         {
             int pageSize = 6;
             int pageNumber = (page ?? 1);
-            var userReviewsList = await _db.UserRewiews.ToListAsync();
+            var userReviewsList = await _reviewsLogic.GetAllReviews();
             ViewBag.UserId = User.Identity.GetUserId();
+            ViewBag.StatusMessage = MessageGenerator(message);
             return View(userReviewsList.ToPagedList(pageNumber, pageSize));
         }
 
         public ActionResult CreateReview()
         {
-            return View("Create");
+            return PartialView("Create");
         }
 
         // POST: UserRewiews/Create
@@ -68,39 +70,30 @@ namespace AutoService.WEB.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = await UserManager.FindByIdAsync(userId);
                 await _reviewsLogic.CreateReview(new UserReview(userRewiew.Text, userId, user.UserName));
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = Messages.AddNewReviewSuccess});
             }
-            return View("Create");
+            return RedirectToAction("Index", new { message = Messages.Error });
         }
 
         public async Task<ActionResult> Edit(int? reviewId)
         {
             try
             {
-                var editorId = User.Identity.GetUserId();
-                var userReview = await _reviewsLogic.FindUserReview(reviewId);
-                if (editorId == userReview.OwnerId)
-                {
-                    var view = new EditUserReviewView()
-                    {
-                        EditedText = userReview.ReviewText,
-                        ReviewId = (int)reviewId
-                    };
-                    ViewBag.EditView = view;
-                    return View(view);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+                var userId = User.Identity.GetUserId();
+                var editReviewView = await _reviewsLogic.StartEditUserReview(reviewId,userId);
+                return PartialView(editReviewView);
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Messages.Error });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
         }
 
@@ -114,9 +107,9 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _reviewsLogic.EditUserReview(review);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = Messages.EditUserReviewSuccess});
             }
-            return View((EditUserReviewView)ViewBag.EditView);
+            return RedirectToAction("Index", new { message = Messages.Error });
         }
 
         // GET: UserRewiews/Delete/5
@@ -124,24 +117,22 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
-                var review = await _reviewsLogic.FindUserReview(reviewId);
                 var userId = User.Identity.GetUserId();
-                if (userId == review.OwnerId || User.IsInRole("Admin"))
-                {
-                    return PartialView("Delete", review);
-                }
-                else
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
+                bool isAdmin = User.IsInRole("Admin");
+                var review = await _reviewsLogic.StartUserReviewRemoving(reviewId, userId, isAdmin);
+                return PartialView("Delete", review);
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Messages.Error });
+            }
+            catch (Exception)
+            {
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
         }
 
@@ -154,11 +145,28 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index");
         }
 
+        public enum Messages
+        {
+            AddNewReviewSuccess,
+            EditUserReviewSuccess,
+            DeleteUserReviewSuccess,
+            Error
+        }
+        private string MessageGenerator(Messages? message)
+        {
+            return message == Messages.AddNewReviewSuccess ? "Ваш отзыв добавлен."
+               : message == Messages.EditUserReviewSuccess ? "Отзыв успешно изменен."
+               : message == Messages.DeleteUserReviewSuccess ? "Отзыв удален."
+               : message == Messages.Error ? "Произошла ошибка."
+               : null;
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
                 _db.Dispose();
+                _reviewsLogic.Dispose();
+                UserManager.Dispose();
             }
             base.Dispose(disposing);
         }

@@ -8,6 +8,7 @@ namespace AutoService.WEB.Models
         [Key]
         public int UserReviewId { get; set; }
 
+        [Display(Name = "Текст отзыва")]
         public string ReviewText { get; set; }
         public DateTime DateOfCreation { get; set; }
         public string OwnerId { get; set; }
@@ -38,6 +39,7 @@ namespace AutoService.WEB.Models
     public class CreateReviewView
     {
         [Required(ErrorMessage = "Поле с отзывом пользователя не может быть пустым")]
+        [Display(Name = "Текст отзыва")]
         public string Text { get; set; }
     }
 
@@ -46,6 +48,17 @@ namespace AutoService.WEB.Models
         public int ReviewId { get; set; }
 
         [Required(ErrorMessage = "Поле с отзывом пользователя не может быть пустым")]
+        [Display(Name = "Текст отзыва")]
         public string EditedText { get; set; }
+
+        public EditUserReviewView()
+        {
+
+        }
+        public EditUserReviewView(int reviewId, string editedText)
+        {
+            ReviewId = reviewId;
+            EditedText = editedText;
+        }
     }
 }

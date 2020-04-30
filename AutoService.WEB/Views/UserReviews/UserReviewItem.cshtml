@@ -1,22 +1,35 @@
 ﻿@using AutoService.WEB.Models
 @model UserReview
-<div class="col-sm-10 col-xl-4 col-lg-4 col-md-5 border border-dark p-0 reviewitem mt-2 mb-2 mr-sm-auto ml-sm-auto mr-xl-3 ml-xl-3">
-    <div class="bg-dark text-white h6 p-3">Автор: @Model.UserName</div>
-    <div class="p-3 overflow-auto reviewtextarea">
-        @Model.ReviewText
-    </div>
-    <div class="text-right text-muted p-2 mr-2 mt-2">
-        @Model.DateOfCreation.ToShortDateString()
-    </div>
-    <div class=" btn-group p-3">
+
+<div class="col-sm-12 col-xl-6 col-md-8 m-3">
+    <div class="card rounded shadow-sm">
+        <div class="card-header bg-dark text-center text-white"><i class="fa fa-user-o mr-1 p-1"></i>Автор:  @Model.UserName</div>
+        <div class="card-body" style="min-height:150px">
+            <div class="card-text">
+                @Model.ReviewText
+            </div>
+        </div>
+        <div class="text-muted text-right p-2">
+            <label class="mr-1"><i class="fa fa-calendar fa-lg p-1 mr-1"></i>Дата:</label>@Model.DateOfCreation.ToShortDateString()
+        </div>
         @if (User.IsInRole("Admin"))
         {
-          @Html.ActionLink("Удалить", "Delete", new { reviewId =Model.UserReviewId }, new { @class = "dialog btn btn-outline-secondary" })
+            <div class="card-footer text-center">
+                <a style="width:110px" class="dialog btn btn-dark btn-sm" href="@Url.Action("Delete", new { reviewId = Model.UserReviewId })">
+                    <i class="fa fa-trash mr-1 p-1"></i>Удалить
+                </a>
+            </div>
         }
         else if (Model.OwnerId == ViewBag.UserId)
         {
-          @Html.ActionLink("Изменить", "Edit", new { reviewId = Model.UserReviewId }, new { @class = "btn btn-outline-secondary" })
-          @Html.ActionLink("Удалить", "Delete", new { reviewId = Model.UserReviewId }, new { @class = "dialog btn btn-outline-secondary" })
+            <div class="card-footer text-center">
+                <a style="width:110px" class="dialog btn btn-dark btn-sm" href="@Url.Action("Delete", new { reviewId = Model.UserReviewId })">
+                    <i class="fa fa-trash mr-1 p-1"></i>Удалить
+                </a>
+                <a style="width:110px" class="dialog btn btn-dark btn-sm" href="@Url.Action("Edit", new { reviewId = Model.UserReviewId })">
+                    <i class="fa fa-pencil-square-o mr-1 p-1"></i>Изменить
+                </a>
+            </div>
         }
     </div>
 </div>

@@ -534,6 +534,8 @@
     <Content Include="Views\Services\ExistsInUserShopCartModalView.cshtml" />
     <Content Include="Views\Services\SortedServices.cshtml" />
     <Content Include="Views\Services\AddNewService.cshtml" />
+    <Content Include="Views\Shared\ErrorModalView.cshtml" />
+    <Content Include="Views\Shared\SuccessOperation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
