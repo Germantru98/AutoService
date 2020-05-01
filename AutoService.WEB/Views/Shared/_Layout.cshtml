@@ -33,7 +33,12 @@
                 <li>
                     @Html.ActionLink("Отзывы", "Index", "UserReviews", null, new { @class = "nav-link" })
                 </li>
-
+                @if (User.Identity.IsAuthenticated&&!User.IsInRole("Admin"))
+                {
+                    <li>
+                        @Html.ActionLink("Корзина", "Index", "ShopCart", null, new { @class = "nav-link" })
+                    </li>
+                }
                 @if (User.IsInRole("Admin"))
                 {
                     <li>

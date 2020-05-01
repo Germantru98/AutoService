@@ -1,10 +1,11 @@
 ﻿using AutoService.WEB.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
 {
-    public interface IServicesLogic
+    public interface IServicesLogic : IDisposable
     {
         Task<List<ServiceView>> GetAllServicesWithDiscount();
 
@@ -31,9 +32,15 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<List<Service>> GetServicesFromSummary(string serviceList);
 
         ServiceView MapServiceToServiceView(Service service);
+
         Task<List<ServiceView>> GetServicesSortedByPrice();
+
         Task<List<ServiceView>> GetServicesSortedByDiscount();
+
         Task<List<ServiceView>> GetAllServices();
+
         Task<List<ServiceView>> SearchServicesByName(string name);
+
+        string ServicesToString(List<Service> services);
     }
 }

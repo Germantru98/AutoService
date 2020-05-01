@@ -68,6 +68,7 @@ namespace AutoService.WEB.Utils
             _db.UserRewiews.Remove(review);
             await _db.SaveChangesAsync();
         }
+
         public async Task<List<UserReview>> GetAllReviews()
         {
             var userReviewsList = await _db.UserRewiews.OrderByDescending(r => r.DateOfCreation).ToListAsync();
@@ -91,6 +92,7 @@ namespace AutoService.WEB.Utils
             }
             return new EditUserReviewView(review.UserReviewId, review.ReviewText);
         }
+
         public async Task<UserReview> StartUserReviewRemoving(int? reviewId, string userId, bool isAdmin)
         {
             if (reviewId == null || string.IsNullOrEmpty(userId))
@@ -128,7 +130,5 @@ namespace AutoService.WEB.Utils
             Dispose(true);
             GC.SuppressFinalize(this);
         }
-
-
     }
 }

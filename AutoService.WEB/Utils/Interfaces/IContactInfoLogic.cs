@@ -1,10 +1,11 @@
 ﻿using AutoService.WEB.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
 {
-    public interface IContactInfoLogic
+    public interface IContactInfoLogic : IDisposable
     {
         Task<ContactView> getContactView();
 

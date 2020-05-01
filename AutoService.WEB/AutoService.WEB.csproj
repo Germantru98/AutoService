@@ -230,6 +230,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
+    <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\UserReviewsController.cs" />
     <Compile Include="Controllers\VacanciesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -243,10 +244,13 @@
     <Compile Include="Migrations\202004251411510_newCarStorage.Designer.cs">
       <DependentUpon>202004251411510_newCarStorage.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005011614396_newShopCart.cs" />
+    <Compile Include="Migrations\202005011614396_newShopCart.Designer.cs">
+      <DependentUpon>202005011614396_newShopCart.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
-    <Compile Include="Models\BasketModels.cs" />
     <Compile Include="Models\CarModels.cs" />
     <Compile Include="Models\ContactViewsModels.cs" />
     <Compile Include="Models\HomeViewModels.cs" />
@@ -255,11 +259,13 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\RewiewModels.cs" />
     <Compile Include="Models\ServiceModels.cs" />
+    <Compile Include="Models\ShopCartModels.cs" />
     <Compile Include="Models\SummaryModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Utils\AdminLogic.cs" />
     <Compile Include="Utils\CarLogic.cs" />
+    <Compile Include="Utils\CartModelBinder.cs" />
     <Compile Include="Utils\HomePageLogic.cs" />
     <Compile Include="Utils\Interfaces\ICarLogic.cs" />
     <Compile Include="Utils\Interfaces\IHomePageLogic.cs" />
@@ -270,10 +276,8 @@
     <Compile Include="Utils\Interfaces\IReviewsLogic.cs" />
     <Compile Include="Utils\Interfaces\IServicesLogic.cs" />
     <Compile Include="Utils\Interfaces\ISummariesLogic.cs" />
-    <Compile Include="Utils\Interfaces\IUserLogic.cs" />
     <Compile Include="Utils\ReviewsLogic.cs" />
     <Compile Include="Utils\ServicesLogic.cs" />
-    <Compile Include="Utils\UserLogic.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\aspnet-AutoService.WEB-20200115051436.mdf" />
@@ -477,9 +481,8 @@
     <Content Include="Views\Shared\DisplayEmail.cshtml" />
     <Content Include="Views\ContactInfo\Index.cshtml" />
     <Content Include="Views\Home\DiscountCarousel.cshtml" />
-    <Content Include="Views\Shared\SuccessView.cshtml" />
-    <Content Include="Views\Manage\DeleteServiceFromShopCartModalView.cshtml" />
-    <Content Include="Views\Manage\UserAccountMenu.cshtml" />
+    <Content Include="Views\ShopCart\AddToCartModalView.cshtml" />
+    <Content Include="Views\ShopCart\DeleteServiceFromShopCartModalView.cshtml" />
     <Content Include="Views\AdminMenu\AdminMenu.cshtml" />
     <Content Include="Views\AdminMenu\UserView.cshtml" />
     <Content Include="Views\Home\MainCarousel.cshtml" />
@@ -489,9 +492,8 @@
     <Content Include="Views\AdminMenu\ConfirmDiscountDeleteView.cshtml" />
     <Content Include="Views\AdminMenu\AddNewDiscountWindow.cshtml" />
     <Content Include="Views\AdminMenu\ExtendDiscount.cshtml" />
-    <Content Include="Views\Manage\ServicesSummary.cshtml" />
+    <Content Include="Views\ShopCart\ServicesSummary.cshtml" />
     <Content Include="Views\Shared\Test.cshtml" />
-    <Content Include="Views\Manage\ClearBasket.cshtml" />
     <Content Include="Views\ContactInfo\AddNewInfo.cshtml" />
     <Content Include="Views\ContactInfo\EditContacts.cshtml" />
     <Content Include="Views\ContactInfo\RemoveItemModalView.cshtml" />
@@ -510,12 +512,10 @@
     <Content Include="Views\AdminMenu\EditSummaryView.cshtml" />
     <Content Include="Views\AdminMenu\SummaryEditorView.cshtml" />
     <Content Include="Views\AdminMenu\ServiceNameWithDiscount.cshtml" />
-    <Content Include="Views\AdminMenu\SuccessOperation.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarouselItemModalView.cshtml" />
     <Content Include="Views\AdminMenu\MainCarouselSection.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarouselItem.cshtml" />
     <Content Include="Views\AdminMenu\EditCarouselItemModalView.cshtml" />
-    <Content Include="Views\AdminMenu\ErrorModalView.cshtml" />
     <Content Include="Views\AdminMenu\SettingsSection.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarBrand.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarBrand.cshtml" />
@@ -524,18 +524,18 @@
     <Content Include="Views\Manage\UserShopCartSection.cshtml" />
     <Content Include="Views\Manage\UserCarView.cshtml" />
     <Content Include="Views\Manage\NewCarCardView.cshtml" />
-    <Content Include="Views\Manage\SuccessOperation.cshtml" />
-    <Content Include="Views\Manage\ErrorModalView.cshtml" />
     <Content Include="Views\Manage\AddNewCarModalView.cshtml" />
     <Content Include="Views\Manage\EditUserCarModalView.cshtml" />
     <Content Include="Views\Manage\RemoveUserCarModalView.cshtml" />
-    <Content Include="Views\Manage\ShopCartItemView.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Services\ExistsInUserShopCartModalView.cshtml" />
+    <Content Include="Views\ShopCart\ExistsInUserShopCartModalView.cshtml" />
     <Content Include="Views\Services\SortedServices.cshtml" />
     <Content Include="Views\Services\AddNewService.cshtml" />
     <Content Include="Views\Shared\ErrorModalView.cshtml" />
     <Content Include="Views\Shared\SuccessOperation.cshtml" />
+    <Content Include="Views\ShopCart\Index.cshtml" />
+    <Content Include="Views\ShopCart\ClearShopCart.cshtml" />
+    <Content Include="Views\ShopCart\ShopCartItemView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -552,6 +552,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202004251411510_newCarStorage.resx">
       <DependentUpon>202004251411510_newCarStorage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005011614396_newShopCart.resx">
+      <DependentUpon>202005011614396_newShopCart.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

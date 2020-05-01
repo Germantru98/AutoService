@@ -85,10 +85,13 @@ namespace AutoService.WEB.Models
     public class EditServiceView
     {
         public int ServiceId { get; set; }
-        [Display(Name ="Название услуги")]
+
+        [Display(Name = "Название услуги")]
         public string ServiceName { get; set; }
+
         [Display(Name = "Цена за услугу")]
         public int Price { get; set; }
+
         [Display(Name = "Ссылка наизображение услуги")]
         public string ServiceImageHref { get; set; }
 

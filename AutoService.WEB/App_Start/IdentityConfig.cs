@@ -25,7 +25,7 @@ namespace AutoService.WEB
             var pass = ConfigurationManager.AppSettings["EmailPass"];
 
             // адрес и порт smtp-сервера, с которого мы и будем отправлять письмо
-            SmtpClient client = new SmtpClient("mail.hosting.reg.ru", 25);
+            SmtpClient client = new SmtpClient("mail.hosting.reg.ru", 587);
 
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.UseDefaultCredentials = false;

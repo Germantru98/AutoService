@@ -30,12 +30,12 @@
 
         @foreach (var item in Model.CarBrands)
         {
-            <div class="card m-2" style="min-width:250px">
-                <img class="card-img-top" width="200" height="200" src="@item.ImageHref" title="@item.BrandName" alt="Alternate Text" />
-                <div class="card-footer text-center">
-                    <a href="@Url.Action("RemoveCarBrand", "AdminMenu", new { id = item.BrandId })" class = "dialog btn btn-outline-danger"><i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить</a>
-                </div>
+        <div class="card m-2" style="min-width:250px">
+            <img class="card-img-top" width="200" height="200" src="@item.ImageHref" title="@item.BrandName" alt="Alternate Text" />
+            <div class="card-footer text-center">
+                <a href="@Url.Action("RemoveCarBrand", "AdminMenu", new { id = item.BrandId })" class="dialog btn btn-outline-danger"><i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить</a>
             </div>
+        </div>
         }
     </div>
     <div class="card-footer">

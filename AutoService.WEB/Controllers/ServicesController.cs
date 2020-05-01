@@ -1,9 +1,6 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
-using Microsoft.AspNet.Identity;
 using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -12,19 +9,19 @@ namespace AutoService.WEB.Controllers
 {
     public class ServicesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
-        private IUserLogic _userLogic;
+        private ApplicationDbContext _db;
         private IServicesLogic _servicesLogic;
 
         public ServicesController()
         {
         }
 
-        public ServicesController(IUserLogic userLogic, IServicesLogic servicesLogic)
+        public ServicesController(ApplicationDbContext db, IServicesLogic servicesLogic)
         {
-            _userLogic = userLogic;
+            _db = db;
             _servicesLogic = servicesLogic;
         }
+
         // GET: Services
         [AllowAnonymous]
         public async Task<ActionResult> Index()
@@ -40,7 +37,7 @@ namespace AutoService.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Service service = await db.Services.FindAsync(id);
+            Service service = await _db.Services.FindAsync(id);
             if (service == null)
             {
                 return HttpNotFound();
@@ -131,27 +128,6 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index");
         }
 
-        public async Task<ActionResult> AddToBasket(int? serviceId)
-        {
-            try
-            {
-                await _userLogic.AddToBasket(serviceId, User.Identity.GetUserId());
-                return PartialView("SuccessView");
-            }
-            catch (ArgumentNullException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (NullReferenceException)
-            {
-                return HttpNotFound();
-            }
-            catch (Exception)
-            {
-                return PartialView("ExistsInUserShopCartModalView");
-            }
-        }
-
         public async Task<ActionResult> SearchServicesByName(string serviceName)
         {
             var services = await _servicesLogic.SearchServicesByName(serviceName);
@@ -161,26 +137,30 @@ namespace AutoService.WEB.Controllers
             }
             return PartialView("ServicesSearch", services);
         }
+
         public async Task<ActionResult> GetServicesSortedByDiscount()
         {
             var sortedServices = await _servicesLogic.GetServicesSortedByDiscount();
             return PartialView("SortedServices", sortedServices);
         }
+
         public async Task<ActionResult> GetServicesSortedByPrice()
         {
             var sortedServices = await _servicesLogic.GetServicesSortedByPrice();
             return PartialView("SortedServices", sortedServices);
         }
+
         public async Task<ActionResult> GetAllServices()
         {
             var services = await _servicesLogic.GetAllServices();
             return PartialView("SortedServices", services);
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

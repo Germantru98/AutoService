@@ -7,7 +7,6 @@
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
-
 @if (ViewBag.StatusMessage != null)
 {
     string message = ViewBag.StatusMessage as string;
@@ -28,8 +27,8 @@
     Отзывы пользователей
     @if (User.Identity.IsAuthenticated)
     {
-            <a class="dialog btn btn-outline-success buttonCircle" title="Добавить отзыв" href="@Url.Action("CreateReview")">
-                <i class="fa fa-plus pt-2"></i>
+            <a class="dialog btn btn-outline-success btn-sm" title="Добавить отзыв" href="@Url.Action("CreateReview")">
+                <i class="fa fa-plus"></i>
             </a>
             }
     </h2>
@@ -47,8 +46,6 @@ else
 {
     <h2 class="text-center m-2 mt-3">Пусто</h2>
 }
-
-
 
 @section scripts
 {

@@ -37,6 +37,10 @@ namespace AutoService.WEB.Models
         [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата оказания выбранных услуг")]
         public DateTime selectedDateTime { get; set; }
+
+        public ServicesSummaryView()
+        {
+        }
     }
 
     public class ServicesSummaryAdminView

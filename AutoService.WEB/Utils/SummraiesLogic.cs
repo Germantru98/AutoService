@@ -232,5 +232,43 @@ namespace AutoService.WEB.Utils
             }
             return result;
         }
+
+        public ServicesSummaryView GetServicesSummaryView(IEnumerable<Service> shopCart, int totalPrice)
+        {
+            var view = new ServicesSummaryView()
+            {
+                ServicesList = shopCart,
+                TotalPrice = totalPrice
+            };
+            return view;
+        }
+
+        public async Task AddNewSummary(ServicesSummary newSummary)
+        {
+            _db.ServicesSummaries.Add(newSummary);
+            await _db.SaveChangesAsync();
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                    _servicesLogic.Dispose();
+                    _carLogic.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

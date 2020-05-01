@@ -120,6 +120,7 @@ namespace AutoService.WEB.Controllers
             if (disposing)
             {
                 _dbContext.Dispose();
+                _contactInfoLogic.Dispose();
             }
             base.Dispose(disposing);
         }

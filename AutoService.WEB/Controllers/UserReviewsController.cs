@@ -4,12 +4,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using System;
-using System.Data.Entity;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using System.Linq;
 
 namespace AutoService.WEB.Controllers
 {
@@ -70,7 +67,7 @@ namespace AutoService.WEB.Controllers
                 var userId = User.Identity.GetUserId();
                 var user = await UserManager.FindByIdAsync(userId);
                 await _reviewsLogic.CreateReview(new UserReview(userRewiew.Text, userId, user.UserName));
-                return RedirectToAction("Index", new { message = Messages.AddNewReviewSuccess});
+                return RedirectToAction("Index", new { message = Messages.AddNewReviewSuccess });
             }
             return RedirectToAction("Index", new { message = Messages.Error });
         }
@@ -80,7 +77,7 @@ namespace AutoService.WEB.Controllers
             try
             {
                 var userId = User.Identity.GetUserId();
-                var editReviewView = await _reviewsLogic.StartEditUserReview(reviewId,userId);
+                var editReviewView = await _reviewsLogic.StartEditUserReview(reviewId, userId);
                 return PartialView(editReviewView);
             }
             catch (ArgumentNullException)
@@ -107,7 +104,7 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _reviewsLogic.EditUserReview(review);
-                return RedirectToAction("Index", new { message = Messages.EditUserReviewSuccess});
+                return RedirectToAction("Index", new { message = Messages.EditUserReviewSuccess });
             }
             return RedirectToAction("Index", new { message = Messages.Error });
         }
@@ -142,7 +139,7 @@ namespace AutoService.WEB.Controllers
         public async Task<ActionResult> DeleteConfirmed(int reviewId)
         {
             await _reviewsLogic.RemoveUserReview(reviewId);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { message = Messages.DeleteUserReviewSuccess });
         }
 
         public enum Messages
@@ -152,6 +149,7 @@ namespace AutoService.WEB.Controllers
             DeleteUserReviewSuccess,
             Error
         }
+
         private string MessageGenerator(Messages? message)
         {
             return message == Messages.AddNewReviewSuccess ? "Ваш отзыв добавлен."
@@ -160,6 +158,7 @@ namespace AutoService.WEB.Controllers
                : message == Messages.Error ? "Произошла ошибка."
                : null;
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

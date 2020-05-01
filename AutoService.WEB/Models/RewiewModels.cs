@@ -10,6 +10,7 @@ namespace AutoService.WEB.Models
 
         [Display(Name = "Текст отзыва")]
         public string ReviewText { get; set; }
+
         public DateTime DateOfCreation { get; set; }
         public string OwnerId { get; set; }
         public string UserName { get; set; }
@@ -53,8 +54,8 @@ namespace AutoService.WEB.Models
 
         public EditUserReviewView()
         {
-
         }
+
         public EditUserReviewView(int reviewId, string editedText)
         {
             ReviewId = reviewId;

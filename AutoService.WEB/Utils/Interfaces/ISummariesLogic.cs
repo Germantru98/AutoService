@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
 {
-    public interface ISummariesLogic
+    public interface ISummariesLogic : IDisposable
     {
         Task<ServicesSummaryAdminView> FindSummaryById(int? summaryId);
+
+        Task AddNewSummary(ServicesSummary newSummary);
 
         Task RemoveSummary(int summaryId);
 
@@ -26,5 +28,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task CompleteSummary(int summaryId);
 
         Task<EditSummaryView> GetEditSummaryView(ServicesSummaryAdminView view);
+
+        ServicesSummaryView GetServicesSummaryView(IEnumerable<Service> shopCart, int totalPrice);
     }
 }

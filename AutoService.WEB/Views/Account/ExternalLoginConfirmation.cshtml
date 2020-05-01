@@ -29,17 +29,12 @@
                     @Html.TextBoxFor(m => m.RealName, new { @class = "form-control " })
                     @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
             </div>
-
         </div>
         <div class="card-footer text-center">
             <button type="submit" class="btn btn-primary"><i class="fa fa-check fa-lg p-1 mr-1"></i>Регистрация</button>
         </div>
     }
 </div>
-
-
-
-
 
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")

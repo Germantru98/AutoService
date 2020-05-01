@@ -4,8 +4,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -18,8 +16,6 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationDbContext _dbContext;
-        private IUserLogic _userLogic;
         private ICarLogic _carLogic;
 
         public ManageController()
@@ -32,10 +28,8 @@ namespace AutoService.WEB.Controllers
             SignInManager = signInManager;
         }
 
-        public ManageController(ApplicationDbContext dbContext, IUserLogic userLogic, ICarLogic carLogic)
+        public ManageController(ICarLogic carLogic)
         {
-            _dbContext = dbContext;
-            _userLogic = userLogic;
             _carLogic = carLogic;
         }
 
@@ -75,7 +69,7 @@ namespace AutoService.WEB.Controllers
             ViewBag.StatusMessage = MessageGenerator(message);
             var userId = User.Identity.GetUserId();
             var user = await UserManager.FindByIdAsync(userId);
-            var model = new IndexViewModel
+            var model = new IndexViewModel()
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = user.PhoneNumber,
@@ -85,8 +79,7 @@ namespace AutoService.WEB.Controllers
                 Cars = await _carLogic.GetAllUserCars(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                Basket = await _userLogic.GetUserShopCart(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
             };
             return View(model);
         }
@@ -200,7 +193,7 @@ namespace AutoService.WEB.Controllers
         {
             var code = await UserManager.GenerateChangePhoneNumberTokenAsync(User.Identity.GetUserId(), phoneNumber);
             // Отправка SMS через поставщик SMS для проверки номера телефона
-            return phoneNumber == null ?  View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
+            return phoneNumber == null ? View("Error") : View(new VerifyPhoneNumberViewModel { PhoneNumber = phoneNumber });
         }
 
         //
@@ -358,12 +351,23 @@ namespace AutoService.WEB.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
+                }
+                if (_carLogic != null)
+                {
+                    _carLogic.Dispose();
+                }
             }
-
             base.Dispose(disposing);
         }
 
@@ -460,121 +464,6 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index", new { message = ManageMessageId.EditCar });
             }
             return RedirectToAction("Index", "Manage", new { message = ManageMessageId.EditCarError });
-        }
-
-        public async Task<ActionResult> RemoveFromBasket(int? id)
-        {
-            try
-            {
-                var userId = User.Identity.GetUserId();
-                var serviceView = await _userLogic.StartRemoveFromUserShopCart(id, userId);
-                return PartialView("DeleteServiceFromShopCartModalView", serviceView);
-            }
-            catch (ArgumentNullException)
-            {
-                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
-            }
-            catch (NullReferenceException)
-            {
-                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
-            }
-            catch (Exception)
-            {
-                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
-            }
-        }
-
-        [HttpPost, ActionName("RemoveFromBasket")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveFromBasketConfirmed(int id)
-        {
-            if (ModelState.IsValid)
-            {
-                await _userLogic.RemoveFromBasket(id);
-                return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCart });
-            }
-            return RedirectToAction("Index", new { message = ManageMessageId.RemoveFromShopCartError });
-        }
-
-        public async Task<ActionResult> GetServiceSummary()
-        {
-            var userId = User.Identity.GetUserId();
-            var services = GetServicesFromBasket(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync());
-            ServicesSummaryView summary = new ServicesSummaryView()
-            {
-                ServicesList = services,
-                TotalPrice = _userLogic.GetTotalPrice(services)
-            };
-            ViewBag.Cars = new SelectList(_dbContext.Cars.Where(c => c.ApplicationUserId == userId), "Id", "Model");
-            return View("ServicesSummary", summary);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> GetServiceSummary(ServicesSummaryView summary)
-        {
-            var userId = User.Identity.GetUserId();
-            var services = GetServicesFromBasket(await _dbContext.BasketItems.Where(item => item.UserId == userId).ToListAsync());
-            if (ModelState.IsValid)
-            {
-                ServicesSummary servicesSummary = new ServicesSummary()
-                {
-                    DateOfCreating = DateTime.Now,
-                    DayOfWork = summary.selectedDateTime,
-                    TotalPrice = summary.TotalPrice,
-                    UserCarId = summary.CarId,
-                    UserId = userId,
-                    ServiceList = ListServicesToString(services)
-                };
-                _dbContext.ServicesSummaries.Add(servicesSummary);
-                await _dbContext.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
-            ViewBag.Cars = new SelectList(_dbContext.Cars.Where(c => c.ApplicationUserId == userId), "Id", "Model");
-            summary.ServicesList = services;
-            summary.TotalPrice = _userLogic.GetTotalPrice(summary.ServicesList);
-            return View("ServicesSummary", summary);
-        }
-
-        private string ListServicesToString(List<Service> services)
-        {
-            var result = string.Empty;
-            for (int i = 0; i < services.Count; i++)
-            {
-                if (i < services.Count - 1)
-                {
-                    result += $"{services[i].ServiceId}|";
-                }
-                else
-                {
-                    result += $"{services[i].ServiceId}";
-                }
-            }
-            return result;
-        }
-
-        public ActionResult ClearBasket()
-        {
-            return PartialView();
-        }
-
-        [HttpPost, ActionName("ClearBasket")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> ClearConfirmed()
-        {
-            var userId = User.Identity.GetUserId();
-            await _userLogic.RemoveAllItemsFromBasket(userId);
-            return RedirectToAction("Index");
-        }
-
-        private List<Service> GetServicesFromBasket(List<BasketItem> items)
-        {
-            var result = new List<Service>();
-            foreach (var item in items)
-            {
-                result.Add(_dbContext.Services.Include(s => s.Discount).FirstOrDefault(s => s.ServiceId == item.ServiceId));
-            }
-            return result;
         }
 
         #region Вспомогательные приложения

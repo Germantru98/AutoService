@@ -1,10 +1,11 @@
 ﻿using AutoService.WEB.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
 {
-    public interface IHomePageLogic
+    public interface IHomePageLogic : IDisposable
     {
         Task<List<HomeMainCarouselItem>> GetMainCarousel();
 
@@ -23,6 +24,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task AddNewCarBrand(CarBrand newCarBrand);
 
         Task<CarBrand> FindCarBrand(int? brandId);
+
         Task<List<ServiceView>> GetRelevantDiscountsForHomePage();
     }
 }

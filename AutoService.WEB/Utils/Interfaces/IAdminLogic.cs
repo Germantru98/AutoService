@@ -1,10 +1,11 @@
 ﻿using AutoService.WEB.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils.Interfaces
 {
-    public interface IAdminLogic
+    public interface IAdminLogic : IDisposable
     {
         Task RemoveUser(string userId);
 

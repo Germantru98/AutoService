@@ -45,7 +45,7 @@
             }
             else if (User.Identity.IsAuthenticated)
             {
-                <a class="dialog btn btn-dark btn-sm" href="@Url.Action("AddToBasket",new { ServiceId = Model.ServiceId })" title="Добавить в корзину">
+                <a class="dialog btn btn-dark btn-sm" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
                     <i class="fa fa-shopping-cart"></i>+
                 </a>
             }

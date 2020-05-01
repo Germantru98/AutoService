@@ -44,7 +44,6 @@ namespace AutoService.WEB.Models
         public DbSet<ContactItem> Contacts { get; set; }
         public DbSet<Discount> Discounts { get; set; }
         public DbSet<CarBrand> CarBrands { get; set; }
-        public DbSet<BasketItem> BasketItems { get; set; }
         public DbSet<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
         public DbSet<ServicesSummary> ServicesSummaries { get; set; }
         public DbSet<CompletedSummariesHistory> CompletedSummariesHistory { get; set; }

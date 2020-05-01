@@ -11,11 +11,11 @@
         <img class="img-fluid" src="https://webstockreview.net/images/clipart-food-fancy-12.png" alt="Alternate Text" />
     </div>
     <!-- Футер модального окна -->
-    <div class="modal-footer bg-transparent">
+    <div class="modal-footer bg-warning">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
-            <button type="submit"  class="btn btn-outline-danger"><i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Очистить</button>
+            <button type="submit" class="btn btn-outline-danger"><i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Очистить</button>
             <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
         }
     </div>

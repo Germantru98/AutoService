@@ -3,7 +3,6 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils
@@ -139,7 +138,7 @@ namespace AutoService.WEB.Utils
             var result = new List<ServiceView>();
             foreach (var item in servicesWithDiscount)
             {
-                if (item.Discount!=null)
+                if (item.Discount != null)
                 {
                     if (item.Discount.isRelevant())
                     {
@@ -148,6 +147,27 @@ namespace AutoService.WEB.Utils
                 }
             }
             return result;
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                    _servicesLogic.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

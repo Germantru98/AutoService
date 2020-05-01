@@ -1,0 +1,41 @@
+﻿@model AutoService.WEB.Models.Service
+<div class="col-xl-3 col-md-5 col-sm-10  mt-2 mb-2">
+    <div class="card mx-auto rounded shadow-sm" style="max-width:350px;">
+        <div class="card-img-top" style="height:220px">
+            <img src="@Model.ServiceImageHref" class=" w-100 h-100" alt="Alternate Text" />
+        </div>
+        <div class="text-center p-2 font-weight-bold" style="height:70px;">
+            @if (Model.Discount == null)
+            {
+                @Model.ServiceName
+            }
+            else if (Model.Discount.Value <= 30)
+            {
+                @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+            }
+            else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
+            {
+                @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+            }
+            else
+            {
+                @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+            }
+        </div>
+        <div class="card-body text-center pt-1">
+            @if (Model.Discount != null)
+            {
+                <label>Цена:</label> @Model.PriceWithDiscount <i class="fa fa-ruble"></i>
+            }
+            else
+            {
+                <label>Цена:</label> @Model.Price <i class="fa fa-ruble"></i>
+            }
+        </div>
+        <div class="card-footer text-center">
+            <a href="@Url.Action("RemoveFromCart","ShopCart", new { serviceId = Model.ServiceId })" class="dialog btn btn-outline-dark btn-sm">
+                <i class="mr-1 p-1 fa fa-trash-o"></i>Удалить
+            </a>
+        </div>
+    </div>
+</div>

@@ -218,7 +218,7 @@ namespace AutoService.WEB.Utils
                     return 0;
                 }
             });
-             return MapListServiceToListServiceView(result);
+            return MapListServiceToListServiceView(result);
         }
 
         public async Task<List<ServiceView>> GetServicesSortedByDiscount()
@@ -243,6 +243,7 @@ namespace AutoService.WEB.Utils
 
             return MapListServiceToListServiceView(result);
         }
+
         private List<ServiceView> MapListServiceToListServiceView(List<Service> services)
         {
             var result = new List<ServiceView>();
@@ -255,13 +256,50 @@ namespace AutoService.WEB.Utils
 
         public async Task<List<ServiceView>> GetAllServices()
         {
-           return MapListServiceToListServiceView(await _db.Services.Include(s => s.Discount).ToListAsync());
+            return MapListServiceToListServiceView(await _db.Services.Include(s => s.Discount).ToListAsync());
         }
 
         public async Task<List<ServiceView>> SearchServicesByName(string name)
         {
             var services = await _db.Services.Where(s => s.ServiceName.ToLower().Contains(name.ToLower())).ToListAsync();
             return MapListServiceToListServiceView(services);
+        }
+
+        public string ServicesToString(List<Service> services)
+        {
+            var result = string.Empty;
+            for (int i = 0; i < services.Count; i++)
+            {
+                if (i < services.Count - 1)
+                {
+                    result += $"{services[i].ServiceId}|";
+                }
+                else
+                {
+                    result += $"{services[i].ServiceId}";
+                }
+            }
+            return result;
+        }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

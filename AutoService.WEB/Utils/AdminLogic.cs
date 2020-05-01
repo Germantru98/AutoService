@@ -57,5 +57,28 @@ namespace AutoService.WEB.Utils
             var view = new SettingsView(carBrends);
             return view;
         }
+
+        private bool disposed = false;
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!this.disposed)
+            {
+                if (disposing)
+                {
+                    _db.Dispose();
+                    _homePageLogic.Dispose();
+                    _servicesLogic.Dispose();
+                    _summariesLogic.Dispose();
+                }
+            }
+            this.disposed = true;
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
     }
 }

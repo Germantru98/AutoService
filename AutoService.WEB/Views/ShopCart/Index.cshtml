@@ -1,0 +1,60 @@
+﻿@model AutoService.WEB.Models.CartIndexViewModel
+@{
+    ViewBag.Title = "Корзина";
+}
+
+<h2 class="text-center m-3">@ViewBag.Title</h2>
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (ViewBag.StatusMessage != null)
+{
+    string message = ViewBag.StatusMessage as string;
+    message.ToLower();
+    if (!message.Contains("ошибка"))
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
+
+}
+
+@if (Model.Cart.Lines.Count() > 0)
+{
+    <div class="row justify-content-center m-2 p-2">
+        <a href="@Url.Action("GetServiceSummary","ShopCart")" class="btn btn-outline-dark m-1">
+            <i class="mr-1 p-1 fa fa-dollar fa-lg"></i>Рассчитать
+        </a>
+        <a href="@Url.Action("ClearShopCart","ShopCart")" class="dialog btn btn-outline-dark m-1">
+            <i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить все
+        </a>
+    </div>
+    <div class="row justify-content-center">
+        @foreach (var item in Model.Cart.Lines)
+        {
+            @Html.Partial("ShopCartItemView", item)
+        }
+    </div>
+}
+else
+{
+    <div class="text-center mt-4">
+        <h3>Ваша корзина пока что пуста</h3>
+        <div class="mx-auto">
+            <img class="img-fluid mt-3" src="https://avatanplus.com/files/resources/mid/58ecc2130f65c15b5cd61a77.png" alt="Alternate Text" />
+        </div>
+    </div>
+}
+@section scripts
+{
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    <script>
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
+        });
+    </script>
+}

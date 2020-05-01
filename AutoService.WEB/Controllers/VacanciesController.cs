@@ -9,7 +9,16 @@ namespace AutoService.WEB.Controllers
 {
     public class VacanciesController : Controller
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private ApplicationDbContext _db;
+
+        public VacanciesController()
+        {
+        }
+
+        public VacanciesController(ApplicationDbContext db)
+        {
+            _db = db;
+        }
 
         // GET: Vacancies
         [AllowAnonymous]
@@ -17,7 +26,7 @@ namespace AutoService.WEB.Controllers
         {
             int pageSize = 3;
             int pageNumber = (page ?? 1);
-            var jobVacancies = await db.JobVacancies.ToListAsync();
+            var jobVacancies = await _db.JobVacancies.ToListAsync();
             return View(jobVacancies.ToPagedList(pageNumber, pageSize));
         }
 
@@ -28,7 +37,7 @@ namespace AutoService.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
             if (jobVacancy == null)
             {
                 return HttpNotFound();
@@ -52,8 +61,8 @@ namespace AutoService.WEB.Controllers
         {
             if (ModelState.IsValid || !string.IsNullOrEmpty(jobVacancy.VacancyDescription))
             {
-                db.JobVacancies.Add(jobVacancy);
-                await db.SaveChangesAsync();
+                _db.JobVacancies.Add(jobVacancy);
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
@@ -67,7 +76,7 @@ namespace AutoService.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
             if (jobVacancy == null)
             {
                 return HttpNotFound();
@@ -84,8 +93,8 @@ namespace AutoService.WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(jobVacancy).State = EntityState.Modified;
-                await db.SaveChangesAsync();
+                _db.Entry(jobVacancy).State = EntityState.Modified;
+                await _db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(jobVacancy);
@@ -98,7 +107,7 @@ namespace AutoService.WEB.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
+            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
             if (jobVacancy == null)
             {
                 return HttpNotFound();
@@ -111,9 +120,9 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            JobVacancy jobVacancy = await db.JobVacancies.FindAsync(id);
-            db.JobVacancies.Remove(jobVacancy);
-            await db.SaveChangesAsync();
+            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
+            _db.JobVacancies.Remove(jobVacancy);
+            await _db.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
@@ -121,7 +130,7 @@ namespace AutoService.WEB.Controllers
         {
             if (disposing)
             {
-                db.Dispose();
+                _db.Dispose();
             }
             base.Dispose(disposing);
         }

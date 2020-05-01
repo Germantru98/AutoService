@@ -31,16 +31,10 @@
                 <i class="fa fa-car fa-lg p-1 mr-1"></i>Мои автомобили
             </a>
         </li>
-        <li class="nav-item m-1">
-            <a class="nav-link  btn-outline-dark" data-toggle="tab" href="#basket">
-                <i class="fa fa-shopping-cart fa-lg p-1 mr-1"></i>Корзина
-            </a>
-        </li>
     </ul>
     <div class="tab-content">
         @Html.Partial("UserAccountSection",Model)
         @Html.Partial("UserCarsSection", Model.Cars)
-        @Html.Partial("UserShopCartSection",Model.Basket)
     </div>
 </div>
 

@@ -1,8 +1,5 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
-using System;
-using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -44,6 +41,16 @@ namespace AutoService.WEB.Controllers
             ViewBag.Message = "Your application description page.";
 
             return View();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _db.Dispose();
+                _homePageLogic.Dispose();
+            }
+            base.Dispose(disposing);
         }
     }
 }
