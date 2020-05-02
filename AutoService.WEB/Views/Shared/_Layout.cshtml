@@ -33,10 +33,12 @@
                 <li>
                     @Html.ActionLink("Отзывы", "Index", "UserReviews", null, new { @class = "nav-link" })
                 </li>
-                @if (User.Identity.IsAuthenticated&&!User.IsInRole("Admin"))
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
                 {
                     <li>
-                        @Html.ActionLink("Корзина", "Index", "ShopCart", null, new { @class = "nav-link" })
+                        <a class="nav-link" href="@Url.Action("Index", "ShopCart")">
+                            <i class="fa fa-shopping-cart mr-1 p-1"></i>Корзина <label class="m-0" id="counter"></label>
+                        </a>
                     </li>
                 }
                 @if (User.IsInRole("Admin"))
@@ -60,5 +62,10 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
+    <script>
+        $(window).on('load', function () {
+            $("#counter").load("ShopCart/ShopCartItemsCounter")
+        });
+    </script>
 </body>
 </html>

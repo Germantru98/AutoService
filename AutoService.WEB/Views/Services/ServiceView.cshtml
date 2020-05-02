@@ -25,6 +25,10 @@
                         @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
                     }
                 }
+                else
+                {
+                    @Model.ServiceName
+                }
             </div>
             <div class="card-text">
                 @if (Model.Discount != null && Model.Discount.isRelevant())
@@ -45,7 +49,7 @@
             }
             else if (User.Identity.IsAuthenticated)
             {
-                <a class="dialog btn btn-dark btn-sm" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
+                <a class="dialog btn btn-dark btn-sm addToCart"  href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
                     <i class="fa fa-shopping-cart"></i>+
                 </a>
             }

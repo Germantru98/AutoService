@@ -23,10 +23,10 @@
     @using (Ajax.BeginForm("SearchServicesByName", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "form-inline" }))
     {
 
-<div class="input-group-append">
-    <input type="text" class="form-control ml-2  mr-sm-1 h-auto" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
-    <button class="btn btn-primary" type="submit" id="button"><i class="fa fa-search mr-1 p-1"></i>Поиск</button>
-</div>
+        <div class="input-group-append">
+            <input type="text" class="form-control ml-2  mr-sm-1 h-auto" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
+            <button class="btn btn-primary" type="submit" id="button"><i class="fa fa-search mr-1 p-1"></i>Поиск</button>
+        </div>
     }
 </div>
 <div class="row justify-content-start" id="results">
@@ -40,4 +40,17 @@
 {
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    <script>
+        $(".addToCart").click(function () {
+            setTimeout(function () {
+                $.ajax({
+                    url: "ShopCart/ShopCartItemsCounter",
+                    method: "GET",
+                    success: function (data) {
+                        $("#counter").text(data)
+                    }
+                })
+            }, 1000)
+        })
+    </script>
 }

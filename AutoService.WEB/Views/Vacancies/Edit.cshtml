@@ -1,64 +1,84 @@
 ﻿@model AutoService.WEB.Models.JobVacancy
-
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h3 class="display-4">Изменение данных о вакансии</h3>
-
-@using (Html.BeginForm())
-{
-@Html.AntiForgeryToken()
-
-<div class="form-horizontal">
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-    @Html.HiddenFor(model => model.Id)
-
-    <div class="form-group">
-        <h4>Название вакансии: </h4>
-        <div class="col-md-10 p-0">
-            @Html.EditorFor(model => model.VacancyName, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.VacancyName, "", new { @class = "text-danger" })
-        </div>
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header bg-dark">
+        <h5 class="modal-title text-white">Новая вакансия </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
-
-    <div class="form-group">
-        <h4>Описание вакансии: </h4>
-        <textarea class="input-validation-error col-sm-12 col-md-10 col-lg-10 col-xl-10" data-val="true" data-val-required="Данное поле не может быть пустым" htmlattributes="{ class = form-control }" id="VacancyDescription" name="VacancyDescription" rows="10">@Model.VacancyDescription</textarea>
-        <div class="col-md-10 p-0">
-            @Html.ValidationMessageFor(model => model.VacancyDescription, "", new { @class = "text-danger" })
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("Edit", "Vacancies", FormMethod.Post, new { @class = "validate" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        <div class="modal-body">
+            <div class="form-group">
+                <label class="col-form-label"><i class="fa fa-tag mr-1 p-1"></i>Название вакансии</label>
+                @Html.EditorFor(model => model.VacancyName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                <label class="col-form-label"><i class="fa fa-pencil-square-o mr-1 p-1"></i>Описание вакансии</label>
+                @Html.TextAreaFor(model => model.VacancyDescription, new { @class = "form-control" })
+            </div>
+            <div class="form-group">
+                <label class="col-form-label"><i class="fa fa-rub mr-1 p-1"></i>Зарплата</label>
+                @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                <label class="col-form-label"><i class="fa fa-envelope mr-1 p-1"></i>Почта</label>
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                <label class="col-form-label"><i class="fa fa-phone mr-1 p-1"></i>Контактный номер</label>
+                @Html.EditorFor(model => model.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
         </div>
-    </div>
-
-    <div class="form-group">
-        <h4>Зарплата: </h4>
-        <div class="col-md-10 p-0">
-            @Html.EditorFor(model => model.Salary, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Salary, "", new { @class = "text-danger" })
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-primary" type="submit"><i class="mr-1 p-1 fa fa-save-alt fa-lg"></i>Сохранить</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
         </div>
-    </div>
-
-    <div class="form-group">
-        <h4>Почта: </h4>
-        <div class="col-md-10 p-0">
-            @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <h4>Контактный номер: </h4>
-        <div class="col-md-10 p-0">
-            @Html.EditorFor(model => model.ContactPhone, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.ContactPhone, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        <div>
-            <input type="submit" value="Сохранить" class="btn btn-dark" />
-            <a class="btn btn-dark" href="/Vacancies" role="button">Назад</a>
-        </div>
-    </div>
+    }
 </div>
-}
+<script>
+    $('.validate').validate({
+        errorClass: "text-danger",
+        rules: {
+            VacancyName: {
+                required: true,
+            },
+            VacancyDescription: {
+                required: true,
+            },
+            Salary: {
+                required: true,
+            },
+            Email: {
+                required: true,
+                email: true
+            },
+            ContactPhone: {
+                required: true,
+            }
+        },
+        messages: {
+            VacancyName: {
+                required: "Заполните поле с названием вакансии",
+            },
+            VacancyDescription: {
+                required: "Заполните описание вакансии"
+            },
+            Salary: {
+                required: "Заполните поле с описанием зарплаты",
+            },
+            Email: {
+                required: "Заполните поле с почтой",
+                email: "Поле должно содержать почтовый адрес"
+            },
+            ContactPhone: {
+                required: "Заполните поле с номером телефона",
+            }
+        }
+    });
+</script>

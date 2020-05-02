@@ -143,6 +143,10 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index", new { message = SystemMessages.Error });
         }
 
+        public int ShopCartItemsCounter(Cart cart)
+        {
+            return cart.ShopCartItemsCounter();
+        }
         protected override void Dispose(bool disposing)
         {
             if (disposing)

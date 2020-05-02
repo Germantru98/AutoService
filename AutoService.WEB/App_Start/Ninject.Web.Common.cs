@@ -54,6 +54,7 @@ namespace AutoService.WEB.App_Start
                 kernel.Bind<ISummariesLogic>().To<SummraiesLogic>();
                 kernel.Bind<ICarLogic>().To<CarLogic>();
                 kernel.Bind<IHomePageLogic>().To<HomePageLogic>();
+                kernel.Bind<IVacanciesLogic>().To<VacanciesLogic>();
                 RegisterServices(kernel);
                 return kernel;
             }

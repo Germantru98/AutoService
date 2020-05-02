@@ -1,5 +1,7 @@
 ﻿using AutoService.WEB.Models;
+using AutoService.WEB.Utils.Interfaces;
 using PagedList;
+using System;
 using System.Data.Entity;
 using System.Net;
 using System.Threading.Tasks;
@@ -10,46 +12,47 @@ namespace AutoService.WEB.Controllers
     public class VacanciesController : Controller
     {
         private ApplicationDbContext _db;
-
+        private IVacanciesLogic _vacanciesLogic;
         public VacanciesController()
         {
         }
-
-        public VacanciesController(ApplicationDbContext db)
+        public VacanciesController(ApplicationDbContext db, IVacanciesLogic vacanciesLogic)
         {
             _db = db;
+            _vacanciesLogic = vacanciesLogic;
         }
 
         // GET: Vacancies
         [AllowAnonymous]
-        public async Task<ActionResult> Index(int? page)
+        public async Task<ActionResult> Index(int? page, Message? message)
         {
-            int pageSize = 3;
+            int pageSize = 8;
             int pageNumber = (page ?? 1);
-            var jobVacancies = await _db.JobVacancies.ToListAsync();
+            var jobVacancies = await _vacanciesLogic.GetAllVacancies();
+            ViewBag.StatusMessage = MessageGenerator(message);
             return View(jobVacancies.ToPagedList(pageNumber, pageSize));
         }
-
-        // GET: Vacancies/Details/5
-        public async Task<ActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
-            if (jobVacancy == null)
-            {
-                return HttpNotFound();
-            }
-            return View(jobVacancy);
+        public enum Message 
+        { 
+            AddVacancySuccess,
+            RemoveVacancySuccess,
+            EditVacancySuccess,
+            Error
         }
+        private string MessageGenerator(Message? message)
+        {
+            return message == Message.AddVacancySuccess ? ""
+                : message == Message.EditVacancySuccess ? ""
+                : message == Message.RemoveVacancySuccess ? ""
+                : message == Message.Error ? ""
+                : null;
 
+        }
         // GET: Vacancies/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
-            return View();
+            return PartialView();
         }
 
         // POST: Vacancies/Create
@@ -57,31 +60,33 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "VacancyName,VacancyDescription,Salary,Email,ContactPhone")] JobVacancy jobVacancy)
+        public async Task<ActionResult> Create(JobVacancy jobVacancy)
         {
-            if (ModelState.IsValid || !string.IsNullOrEmpty(jobVacancy.VacancyDescription))
+            if (ModelState.IsValid)
             {
-                _db.JobVacancies.Add(jobVacancy);
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _vacanciesLogic.AddNewVacancy(jobVacancy);
+                return RedirectToAction("Index",new { message = Message.AddVacancySuccess});
             }
-
-            return View(jobVacancy);
+            return RedirectToAction("Index", new { message = Message.Error });
         }
 
         // GET: Vacancies/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var vacancy =await  _vacanciesLogic.FindVacancy(id);
+                return PartialView(vacancy);
             }
-            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
-            if (jobVacancy == null)
+            catch (ArgumentNullException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Message.Error });
             }
-            return View(jobVacancy);
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = Message.Error });
+            }
         }
 
         // POST: Vacancies/Edit/5
@@ -89,30 +94,33 @@ namespace AutoService.WEB.Controllers
         // сведения см. в статье https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,VacancyName,VacancyDescription,Salary,Email,ContactPhone")] JobVacancy jobVacancy)
+        public async Task<ActionResult> Edit(JobVacancy jobVacancy)
         {
             if (ModelState.IsValid)
             {
-                _db.Entry(jobVacancy).State = EntityState.Modified;
-                await _db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                await _vacanciesLogic.EditVacancy(jobVacancy);
+                return RedirectToAction("Index", new { message = Message.EditVacancySuccess });
             }
-            return View(jobVacancy);
+            return RedirectToAction("Index", new { message = Message.Error });
         }
 
         // GET: Vacancies/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(int? id)
         {
-            if (id == null)
+            try
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                var vacancy = await _vacanciesLogic.FindVacancy(id);
+                return PartialView(vacancy);
             }
-            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
-            if (jobVacancy == null)
+            catch (ArgumentNullException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Message.Error });
             }
-            return View(jobVacancy);
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = Message.Error });
+            }
         }
 
         // POST: Vacancies/Delete/5
@@ -120,10 +128,8 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            JobVacancy jobVacancy = await _db.JobVacancies.FindAsync(id);
-            _db.JobVacancies.Remove(jobVacancy);
-            await _db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            await _vacanciesLogic.RemoveVacancy(id);
+            return RedirectToAction("Index", new { message = Message.RemoveVacancySuccess });
         }
 
         protected override void Dispose(bool disposing)
@@ -131,6 +137,7 @@ namespace AutoService.WEB.Controllers
             if (disposing)
             {
                 _db.Dispose();
+                _vacanciesLogic.Dispose();
             }
             base.Dispose(disposing);
         }

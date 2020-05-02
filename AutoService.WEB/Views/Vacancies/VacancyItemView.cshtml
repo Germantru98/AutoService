@@ -1,0 +1,45 @@
+﻿@model AutoService.WEB.Models.JobVacancy
+
+<div class="col-xl-5 col-md-9 col-sm-10 m-2 mx-auto">
+    <div class="card shadow-sm">
+        <h5 class="card-header bg-dark text-white text-center">@Model.VacancyName</h5>
+        <div class="card-body">
+            <div class="mb-2 col-auto">
+                <div class="card">
+                    <div class="card-header" style="background-color:#e9ecef"><i class="fa fa-bookmark p-1 mr-1"></i>Описание вакансии:</div>
+                    <div class="card-body overflow-auto" style="max-height:150px ;height:150px">
+                        <div class="card-text">
+                            @Model.VacancyDescription
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="input-group mb-2 col-auto">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" style="width:45px"><i class="fa fa-rub mx-auto"></i></div>
+                </div>
+                <div class="form-control"> @Model.Salary</div>
+            </div>
+            <div class="input-group mb-2 col-auto">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" style="width:45px"><i class="fa fa-envelope mx-auto"></i></div>
+                </div>
+                <div class="form-control">@Model.Email</div>
+            </div>
+            <div class="input-group mb-2 col-auto">
+                <div class="input-group-prepend">
+                    <div class="input-group-text" style="width:45px"><i class="fa fa-phone mx-auto"></i></div>
+                </div>
+                <div class="form-control">@Model.ContactPhone</div>
+            </div>
+        </div>
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="card-footer text-right">
+                <a class="dialog btn btn-outline-dark" href="@Url.Action("Edit","Vacancies", new { Model.Id })" role="button">Изменить</a>
+                <a class="dialog btn btn-outline-danger" href="@Url.Action("Delete","Vacancies", new { Model.Id })" role="button">Удалить</a>
+            </div>
+        }
+    </div>
+
+</div>

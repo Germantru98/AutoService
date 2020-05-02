@@ -1,59 +1,57 @@
 ﻿@model AutoService.WEB.Models.JobVacancy
 
-@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h2 class="display-4 mt-3">Вы уверенны , что хотите удалить данную вакансию?</h2>
-<div>
-    <dl class="dl-horizontal m-2">
-        <dt>
-            Название вакансии:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VacancyName)
-        </dd>
-
-        <dt>
-            Описание вакансии:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.VacancyDescription)
-        </dd>
-
-        <dt>
-            Зарплата:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Salary)
-        </dd>
-
-        <dt>
-            Почта:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-
-        <dt>
-            Контактный телефон:
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.ContactPhone)
-        </dd>
-    </dl>
-
-    @using (Html.BeginForm()) {
-    @Html.AntiForgeryToken()
-
-    <div class="form-actions no-color mb-2 mt-3">
-        <input type="submit" value="Удалить" class="btn btn-dark" />
-        <a class="btn btn-dark" href="/Vacancies" role="button">Назад</a>
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header bg-dark">
+        <h5 class="modal-title text-white">Вы уверенны что хотите удалить данную вакансию?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("Delete", "Vacancies"))
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+            <div class="card shadow-sm">
+                <h5 class="card-header bg-dark text-white text-center">@Model.VacancyName</h5>
+                <div class="card-body">
+                    <div class="mb-2 col-auto">
+                        <div class="card">
+                            <div class="card-header" style="background-color:#e9ecef"><i class="fa fa-bookmark p-1 mr-1"></i>Описание вакансии:</div>
+                            <div class="card-body overflow-auto" style="max-height:150px ;height:150px">
+                                <div class="card-text">
+                                    @Model.VacancyDescription
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-2 col-auto">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="width:45px"><i class="fa fa-rub mx-auto"></i></div>
+                        </div>
+                        <div class="form-control"> @Model.Salary</div>
+                    </div>
+                    <div class="input-group mb-2 col-auto">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="width:45px"><i class="fa fa-envelope mx-auto"></i></div>
+                        </div>
+                        <div class="form-control">@Model.Email</div>
+                    </div>
+                    <div class="input-group mb-2 col-auto">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="width:45px"><i class="fa fa-phone mx-auto"></i></div>
+                        </div>
+                        <div class="form-control">@Model.ContactPhone</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-danger" type="submit"><i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
+        </div>
     }
 </div>
