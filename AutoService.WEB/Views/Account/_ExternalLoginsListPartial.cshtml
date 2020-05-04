@@ -1,28 +1,27 @@
 ﻿@model AutoService.WEB.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
-
-<h4>Используйте для входа другую службу.</h4>
-<hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
-    if (loginProviders.Count() == 0) {
-    <div>
-        <p>
-            Внешние службы проверки подлинности не настроены. В <a href="https://go.microsoft.com/fwlink/?LinkId=403804">этой статье</a>
-            приведены сведения о настройке входа через внешние службы для этого приложения ASP.NET.
-        </p>
-    </div>
-    }
-    else {
-        using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
-    @Html.AntiForgeryToken()
-    <div id="socialLoginList">
-        <p>
-            @foreach (AuthenticationDescription p in loginProviders) {
-            <button type="submit" class="btn btn-outline-dark" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption">@p.AuthenticationType</button>
-                    }
-        </p>
-    </div>
+
+    using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl }))
+    {
+        @Html.AntiForgeryToken()
+        <a class="btn btn-outline-dark" href=@Url.Action("Register") title="Регистрация">Регистрация</a>
+        foreach (AuthenticationDescription p in loginProviders)
+        {
+            if (p.AuthenticationType == "Google")
+            {
+                <button type="submit" class="btn btn-outline-dark externalLogginButton" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption"><i class="fa fa-google fa-lg"></i></button>
+            }
+            else if (p.AuthenticationType == "Facebook")
+            {
+                <button type="submit" class="btn btn-outline-dark externalLogginButton" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption"><i class="fa fa-facebook fa-lg"></i></button>
+            }
+            else
+            {
+                <button type="submit" class="btn btn-outline-dark" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Войти с помощью учетной записи @p.Caption">@p.AuthenticationType</button>
+            }
+
         }
     }
 }

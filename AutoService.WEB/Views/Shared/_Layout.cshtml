@@ -40,13 +40,6 @@
                     </li>
                 }
             </ul>
-            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
-            {
-
-                <a class="btn btn-secondary m-1 btn-sm" title="Корзина" href="@Url.Action("Index", "ShopCart")">
-                    <i class="fa fa-shopping-cart mr-1 p-1"></i><label class="badge badge-dark m-0" id="counter"></label>
-                </a>
-            }
             @Html.Partial("_LoginPartial")
         </div>
     </nav>

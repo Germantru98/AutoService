@@ -4,55 +4,32 @@
     ViewBag.Title = "Выполнить вход";
 }
 
-<h2 class="p-2">@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-            @Html.AntiForgeryToken()
-            <h4 class="pl-2">Используйте для входа локальную учетную запись.</h4>
-            <hr />
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                </div>
+<div class="col-md-8 mx-auto mt-3">
+    @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))
+    {
+        @Html.ValidationSummary(false,"",new { @class="text-left text-danger"});
+        @Html.AntiForgeryToken()
+        <h1 class="h3 mb-3 font-weight-normal">Авторизация</h1>
+        <label for="inputEmail" class="sr-only">Email address</label>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control ", placeHolder = "Email", id = "inputEmail", type = "email" })
+        <label for="inputPassword" class="sr-only">Password</label>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeHolder = "Password", id = "inputPassword", type = "password" })
+        <div class="row justify-content-around mb-2">
+            <div>
+                @Html.CheckBoxFor(m => m.RememberMe)
+                @Html.LabelFor(m => m.RememberMe)
             </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
+            <div class="d-inline-block" style="right:0">
+                <a href="@Url.Action("ForgotPassword")" style="color:black">Забыли пароль?</a>
             </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <div class="checkbox">
-                        @Html.CheckBoxFor(m => m.RememberMe)
-                        @Html.LabelFor(m => m.RememberMe)
-                    </div>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Выполнить вход" class="btn btn-dark" />
-                    <a class="btn btn-outline-dark" href="@Url.Action("ForgotPassword")">Забыли пароль?</a>
-                </div>
-            </div>
-            <p>
-
-                <a class="btn btn-secondary ml-3" href=@Url.Action("Register")>"Регистрация нового пользователя"</a>
-            </p>
-            }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
+        </div>
+        <button class="btn btn-lg btn-dark btn-block" type="submit">Войти</button>
+    }
+    <div class="mx-auto text-center mt-3">
+        <div class="h5 mb-3">Нет аккаунта?<br /> Зарегистрируйтесь или войдите при помощи соц. сетей.</div>
+        <div class="mx-auto" style="max-width:400px">
             @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
+        </div>
     </div>
 </div>
 

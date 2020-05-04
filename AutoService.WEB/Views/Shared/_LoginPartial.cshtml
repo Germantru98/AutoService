@@ -1,18 +1,36 @@
 ﻿@using Microsoft.AspNet.Identity
 @if (Request.IsAuthenticated)
 {
-    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
     {
         @Html.AntiForgeryToken()
 
-        <a href="@Url.Action("Index","Manage")" title="Аккаунт" class="btn btn-secondary m-1 btn-sm"><i class="fa fa-home mr-1 p-1"></i>Аккаунт</a>
 
-        <a class="btn btn-secondary m-1 btn-sm" href="javascript:document.getElementById('logoutForm').submit()">Выйти</a>
-
+        <div class="row justify-content-start mr-sm-0 mr-xl-1 mr-md-1 pl-2">
+            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+            {
+                <a class="btn btn-secondary btn-sm mr-1 ml-1" title="Корзина" href="@Url.Action("Index", "ShopCart")">
+                    <i class="fa fa-shopping-cart mr-1 p-1"></i><label class="m-0 badge-dark badge" id="counter"></label>
+                </a>
+            }
+            <a href="@Url.Action("Index","Manage")" title="Аккаунт" class="btn btn-secondary btn-sm  mr-1 ml-1">
+                <i class="fa fa-home mr-1 p-1"></i>
+                Аккаунт
+            </a>
+            <a class="btn btn-secondary btn-sm  mr-1 ml-1" href="javascript:document.getElementById('logoutForm').submit()" title="Выйти">
+                <i class="fa fa-sign-out mr-1 p-1"></i>Выйти
+            </a>
+        </div>
     }
 }
 else
 {
-    @Html.ActionLink("Регистрация", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-secondary ml-2" })
-    @Html.ActionLink("Выполнить вход", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink", @class = " btn btn-secondary  ml-2" })
+    <div class="row justify-content-start mr-sm-0 mr-xl-1 mr-md-1 pl-2">
+        <a href="@Url.Action("Register", "Account")" id="registerLink" class="btn btn-secondary btn-sm mr-1 ml-1" title="Регистрация">
+            <i class="fa fa-user-plus mr-1 p-1"></i>Регистрация
+        </a>
+        <a href="@Url.Action("Login", "Account")" id="loginLink" class="btn btn-secondary btn-sm mr-1 ml-1" title="Войти">
+            <i class="fa fa-sign-in mr-1 p-1"></i>Вход
+        </a>
+    </div>
 }

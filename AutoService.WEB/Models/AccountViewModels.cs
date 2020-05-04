@@ -6,7 +6,8 @@ namespace AutoService.WEB.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
-        [Display(Name = "Адрес электронной почты")]
+        [EmailAddress]
+        [Display(Name = "Почта")]
         public string Email { get; set; }
 
         [Required]
@@ -69,21 +70,21 @@ namespace AutoService.WEB.Models
 
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="Требуется заполнить поле \"ФИО\"")]
         [Display(Name = "ФИО")]
         public string RealName { get; set; }
 
-        [Required]
-        [EmailAddress]
+        [Required(ErrorMessage = "Требуется заполнить поле \"Адрес электронной почты\"")]
+        [EmailAddress(ErrorMessage = "Данное поле должно содержать почтовый адрес")]
         [Display(Name = "Адрес электронной почты")]
         public string Email { get; set; }
 
-        [Required]
-        [StringLength(100, ErrorMessage = "Значение {0} должно содержать не менее {2} символов.", MinimumLength = 6)]
+        [Required(ErrorMessage = "Требуется заполнить поле \"Пароль\"")]
+        [StringLength(100, ErrorMessage = "{0} должен содержать не менее {2} символов.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
-
+        [Required(ErrorMessage = "Требуется заполнить поле \"Подтверждение пароля\"")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждение пароля")]
         [Compare("Password", ErrorMessage = "Пароль и его подтверждение не совпадают.")]
