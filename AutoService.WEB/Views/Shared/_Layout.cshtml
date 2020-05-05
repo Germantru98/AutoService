@@ -58,5 +58,18 @@
             $("#counter").load("ShopCart/ShopCartItemsCounter")
         });
     </script>
+    <script>
+        $(".addToCart").click(function () {
+            setTimeout(function () {
+                $.ajax({
+                    url: "ShopCart/ShopCartItemsCounter",
+                    method: "GET",
+                    success: function (data) {
+                        $("#counter").text(data)
+                    }
+                })
+            }, 1000)
+        })
+    </script>
 </body>
 </html>

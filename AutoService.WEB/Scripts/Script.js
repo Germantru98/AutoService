@@ -2,16 +2,11 @@
     // Owl Carousel
     var owl = $(".owl-carousel");
     owl.owlCarousel({
-        margin: 20,
         loop: true,
-        nav: true,
-        //items: 8,
+        nav: false,
+        items: 8,
         mouseDrag: true,
         dots: false,
-        navText: [
-            '<span class="arrow-owl arrow-left "><</span>',
-            '<span class="arrow-owl arrow-right ">></span>'
-        ],
         responsive: {
             0: {
                 items: 1

@@ -178,7 +178,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (Exception)
             {

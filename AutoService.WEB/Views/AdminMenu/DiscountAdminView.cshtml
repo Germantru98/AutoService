@@ -1,46 +1,46 @@
 ﻿@model AutoService.WEB.Models.ServiceView
 
-<div class="card m-3 shadow rounded" style="max-width:420px">
-    <div class="p-1">
-        <img class="w-100" src="@Model.ServiceImageHref" alt="Alternate Text" height="300" />
-    </div>
-    <div class="card-body adminDiscountCardBody">
-        <h5 class="h5" style="min-height:50px">@Model.ServiceName</h5>
-        <div>
-            <label>Дата начала акции: </label>
-            @Model.Discount.StartDate.ToShortDateString()
-        </div>
-        <div>
-            <label>Дата окончания акции: </label>
-            @Model.Discount.FinishDate.ToShortDateString()
-        </div>
-        <div>
-            <label>Цена со скидкой: </label>
-            @Model.PriceWithDiscount <label><i class="fa fa-ruble"></i></label>
-        </div>
-        @Html.Partial("ServiceNameWithDiscount", Model.Discount.Value)
-    </div>
-    @if (Model.DiscountRelevancy)
-    {
-        <div class="card-footer text-center">
-            <div class="btn-group">
-                <a href="AdminMenu/ExtendDiscount/@Model.Discount.DiscountId" class="btn btn-outline-dark dialog">
-                    <i class="fa fa-calendar-plus-o fa-lg p-1 mr-1"></i>Продлить
-                </a>
-                <a href="@Url.Action("RemoveDiscount","AdminMenu", new { ServiceId = Model.ServiceId })" class="btn btn-outline-dark dialog">
-                    <i class="fa fa-trash-o fa-lg p-1 mr-1"></i>Убрать
-                </a>
+    <div class="col-xl-4 col-md-6 col-sm-12">
+        <div class="card m-3 shadow rounded w-100 mx-auto">
+                <img class="card-img" src="@Model.ServiceImageHref" alt="Alternate Text" height="350" />
+            <div class="card-body adminDiscountCardBody">
+                <div class="text-center h5" style="min-height:50px; font-size:23px">@Model.ServiceName</div>
+                <div>
+                    <label>Дата начала акции: </label>
+                    @Model.Discount.StartDate.ToShortDateString()
+                </div>
+                <div>
+                    <label>Дата окончания акции: </label>
+                    @Model.Discount.FinishDate.ToShortDateString()
+                </div>
+                <div>
+                    <label>Цена со скидкой: </label>
+                    @Model.PriceWithDiscount <label><i class="fa fa-ruble"></i></label>
+                </div>
+                @Html.Partial("ServiceNameWithDiscount", Model.Discount.Value)
             </div>
+            @if (Model.DiscountRelevancy)
+            {
+                <div class="card-footer text-center">
+                    <div class="btn-group">
+                        <a href="AdminMenu/ExtendDiscount/@Model.Discount.DiscountId" class="btn btn-outline-dark dialog">
+                            <i class="fa fa-calendar-plus-o fa-lg p-1 mr-1"></i>Продлить
+                        </a>
+                        <a href="@Url.Action("RemoveDiscount","AdminMenu", new { ServiceId = Model.ServiceId })" class="btn btn-outline-dark dialog">
+                            <i class="fa fa-trash-o fa-lg p-1 mr-1"></i>Убрать
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card-footer text-center bg-warning">
+                    <div class="btn-group">
+                        @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
+                        @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
+                    </div>
+                    <div class="mt-2 bg-light rounded">Скидка не релевантна!</div>
+                </div>
+            }
         </div>
-    }
-    else
-    {
-        <div class="card-footer text-center bg-warning">
-            <div class="btn-group">
-                @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
-                @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
-            </div>
-            <div class="mt-2 bg-light rounded">Скидка не релевантна!</div>
-        </div>
-    }
-</div>
+    </div>

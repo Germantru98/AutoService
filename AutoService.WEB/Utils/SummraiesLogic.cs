@@ -25,7 +25,7 @@ namespace AutoService.WEB.Utils
         public async Task CompleteSummary(int summaryId)
         {
             var today = DateTime.Today;
-            var isOrderAlreadyCompletedTest = await _db.CompletedSummariesHistory.FirstAsync(s => s.SummaryId == summaryId);
+            var isOrderAlreadyCompletedTest = await _db.CompletedSummariesHistory.FirstOrDefaultAsync(s => s.SummaryId == summaryId);
             if (isOrderAlreadyCompletedTest != null)
             {
                 throw new ArgumentException($"Заказ с summaryId = {summaryId} уже выполнен");

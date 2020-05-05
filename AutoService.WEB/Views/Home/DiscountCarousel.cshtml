@@ -1,105 +1,34 @@
 ﻿@model List<AutoService.WEB.Models.ServiceView>
 
 <!--Карточка Акции-->
-<div class="card border-primary col-lg-3 col-md-11 col-sm-12 p-0 mr-xl-auto ml-xl-0 mb-2 mr-md-auto ml-md-auto">
-    <div class="card-header bg-primary text-white h4">
-        Акция
-    </div>
-    <div class="card-body p-1">
-        <!-- Bootstrap 4 -->
-        <div id="DiscountCarousel" class="carousel slide" data-ride="carousel">
-
-            <div class="carousel-inner d-flex">
-                <div class="carousel-item active mt-1 col-sm-8 col-xl-12 mr-auto ml-auto ">
-                    <div class="position-relative">
-                        <img src="@Model[0].ServiceImageHref" alt="Alternate Text" height="250" class="w-100" />
+<div class="col-xl-4 mx-auto m-2">
+    <div class="card rounded h-100">
+        <div class="card-header bg-dark text-white text-center h5">
+            Акции
+        </div>
+        <div class="card-body align-items-center justify-content-center d-flex">
+            <div id="DiscountCarousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        @Html.Partial("HomePageDiscountsitemView", Model[0])
                     </div>
-                    <div class="text-center p-1" style="min-height:250px">
-                        <h3>
-                            @if (Model[0].Discount == null)
-                            {
-                            @Model[0].ServiceName
-                            }
-                            else if (Model[0].Discount.Value <= 20)
-                            {
-                            @Model[0].ServiceName  <span class="badge badge-success">-@Model[0].Discount.Value%</span>
-                            }
-                            else if (Model[0].Discount.Value > 20 && Model[0].Discount.Value < 70)
-                            {
-                            @Model[0].ServiceName  <span class="badge badge-warning">-@Model[0].Discount.Value%</span>
-                            }
-                            else
-                            {
-                            @Model[0].ServiceName  <span class="badge badge-danger">-@Model[0].Discount.Value%</span>
-                            }
-                        </h3>
-                        <div>
-                            Акция продлится до: @Model[0].Discount.FinishDate.ToShortDateString()
+                    @for (int i = 1; i < Model.Count(); i++)
+                    {
+                        <div class="carousel-item">
+                            @Html.Partial("HomePageDiscountsitemView", Model[i])
                         </div>
-                        @if (User.Identity.IsAuthenticated)
-                        {
-                        <div class="text-center mt-2">
-                            @Html.ActionLink("Добавить в корзину", "AddToCart", "ShopCart", new { serviceId = Model[0].ServiceId }, new { @class = "dialog btn btn-outline-dark" })
-                        </div>
-                        }
-                    </div>
+                    }
                 </div>
-                @for (int i = 1; i < Model.Count(); i++)
-                {
-                <div class="carousel-item mt-1 col-sm-8 col-xl-12  mr-md-auto ml-md-auto">
-                    <div class="position-relative">
-                        <img src="@Model[i].ServiceImageHref" alt="Alternate Text" class="w-100" height="250" />
-                    </div>
-                    <div class="text-center p-1" style="min-height:250px">
-                        <h3>
-                            @if (Model[i].Discount == null)
-                                {
-                            @Model[i].ServiceName
-                                }
-                                else if (Model[i].Discount.Value <= 20)
-                                {
-                            @Model[i].ServiceName  <span class="badge badge-success">-@Model[i].Discount.Value%</span>
-                                }
-                                else if (Model[i].Discount.Value > 20 && Model[i].Discount.Value < 70)
-                                {
-                            @Model[i].ServiceName  <span class="badge badge-warning">-@Model[i].Discount.Value%</span>
-                                }
-                                else
-                                {
-                            @Model[i].ServiceName  <span class="badge badge-danger">-@Model[i].Discount.Value%</span>
-                                }
-                        </h3>
-                        <div>
-                            Акция продлится до: @Model[i].Discount.FinishDate.ToShortDateString()
-                        </div>
-                        @if (User.Identity.IsAuthenticated)
-                            {
-                        <div class="text-right mt-2">
-                            @Html.ActionLink("Добавить в корзину", "AddToCart", "ShopCart", new { serviceId = Model[i].ServiceId }, new { @class = "dialog service btn btn-outline-dark" })
-                        </div>
-                            }
-                    </div>
-                </div>
-                }
+                <!-- Элементы управления -->
+                <a class="carousel-control-prev" href="#DiscountCarousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Предыдущий</span>
+                </a>
+                <a class="carousel-control-next" href="#DiscountCarousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Следующий</span>
+                </a>
             </div>
-
-            <!-- Индикаторы -->
-            <ol class="carousel-indicators">
-                <li data-target="#DiscountCarousel" data-slide-to="0" class="active bg-dark"></li>
-                @for (int i = 1; i < Model.Count(); i++)
-                {
-                <li data-target="#DiscountCarousel" data-slide-to="@i" class="bg-dark"></li>
-                }
-            </ol>
-            <!-- Элементы управления -->
-            <a class="carousel-control-prev" href="#DiscountCarousel" role="button" data-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="sr-only">Предыдущий</span>
-            </a>
-            <a class="carousel-control-next" href="#DiscountCarousel" role="button" data-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="sr-only">Следующий</span>
-            </a>
         </div>
     </div>
 </div>

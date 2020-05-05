@@ -2,46 +2,50 @@
 @model SettingsView
 <div class="col-10 mx-auto p-2 mt-3">
     <div class="row justify-content-center">
-        <div class="col-3 rounded shadow p-0 border border-info card m-3" style="min-width:350px">
-            <div style="font-size:20px" class="card-header bg-info text-center font-weight-bold p-2 text-white">Услуги</div>
+        <div class="col-3 rounded shadow-sm p-0 border border-dark card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-dark text-center font-weight-bold p-2 text-white">Услуги</div>
             <div class="p-2 text-center card-body">
-                <a href="@Url.Action("Index", "Services")" class="btn btn-info m-2"><i class="fa fa-edit fa-lg p-1 mr-1"></i>Изменить</a>
-                <a href="@Url.Action("Create", "Services")" class="dialog btn btn-info m-2"><i class="fa fa-plus fa-lg p-1 mr-1"></i>Добавить</a>
+                <a href="@Url.Action("Index", "Services")" class="btn btn-dark m-2"><i class="fa fa-edit fa-lg p-1 mr-1"></i>Изменить</a>
+                <a href="@Url.Action("Create", "Services")" class="dialog btn btn-dark m-2"><i class="fa fa-plus fa-lg p-1 mr-1"></i>Добавить</a>
             </div>
         </div>
-        <div class="col-3 border rounded shadow border border-primary p-0 card m-3" style="min-width:350px">
-            <div style="font-size:20px" class="card-header bg-primary text-center font-weight-bold p-2 text-white">Вакансии</div>
+        <div class="col-3 border rounded shadow-sm border border-dark p-0 card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-dark text-center font-weight-bold p-2 text-white">Вакансии</div>
             <div class="p-2 text-center card-body">
-                <a href="@Url.Action("Index", "Vacancies")" class="btn btn-primary m-2"><i class="fa fa-edit fa-lg p-1 mr-1"></i>Изменить</a>
-                <a href="@Url.Action("Create", "Vacancies")" class="dialog btn btn-primary m-2"><i class="fa fa-plus fa-lg p-1 mr-1"></i>Добавить</a>
+                <a href="@Url.Action("Index", "Vacancies")" class="btn btn-dark m-2"><i class="fa fa-edit fa-lg p-1 mr-1"></i>Изменить</a>
+                <a href="@Url.Action("Create", "Vacancies")" class="dialog btn btn-dark m-2"><i class="fa fa-plus fa-lg p-1 mr-1"></i>Добавить</a>
             </div>
         </div>
-        <div class="col-3 border rounded shadow border border-success p-0 card m-3" style="min-width:350px">
-            <div style="font-size:20px" class="card-header bg-success text-center font-weight-bold p-2 text-white">Отзывы</div>
+        <div class="col-3 border rounded shadow-sm border border-dark p-0 card m-3" style="min-width:350px">
+            <div style="font-size:20px" class="card-header bg-dark text-center font-weight-bold p-2 text-white">Отзывы</div>
             <div class="p-2 text-center card-body">
-                <a href="@Url.Action("Index", "UserReviews")" class="btn btn-success m-2"><i class="fa fa-desktop fa-lg p-1 mr-1"></i>Модерировать</a>
+                <a href="@Url.Action("Index", "UserReviews")" class="btn btn-dark m-2"><i class="fa fa-desktop fa-lg p-1 mr-1"></i>Модерировать</a>
             </div>
         </div>
     </div>
 </div>
 <div class="card rounded col-xl-8 col-sm-10 mx-auto p-0 m-4 shadow">
-    <div class="bg-secondary text-white p-2 text-center" style="font-size:20px">Автобренды</div>
-    <div class="row justify-content-around p-3 card-body">
+    <div class="bg-dark text-white p-2 text-center card-header" style="font-size:20px">Автобренды</div>
+    <div class="card-body">
+        <div class="row">
 
-        @foreach (var item in Model.CarBrands)
-        {
-        <div class="card m-2" style="min-width:250px">
-            <img class="card-img-top" width="200" height="200" src="@item.ImageHref" title="@item.BrandName" alt="Alternate Text" />
-            <div class="card-footer text-center">
-                <a href="@Url.Action("RemoveCarBrand", "AdminMenu", new { id = item.BrandId })" class="dialog btn btn-outline-danger"><i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить</a>
-            </div>
+            @foreach (var item in Model.CarBrands)
+            {
+                <div class="col-md-3">
+                    <div class="card m-2 mx-auto">
+                        <img class="align-self-center" height="150" width="150" src="@item.ImageHref" title="@item.BrandName" alt="Alternate Text" />
+                        <div class="card-footer text-center">
+                            <a href="@Url.Action("RemoveCarBrand", "AdminMenu", new { id = item.BrandId })" class="dialog btn btn-outline-danger"><i class="mr-1 p-1 fa fa-trash fa-lg"></i>Удалить</a>
+                        </div>
+                    </div>
+                </div>
+            }
         </div>
-        }
     </div>
     <div class="card-footer">
         <div class="text-center m-2">
             <a class="btn btn-outline-success" data-toggle="collapse" href="#addNewCarBrand" role="button" aria-expanded="false" aria-controls="addNewCarBrand">
-                <i class="mr-1 p-1 fa fa-plus fa-lg"></i>Добавить бренд
+                <i class="mr-1 p-1 fa fa-plus fa-lg"></i>Добавить
             </a>
         </div>
         @Html.Partial("AddNewCarBrand", new CarBrand())

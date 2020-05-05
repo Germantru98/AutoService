@@ -538,6 +538,7 @@
     <Content Include="Views\ShopCart\ClearShopCart.cshtml" />
     <Content Include="Views\ShopCart\ShopCartItemView.cshtml" />
     <Content Include="Views\Vacancies\VacancyItemView.cshtml" />
+    <Content Include="Views\Home\HomePageDiscountsitemView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

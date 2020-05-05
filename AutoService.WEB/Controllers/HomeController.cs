@@ -25,24 +25,8 @@ namespace AutoService.WEB.Controllers
                 Discounts = await _homePageLogic.GetRelevantDiscountsForHomePage(),
                 HomeMainCarouselItems = await _homePageLogic.GetMainCarousel()
             };
-            if (homeView.Discounts.Count > 0)
-            {
-                ViewBag.MainCarouselSize = "withDisc";
-            }
-            else
-            {
-                ViewBag.MainCarouselSize = "withoutDisc";
-            }
             return View(homeView);
         }
-
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)

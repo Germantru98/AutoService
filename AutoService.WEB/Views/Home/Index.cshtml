@@ -1,15 +1,13 @@
 ﻿@{
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Главная";
 }
 @model AutoService.WEB.Models.HomeView
-<link href="~/Content/owl.carousel.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/owl.theme.default.css" rel="stylesheet" type="text/css" />
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
 
-<div class="row ml-auto mr-auto mt-3">
+<div class="row m-3">
     <!--Главная карусель-->
     @Html.Partial("MainCarousel", Model.HomeMainCarouselItems)
     <!--БлокСкидки-->
@@ -19,7 +17,7 @@
     }
 </div>
 <!--Автобренды-->
-<h3 class="text-center m-3">Марки с которыми мы работаем</h3>
+
 @Html.Partial("BrandCarousel", Model.CarBrands)
 @section Scripts {
     @Scripts.Render("~/scripts/InvokeModalDialog.js")

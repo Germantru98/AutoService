@@ -1,0 +1,39 @@
+﻿@model AutoService.WEB.Models.ServiceView
+    <div class="card h-100 mx-auto discountItem">
+        <img class="card-img-top" src="@Model.ServiceImageHref" alt="@Model.ServiceName" />
+        <div class="card-body text-center" style="min-height:80px">
+            <div class="h5">
+                @if (Model.Discount == null)
+                {
+                    @Model.ServiceName
+                }
+                else if (Model.Discount.isRelevant())
+                {
+                    if (Model.Discount.Value <= 30)
+                    {
+                        @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
+                    }
+                    else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
+                    {
+                        @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                    }
+                    else
+                    {
+                        @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                    }
+                }
+                else
+                {
+                    @Model.ServiceName
+                }
+            </div>
+        </div>
+        @if (User.Identity.IsAuthenticated&&!User.IsInRole("Admin"))
+        {
+            <div class="card-footer text-center">
+                <a class="dialog btn btn-dark btn-sm addToCart" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
+                    <i class="fa fa-shopping-cart"></i>+
+                </a>
+            </div>
+        }
+    </div>

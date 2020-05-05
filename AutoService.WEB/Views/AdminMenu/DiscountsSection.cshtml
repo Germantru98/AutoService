@@ -1,13 +1,14 @@
 ﻿@using AutoService.WEB.Models
 @model IEnumerable<ServiceView>
-    <div class="mt-2">
-        <div class="row justify-content-center p-2">
+    <div class="mt-4">
+        <div class="text-center m-2">
+            <a href="@Url.Action("AddNewDiscount","AdminMenu")" class="dialog btn btn-lg btn-outline-success"><i class="mr-1 p-1 fa fa-plus-circle fa-lg"></i>Добавить скидку</a>
+        </div>
+        <div class="row">
             @foreach (var serviceWithDiscount in Model)
             {
                 @Html.Partial("DiscountAdminView", serviceWithDiscount)
             }
         </div>
-        <div class="text-center">
-            <a href="@Url.Action("AddNewDiscount","AdminMenu")" class="dialog btn btn-lg btn-outline-success"><i class="mr-1 p-1 fa fa-plus-circle fa-lg"></i>Добавить скидку</a>
-        </div>
+
     </div>

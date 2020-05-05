@@ -4,9 +4,6 @@
     height: 100%;
 }
 
-.carbrand {
-    border: 4px;
-}
 
 .useradminbar {
     max-height: 500px;
@@ -35,10 +32,6 @@
     font-size: 16px;
 }
 
-.maincarousel {
-    max-height: 650px;
-}
-
 .reviewtextarea {
     max-height: 200px;
     height: 200px;
@@ -63,10 +56,6 @@
     font-size: 20px;
 }
 
-    .adminDiscountCardBody h5 {
-        font-size: 25px;
-        text-align: center;
-    }
 .form-signin {
     width: 100%;
     max-width: 400px;
@@ -94,4 +83,17 @@
     }
 .externalLogginButton{
     width:45px;
+}
+.myCarouselItem {
+    min-height: 220px;
+    max-height: 550px;
+}
+.discountHomeCard {
+    min-height: 220px;
+    max-height: 540px;
+}
+.discountItem {
+    max-width: 550px;
+    max-height: 500px;
+    min-height: 340px;
 }

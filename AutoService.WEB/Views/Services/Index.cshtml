@@ -29,7 +29,7 @@
         </div>
     }
 </div>
-<div class="row justify-content-start" id="results">
+<div class="row mt-2 mb-2 justify-content-sm-center justify-content-xl-start justify-content-md-around" id="results">
     @foreach (var service in Model)
     {
         @Html.Partial("ServiceView", service)
@@ -40,17 +40,5 @@
 {
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
-    <script>
-        $(".addToCart").click(function () {
-            setTimeout(function () {
-                $.ajax({
-                    url: "ShopCart/ShopCartItemsCounter",
-                    method: "GET",
-                    success: function (data) {
-                        $("#counter").text(data)
-                    }
-                })
-            }, 1000)
-        })
-    </script>
+    
 }

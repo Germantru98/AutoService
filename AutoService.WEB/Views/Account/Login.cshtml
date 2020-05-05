@@ -4,7 +4,7 @@
     ViewBag.Title = "Выполнить вход";
 }
 
-<div class="col-md-8 mx-auto mt-3">
+<div class="col-md-8 mx-auto m-3">
     @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-signin", role = "form" }))
     {
         @Html.ValidationSummary(false,"",new { @class="text-left text-danger"});
