@@ -8,43 +8,32 @@
         </button>
     </div>
     <div class="modal-body">
-        <div>
-            <dl class="dl-horizontal">
-                <dt>
-                    @Html.DisplayNameFor(model => model.ServiceName)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.ServiceName)
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.Price)
-                </dt>
-
-                <dd>
-                    @Html.DisplayFor(model => model.Price)
-                </dd>
-
-                <dt>
-                    Изображение
-                </dt>
-
-                <dd>
-                    <img src="@Model.ServiceImageHref" height="300" width="450" />
-                </dd>
-            </dl>
+        <div class="card">
+            <img class="card-img" style="max-height:250px" src="@Model.ServiceImageHref" alt="Alternate Text" />
+            <div class="card-body">
+                <div class="m-1">
+                    <label class="mr-1"><i class="fa fa-bookmark mr-1 p-1"></i>Название:</label>@Model.ServiceName
+                </div>
+                <div class="m-1">
+                    @if (Model.Discount != null)
+                    {
+                        <label class="mr-1"><i class="fa fa-rub mr-1 p-1"></i>Цена:</label>@Model.PriceWithDiscount
+                    }
+                    else
+                    {
+                        <label class="mr-1"><i class="fa fa-rub mr-1 p-1"></i>Цена:</label> @Model.Price
+                    }
+                </div>
+            </div>
         </div>
     </div>
     <div class="modal-footer">
         @using (Html.BeginForm())
         {
-        @Html.AntiForgeryToken()
+            @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-        </div>
+                <button class="btn btn-outline-danger" type="submit"><i class="fa fa-trash mr-1 p-1"></i>Удалить</button>
         }
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
+        <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close mr-1 p-1"></i>Закрыть</button>
     </div>
 </div>

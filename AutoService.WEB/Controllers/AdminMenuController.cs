@@ -15,18 +15,21 @@ namespace AutoService.WEB.Controllers
         private ISummariesLogic _summariesLogic;
         private ICarLogic _carLogic;
         private IHomePageLogic _homePageLogic;
+        private INewsPageLogic _newsPageLogic;
 
         public AdminMenuController()
         {
         }
 
-        public AdminMenuController(IServicesLogic servicesLogic, IAdminLogic adminLogic, ISummariesLogic summariesLogic, ICarLogic carLogic, IHomePageLogic homePageLogic)
+        public AdminMenuController(IServicesLogic servicesLogic, IAdminLogic adminLogic,
+            ISummariesLogic summariesLogic, ICarLogic carLogic, IHomePageLogic homePageLogic, INewsPageLogic newsPageLogic)
         {
             _servicesLogic = servicesLogic;
             _adminLogic = adminLogic;
             _summariesLogic = summariesLogic;
             _carLogic = carLogic;
             _homePageLogic = homePageLogic;
+            _newsPageLogic = newsPageLogic;
         }
 
         public enum AdminMenuMessages
@@ -40,7 +43,7 @@ namespace AutoService.WEB.Controllers
             AddDiscountSuccess,
             RemoveDiscountSuccess,
             CompleteOrderFailure,
-            Error
+            Error,
         }
 
         // GET: AdminMenu
@@ -55,7 +58,7 @@ namespace AutoService.WEB.Controllers
                 : message == AdminMenuMessages.ExtendDiscountSuccess ? "Операция: \"Продление скидки\" прошла успешно"
                 : message == AdminMenuMessages.RemoveDiscountSuccess ? "Операция: \"Удаление скидки\" прошла успешно"
                 : message == AdminMenuMessages.AddDiscountSuccess ? "Операция: \"Добавление скидки\" прошла успешно"
-                : message == AdminMenuMessages.CompleteOrderFailure ? "Ошибка,невозможно завершить заказ, так как дата работ не совпадает с текущей датой"
+                : message == AdminMenuMessages.CompleteOrderFailure ? "Ошибка, невозможно завершить заказ, так как дата работ не совпадает с текущей датой"
                 : message == AdminMenuMessages.Error ? "Ошибка"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
@@ -319,7 +322,15 @@ namespace AutoService.WEB.Controllers
 
         public ActionResult SuccessOperation(string action)
         {
+
             return PartialView(action);
+        }
+
+        public async Task<ActionResult> AddNewHomeCarouselItem()
+        {
+            var allNews = await _newsPageLogic.GetAllNews();
+            ViewBag.AllNews = new SelectList(allNews, "Id", "Title");
+            return PartialView("AddNewCarouselItem");
         }
 
         [HttpPost]
@@ -380,18 +391,25 @@ namespace AutoService.WEB.Controllers
                     Title = item.Title,
                     Description = item.Description,
                     ImageHref = item.ImageHref,
-                    RouteHref = item.RouteHref,
+                    NewsId = item.NewsId,
                     Id = item.Id
                 };
+                if (item.NewsId != null)
+                {
+                    var news = await _newsPageLogic.GetNews(item.NewsId);
+                    ViewBag.News = news;
+                }
+                var allNews = await _newsPageLogic.GetAllNews();
+                ViewBag.AllNews = new SelectList(allNews, "Id", "Title");
                 return PartialView("EditCarouselItemModalView", editItemView);
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -477,6 +495,7 @@ namespace AutoService.WEB.Controllers
                 _homePageLogic.Dispose();
                 _servicesLogic.Dispose();
                 _summariesLogic.Dispose();
+                _newsPageLogic.Dispose();
             }
 
             base.Dispose(disposing);

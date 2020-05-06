@@ -21,32 +21,31 @@ namespace AutoService.WEB.Controllers
             _db = db;
             _servicesLogic = servicesLogic;
         }
-
         // GET: Services
         [AllowAnonymous]
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(Messages? message)
         {
             var services = await _servicesLogic.GetAllServices();
+            ViewBag.StatusMessage = MessageGenerator(message);
             return View(services);
         }
-
-        // GET: Services/Details/5
-        public async Task<ActionResult> Details(int? id)
+        public enum Messages
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Service service = await _db.Services.FindAsync(id);
-            if (service == null)
-            {
-                return HttpNotFound();
-            }
-            return View(service);
+            UpdateSucces,
+            CreateNewServiceSucces,
+            DeleteSuccess,
+            Error
         }
-
-        // GET: Services/Create
-        public ActionResult Create()
+        private string MessageGenerator(Messages? message)
+        {
+            return message == Messages.UpdateSucces ? "Услуга успешно обновлена"
+                : message == Messages.UpdateSucces ? "Новая услуга успешно создана"
+                : message == Messages.DeleteSuccess ? "Услуга успешно удалена"
+                : message == Messages.Error ? "Ошибка"
+                : null;
+        }
+            // GET: Services/Create
+            public ActionResult Create()
         {
             return PartialView("AddNewService");
         }
@@ -62,7 +61,7 @@ namespace AutoService.WEB.Controllers
             {
                 var service = new Service(serviceView.ServiceName, serviceView.Price, serviceView.ServiceImageHref);
                 await _servicesLogic.AddNewService(service);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = Messages.CreateNewServiceSucces });
             }
             return View(serviceView);
         }
@@ -74,15 +73,15 @@ namespace AutoService.WEB.Controllers
             {
                 var service = await _servicesLogic.FindService(serviceId);
                 var editServiceView = new EditServiceView(service.ServiceId, service.ServiceName, service.Price, service.ServiceImageHref);
-                return View(editServiceView);
+                return PartialView(editServiceView);
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
         }
 
@@ -96,7 +95,7 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _servicesLogic.EditService(service);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = Messages.UpdateSucces });
             }
             return View(service);
         }
@@ -111,11 +110,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
         }
 
@@ -125,7 +124,7 @@ namespace AutoService.WEB.Controllers
         public async Task<ActionResult> DeleteConfirmed(int serviceId)
         {
             await _servicesLogic.RemoveService(serviceId);
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { message = Messages.DeleteSuccess });
         }
 
         public async Task<ActionResult> SearchServicesByName(string serviceName)
@@ -135,7 +134,7 @@ namespace AutoService.WEB.Controllers
             {
                 return HttpNotFound();
             }
-            return PartialView("ServicesSearch", services);
+            return RedirectToAction("Index", new { message = Messages.Error });
         }
 
         public async Task<ActionResult> GetServicesSortedByDiscount()

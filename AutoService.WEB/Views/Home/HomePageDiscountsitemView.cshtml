@@ -1,6 +1,6 @@
 ﻿@model AutoService.WEB.Models.ServiceView
-    <div class="card h-100 mx-auto discountItem">
-        <img class="card-img-top" src="@Model.ServiceImageHref" alt="@Model.ServiceName" />
+    <div class="card h-100 mx-auto discountItem"style="min-height:360px">
+        <img class="card-img-top img-fluid" style="max-height:300px" src="@Model.ServiceImageHref" alt="@Model.ServiceName" />
         <div class="card-body text-center" style="min-height:80px">
             <div class="h5">
                 @if (Model.Discount == null)

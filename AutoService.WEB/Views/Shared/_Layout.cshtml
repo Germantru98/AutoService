@@ -36,6 +36,9 @@
                 @if (User.IsInRole("Admin"))
                 {
                     <li>
+                        <a class="nav-link" href="@Url.Action("Index","NewsPage")">Новости</a>
+                    </li>
+                    <li>
                         <a class="nav-link" href="@Url.Action("Index","AdminMenu")">Настройки</a>
                     </li>
                 }

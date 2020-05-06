@@ -25,27 +25,26 @@ namespace AutoService.WEB.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageHref { get; set; }
-        public string RouteHref { get; set; }
-
+        public int? NewsId { get; set; }
         public HomeMainCarouselItem()
         {
         }
 
-        public HomeMainCarouselItem(int id, string title, string description, string imageHref, string routeHref)
+        public HomeMainCarouselItem(int id, string title, string description, string imageHref, int newsId)
         {
             Id = id;
             Title = title;
             Description = description;
             ImageHref = imageHref;
-            RouteHref = routeHref;
+            NewsId = newsId;
         }
 
-        public HomeMainCarouselItem(string title, string description, string imageHref, string routeHref)
+        public HomeMainCarouselItem(string title, string description, string imageHref, int newsId)
         {
             Title = title;
             Description = description;
             ImageHref = imageHref;
-            RouteHref = routeHref;
+            NewsId = newsId;
         }
     }
 
@@ -67,8 +66,8 @@ namespace AutoService.WEB.Models
         public string ImageHref { get; set; }
 
         [Required]
-        [Display(Name = "Переход из слайда")]
-        public string RouteHref { get; set; }
+        [Display(Name = "Номер новости для перехода")]
+        public int? NewsId { get; set; }
     }
 
     public class AddNewCarouselItemView
@@ -87,7 +86,7 @@ namespace AutoService.WEB.Models
 
         [Required]
         [Display(Name = "Переход из слайда")]
-        public string RouteHref { get; set; }
+        public int NewsId { get; set; }
     }
 
     public class HomeMainCarouselItemView
@@ -96,19 +95,19 @@ namespace AutoService.WEB.Models
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageHref { get; set; }
-        public string RouteHref { get; set; }
+        public int? NewsId { get; set; }
 
         public HomeMainCarouselItemView()
         {
         }
 
-        public HomeMainCarouselItemView(int id, string title, string description, string imageHref, string routeHref)
+        public HomeMainCarouselItemView(int id, string title, string description, string imageHref, int? newsId)
         {
             Id = id;
             Title = title;
             Description = description;
             ImageHref = imageHref;
-            RouteHref = routeHref;
+            NewsId = newsId;
         }
     }
 }

@@ -1,0 +1,50 @@
+﻿@using AutoService.WEB.Models
+@model List<News>
+@{
+    ViewBag.Title = "Новости";
+}
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+@if (ViewBag.StatusMessage != null)
+{
+    string message = ViewBag.StatusMessage as string;
+    message.ToLower();
+    if (!message.Contains("ошибка"))
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
+
+}
+<h2 class="text-center m-2">@ViewBag.Title<a class="ml-1 btn-dark btn btn-sm" href="@Url.Action("CreateNews","NewsPage")"><i class="fa fa-plus"></i></a></h2>
+@if (Model.Count > 0)
+{
+    <div class="row justify-content-around mt-4">
+        @foreach (var news in Model)
+        {
+            @Html.Partial("NewsItemView", news)
+        }
+    </div>
+}
+else
+{
+<div class="mt-4 text-center">
+    <h3>Новостей пока нет <a class="ml-1 btn-dark btn" href="@Url.Action("CreateNews","NewsPage")"><i class="fa fa-plus mr-1 p-1"></i>Добавить</a></h3>
+    <div class="mx-auto d-flex m-2">
+        <img class="img-fluid mx-auto" src="https://i.imgur.com/8o7oQm0.png" alt="Alternate Text" />
+    </div>
+</div>
+}
+@section scripts
+{
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    <script>
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
+        });
+    </script>
+}

@@ -32,7 +32,7 @@
         <a class="nav-link" data-toggle="tab" href="#archive"><i class="fa fa-archive fa-lg p-1 mr-1"></i>Архив</a>
     </li>
     <li>
-        <a class="nav-link" data-toggle="tab" href="#news-tab"><i class="fa fa-newspaper-o fa-lg p-1 mr-1"></i>Новости</a>
+        <a class="nav-link" data-toggle="tab" href="#news-tab"><i class="fa fa-newspaper-o fa-lg p-1 mr-1"></i>Слайды</a>
     </li>
     <li>
         <a class="nav-link" data-toggle="tab" href="#settings"><i class="fa fa-gears fa-lg p-1 mr-1"></i>Настройки сайта</a>
@@ -58,7 +58,7 @@
 @section Scripts {
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
-    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    @Scripts.Render("~/bundles/jqueryval")
     <script>
         $('.validate').validate({
             errorClass: "text-danger",

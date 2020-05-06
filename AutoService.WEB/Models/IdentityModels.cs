@@ -48,5 +48,6 @@ namespace AutoService.WEB.Models
         public DbSet<ServicesSummary> ServicesSummaries { get; set; }
         public DbSet<CompletedSummariesHistory> CompletedSummariesHistory { get; set; }
         public DbSet<CarsStorageItem> UsersCarsStorage { get; set; }
+        public DbSet<News> News { get; set; }
     }
 }

@@ -1,5 +1,8 @@
 ﻿@using AutoService.WEB.Models
 @model EditCarouselItemView
+    @{
+        var news = ViewBag.News as NewsView;
+     }
 <div class="modal-content">
     <!-- Заголовок модального окна -->
     <div class="modal-header">
@@ -15,20 +18,21 @@
     @Html.HiddenFor(model => model.Id)
     <div class="modal-body form-horizontal">
         <div class="form-group">
-            @Html.LabelFor(model => model.Title, new { @class = "col-form-label" })
+            <i class="fa fa-bookmark mr-1"></i>@Html.LabelFor(model => model.Title, new { @class = "col-form-label" })
             @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.Description, new { @class = "col-form-label" })
+            <i class="fa fa-book mr-1"></i>@Html.LabelFor(model => model.Description, new { @class = "col-form-label" })
             @Html.TextAreaFor(model => model.Description, new { @class = "form-control", style = "min-height:200px" })
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.ImageHref, new { @class = "col-form-label" })
+            <i class="fa fa-image mr-1"></i> @Html.LabelFor(model => model.ImageHref, new { @class = "col-form-label" })
             @Html.EditorFor(model => model.ImageHref, new { htmlAttributes = new { @class = "form-control" } })
         </div>
         <div class="form-group">
-            @Html.LabelFor(model => model.RouteHref, new { @class = "col-form-label" })
-            @Html.EditorFor(model => model.RouteHref, new { htmlAttributes = new { @class = "form-control" } })
+            <label class="col-form-label"><i class="fa fa-newspaper-o mr-1"></i>Текущая новость: @(news!=null?news.Title:"Отсутствует")</label><br />
+            <i class="fa fa-newspaper-o mr-1"></i>@Html.LabelFor(model => model.NewsId, new { @class = "col-form-label" })
+            @Html.DropDownListFor(m => m.NewsId, ViewBag.AllNews as SelectList, new { @class = "form-control" })
         </div>
     </div>
  <!-- Футер модального окна -->

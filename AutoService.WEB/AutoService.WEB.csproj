@@ -229,6 +229,7 @@
     <Compile Include="Controllers\ContactInfoController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NewsPageController.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Controllers\ShopCartController.cs" />
     <Compile Include="Controllers\UserReviewsController.cs" />
@@ -248,6 +249,10 @@
     <Compile Include="Migrations\202005011614396_newShopCart.Designer.cs">
       <DependentUpon>202005011614396_newShopCart.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005061745282_news.cs" />
+    <Compile Include="Migrations\202005061745282_news.Designer.cs">
+      <DependentUpon>202005061745282_news.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -257,6 +262,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\JobVacancyModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\NewsModels.cs" />
     <Compile Include="Models\RewiewModels.cs" />
     <Compile Include="Models\ServiceModels.cs" />
     <Compile Include="Models\ShopCartModels.cs" />
@@ -269,7 +275,9 @@
     <Compile Include="Utils\HomePageLogic.cs" />
     <Compile Include="Utils\Interfaces\ICarLogic.cs" />
     <Compile Include="Utils\Interfaces\IHomePageLogic.cs" />
+    <Compile Include="Utils\Interfaces\INewsPageLogic.cs" />
     <Compile Include="Utils\Interfaces\IVacanciesLogic.cs" />
+    <Compile Include="Utils\NewsPageLogic.cs" />
     <Compile Include="Utils\SummraiesLogic.cs" />
     <Compile Include="Utils\ContactInfoLogic.cs" />
     <Compile Include="Utils\Interfaces\IAdminLogic.cs" />
@@ -539,6 +547,11 @@
     <Content Include="Views\ShopCart\ShopCartItemView.cshtml" />
     <Content Include="Views\Vacancies\VacancyItemView.cshtml" />
     <Content Include="Views\Home\HomePageDiscountsitemView.cshtml" />
+    <Content Include="Views\NewsPage\Index.cshtml" />
+    <Content Include="Views\NewsPage\NewsItemView.cshtml" />
+    <Content Include="Views\NewsPage\RemoveNews.cshtml" />
+    <Content Include="Views\NewsPage\EditNews.cshtml" />
+    <Content Include="Views\NewsPage\CreateNews.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -558,6 +571,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005011614396_newShopCart.resx">
       <DependentUpon>202005011614396_newShopCart.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005061745282_news.resx">
+      <DependentUpon>202005061745282_news.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

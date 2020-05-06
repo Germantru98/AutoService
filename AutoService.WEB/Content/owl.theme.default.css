@@ -8,9 +8,13 @@
  */
 .owl-theme .owl-nav {
     margin-top: 0;
+    height:40px;
     text-align: center;
     font-size: 40px;
-    margin-bottom: 10px
+    margin-bottom: 10px;
+    justify-content:center;
+    align-items:center;
+    display:flex;
 }
 
     .owl-theme .owl-nav [class*='owl-'] {
@@ -22,6 +26,7 @@
         display: inline-block;
         cursor: pointer;
         border-radius: 3px;
+        outline: none;
     }
 
         .owl-theme .owl-nav [class*='owl-']:hover {

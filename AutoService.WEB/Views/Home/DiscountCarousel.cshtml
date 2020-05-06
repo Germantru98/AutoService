@@ -9,12 +9,12 @@
         <div class="card-body align-items-center justify-content-center d-flex">
             <div id="DiscountCarousel" class="carousel slide" data-ride="carousel">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
+                    <div class="carousel-item h-100 active">
                         @Html.Partial("HomePageDiscountsitemView", Model[0])
                     </div>
                     @for (int i = 1; i < Model.Count(); i++)
                     {
-                        <div class="carousel-item">
+                        <div class="carousel-item h-100">
                             @Html.Partial("HomePageDiscountsitemView", Model[i])
                         </div>
                     }

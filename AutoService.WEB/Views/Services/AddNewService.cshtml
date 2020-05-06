@@ -9,26 +9,25 @@
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    @using (Html.BeginForm("Create", "Services", FormMethod.Post, new { @class = "validate text-danger" }))
+    @using (Html.BeginForm("Create", "Services", FormMethod.Post, new { @class = "validate" }))
     {
         @Html.AntiForgeryToken()
         <div class="modal-body">
-            <div class="form-group">
-                @Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "text-dark" })
-
+            <div class="form-group ">
+                <i class="fa fa-bookmark mr-1 p-1"></i>@Html.LabelFor(model => model.ServiceName, htmlAttributes: new { @class = "text-dark" })
                 @Html.EditorFor(model => model.ServiceName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ServiceName, null, new { @class = "text-danger" })
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "text-dark" })
-
+            <div class="form-group ">
+                <i class="fa fa-rub mr-1 p-1"></i>@Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "text-dark" })
                 @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, null, new { @class = "text-danger" })
+
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(model => model.ServiceImageHref, htmlAttributes: new { @class = "text-dark" })
-
+                <i class="fa fa-image mr-1 p-1"></i>@Html.LabelFor(model => model.ServiceImageHref, htmlAttributes: new { @class = "text-dark" })
                 @Html.EditorFor(model => model.ServiceImageHref, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.ServiceImageHref, null, new { @class = "text-danger" })
             </div>
         </div>
         <!-- Футер модального окна -->

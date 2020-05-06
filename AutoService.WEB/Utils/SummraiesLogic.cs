@@ -76,24 +76,6 @@ namespace AutoService.WEB.Utils
             }
             return result;
         }
-
-        private string ServicesListToString(List<Service> services)
-        {
-            var result = string.Empty;
-            for (int i = 0; i < services.Count; i++)
-            {
-                if (i < services.Count - 1)
-                {
-                    result += $"{services[i].ServiceId}|";
-                }
-                else
-                {
-                    result += $"{services[i].ServiceId}";
-                }
-            }
-            return result;
-        }
-
         public async Task<ServicesSummaryAdminView> FindSummaryById(int? summaryId)
         {
             if (summaryId == null)
@@ -123,7 +105,7 @@ namespace AutoService.WEB.Utils
                 var tmpSummary = await MapSummaryOnSummaryAdminView(await _db.ServicesSummaries.FindAsync(completedSummary.SummaryId));
                 result.Add(tmpSummary);
             }
-            return result.OrderBy(s => s.Date).ToList();
+            return result.OrderByDescending(s => s.Date).ToList();
         }
 
         public async Task<List<ServicesSummaryAdminView>> GetCurrentSummaries()

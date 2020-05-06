@@ -3,9 +3,10 @@
     var owl = $(".owl-carousel");
     owl.owlCarousel({
         loop: true,
-        nav: false,
+        margin:10,
         items: 8,
         mouseDrag: true,
+        touchDrag: true,
         dots: false,
         responsive: {
             0: {

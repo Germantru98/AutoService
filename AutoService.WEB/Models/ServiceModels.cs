@@ -87,12 +87,17 @@ namespace AutoService.WEB.Models
         public int ServiceId { get; set; }
 
         [Display(Name = "Название услуги")]
+        [Required]
         public string ServiceName { get; set; }
 
         [Display(Name = "Цена за услугу")]
+        [Required]
+        [Range(0,1000000)]
         public int Price { get; set; }
 
-        [Display(Name = "Ссылка наизображение услуги")]
+        [Display(Name = "Ссылка на изображение услуги")]
+        [Url(ErrorMessage ="Данное поле должно содержать ссылку на изображение")]
+        [Required]
         public string ServiceImageHref { get; set; }
 
         public EditServiceView()

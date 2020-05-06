@@ -3,6 +3,20 @@
 @{
     ViewBag.Title = "Услуги";
 }
+@if (ViewBag.StatusMessage != null)
+{
+    string message = ViewBag.StatusMessage as string;
+    message.ToLower();
+    if (!message.Contains("ошибка"))
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
+
+}
 <h2 class="display-4 text-center">Услуги</h2>
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
@@ -40,5 +54,10 @@
 {
     @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
-    
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
+        });
+    </script>
 }
