@@ -3,18 +3,16 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AutoService.WEB.Utils
 {
     public class VacanciesLogic : IVacanciesLogic
     {
         private ApplicationDbContext _db;
+
         public VacanciesLogic()
         {
-
         }
 
         public VacanciesLogic(ApplicationDbContext db)
@@ -27,6 +25,7 @@ namespace AutoService.WEB.Utils
             _db.JobVacancies.Add(newVacancy);
             await _db.SaveChangesAsync();
         }
+
         public async Task EditVacancy(JobVacancy editeVacancy)
         {
             var vacancy = await _db.JobVacancies.FindAsync(editeVacancy.Id);
@@ -37,7 +36,6 @@ namespace AutoService.WEB.Utils
             vacancy.Email = editeVacancy.Email;
             _db.Entry(vacancy).State = EntityState.Modified;
             await _db.SaveChangesAsync();
-
         }
 
         public async Task<JobVacancy> FindVacancy(int? vacancyId)
@@ -73,6 +71,7 @@ namespace AutoService.WEB.Utils
             _db.JobVacancies.Remove(vacancy);
             await _db.SaveChangesAsync();
         }
+
         private bool disposed = false;
 
         protected virtual void Dispose(bool disposing)

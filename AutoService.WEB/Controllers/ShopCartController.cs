@@ -147,6 +147,7 @@ namespace AutoService.WEB.Controllers
         {
             return cart.ShopCartItemsCounter();
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

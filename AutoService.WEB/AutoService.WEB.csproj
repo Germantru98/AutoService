@@ -552,6 +552,12 @@
     <Content Include="Views\NewsPage\RemoveNews.cshtml" />
     <Content Include="Views\NewsPage\EditNews.cshtml" />
     <Content Include="Views\NewsPage\CreateNews.cshtml" />
+    <Content Include="Views\NewsPage\UserNewsView.cshtml" />
+    <Content Include="Views\Manage\UserOrdersSection.cshtml" />
+    <Content Include="Views\Manage\UserOrderView.cshtml" />
+    <Content Include="Views\Manage\RemoveOrderModalView.cshtml" />
+    <Content Include="Views\Manage\EditSummaryView.cshtml" />
+    <Content Include="Views\Manage\SummaryEditorView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

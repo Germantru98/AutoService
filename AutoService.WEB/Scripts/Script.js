@@ -3,7 +3,7 @@
     var owl = $(".owl-carousel");
     owl.owlCarousel({
         loop: true,
-        margin:10,
+        margin: 10,
         items: 8,
         mouseDrag: true,
         touchDrag: true,

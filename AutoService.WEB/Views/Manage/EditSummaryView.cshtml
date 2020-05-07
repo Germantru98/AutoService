@@ -1,0 +1,94 @@
+﻿@using AutoService.WEB.Models
+@model UserOrderView
+@{
+    ViewBag.Title = "Изменение заказа";
+}
+
+<div id="modDialog" class="modal fade">
+    <div id="dialogContent" class="modal-dialog"></div>
+</div>
+<h2 class="text-center mt-3">Изменение заказа</h2>
+<div class="row justify-content-center mt-4 mb-4">
+    <div сlass="col-xl-5 col-md-7 col-sm-12">
+        <div class="card rounded shadow-sm m-2" style="max-height:750px;max-width:650px">
+            <div class="card-header bg-dark">
+                <h5 class="text-white text-center m-0">Заказ</h5>
+            </div>
+            <div class="p-4 pb-2">
+                <img style="max-height:310px" class="card-img border rounded" src="@Model.UserCar.CarImageHref" alt="@Model.UserCar.FullName" title="@Model.UserCar.FullName" />
+            </div>
+            <div class="card-body pt-2">
+                <div class="card">
+                    <div class="card-header text-center"style="background-color:#e9ecef"><h6 class="m-0"><i class="fa fa-list p-1 mr-1"></i>Список оказываемых услуг</h6></div>
+                    <div class="card-body" style="height:150px;max-height:200px">
+                        <ol class="overflow-auto h-100">
+                            @foreach (var item in Model.ServicesList)
+                            {
+                                <li>
+                                    @item.ToString()
+                                </li>
+                            }
+                        </ol>
+                    </div>
+                </div>
+                <div class="row justify-content-between pr-3 pl-3 mt-2 mb-2">
+                    <div class="input-group text-right col-xl-4 col-md-4 col-sm-5 p-0 mt-1 mb-1" title="Общая стоимость оказываемых услуг">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="width:50px">
+                                <i class="fa fa-rub p-1 mx-auto"></i>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            @Model.TotalPrice
+                        </div>
+                    </div>
+                    <div class="input-group text-right col-xl-4 col-md-4 col-sm-5 p-0 mt-1 mb-1" title="Дата оказания услуг">
+                        <div class="input-group-prepend">
+                            <div class="input-group-text" style="width:50px">
+                                <i class="fa fa-calendar p-1 mx-auto"></i>
+                            </div>
+                        </div>
+                        <div class="form-control">
+                            @Model.selectedDateTime
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <a style="width:105px" class="btn btn-dark btn-sm" href="@Url.Action("EditSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-gear p-1 mr-1"></i>Изменить</a>
+                <a style="width:105px" class="dialog btn btn-dark btn-sm" href="@Url.Action("RemoveSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-trash p-1 mr-1"></i>Удалить</a>
+            </div>
+        </div>
+    </div>
+    @Html.Partial("SummaryEditorView", ViewBag.EditSummary as EditSummaryView)
+</div>
+<div class="text-center m-2">
+    <a class="btn btn-dark btn-lg" href="@Url.Action("Index","Home")" title="На главную"><i class="fa fa-home mr-1 p-1"></i>На главную</a>
+    <a class="btn btn-dark btn-lg" href="@Url.Action("Index","Manage")" title="Аккаунт"><i class="fa fa-user mr-1 p-1"></i>Аккаунт</a>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/scripts/InvokeModalDialog.js")
+    @Scripts.Render("~/scripts/jquery.validate.min.js")
+    <script>
+        $('.validate').validate({
+            errorClass: "text-danger",
+            rules: {
+                DayOfWork: {
+                    required: true
+                },
+                UserCarId: {
+                    required: true
+                }
+            },
+            messages: {
+                DayOfWork: {
+                    required: "Выберите дату выполнения работ"
+                },
+                UserCarId: {
+                    required: "Необходимо выбрать автомобиль"
+                }
+            }
+        });
+    </script>
+}

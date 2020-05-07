@@ -92,11 +92,11 @@ namespace AutoService.WEB.Models
 
         [Display(Name = "Цена за услугу")]
         [Required]
-        [Range(0,1000000)]
+        [Range(0, 1000000)]
         public int Price { get; set; }
 
         [Display(Name = "Ссылка на изображение услуги")]
-        [Url(ErrorMessage ="Данное поле должно содержать ссылку на изображение")]
+        [Url(ErrorMessage = "Данное поле должно содержать ссылку на изображение")]
         [Required]
         public string ServiceImageHref { get; set; }
 

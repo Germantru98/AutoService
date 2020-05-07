@@ -1,0 +1,15 @@
+﻿@model AutoService.WEB.Models.NewsView
+@{
+    ViewBag.Title = Model.Title;
+}
+
+<h2 class="text-center m-4">@Model.Title</h2>
+
+<div class="col-xl-10 mx-auto p-4" style="font-size:20px">
+    <div style="min-height:500px">@Model.NewsText</div>
+</div>
+<div class="col-xl-10 mx-auto pr-0 pl-0">
+    <div class="input-group text-right ml-auto col-xl-2 col-md-3 col-sm-4 p-0">
+        <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-calendar p-1"></i></div></div><div class="form-control"> @Model.DateOfCreation</div>
+    </div>
+</div>

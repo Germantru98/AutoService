@@ -34,12 +34,19 @@ namespace AutoService.WEB.Models
 
         [Required(ErrorMessage = "Не выбрана дата начала работ")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Дата оказания выбранных услуг")]
         public DateTime selectedDateTime { get; set; }
 
         public ServicesSummaryView()
         {
+        }
+
+        public ServicesSummaryView(IEnumerable<Service> servicesList, int totalPrice, int carId, DateTime selectedDateTime)
+        {
+            ServicesList = servicesList;
+            TotalPrice = totalPrice;
+            CarId = carId;
+            this.selectedDateTime = selectedDateTime;
         }
     }
 
@@ -85,7 +92,6 @@ namespace AutoService.WEB.Models
 
         [Required(ErrorMessage = "Не указана дата")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DayOfWork { get; set; }
 
         public IList<string> SelectedServices { get; set; }
@@ -126,5 +132,27 @@ namespace AutoService.WEB.Models
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd'/'mm'/'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
+    }
+
+    public class UserOrderView
+    {
+        public int OrderId { get; set; }
+        public List<Service> ServicesList { get; set; }
+        public int TotalPrice { get; set; }
+        public CarView UserCar { get; set; }
+        public string selectedDateTime { get; set; }
+
+        public UserOrderView()
+        {
+        }
+
+        public UserOrderView(int orderId, List<Service> servicesList, int totalPrice, CarView userCar, DateTime selectedDateTime)
+        {
+            OrderId = orderId;
+            ServicesList = servicesList;
+            TotalPrice = totalPrice;
+            UserCar = userCar;
+            this.selectedDateTime = selectedDateTime.ToShortDateString();
+        }
     }
 }

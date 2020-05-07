@@ -76,6 +76,7 @@ namespace AutoService.WEB.Utils
             }
             return result;
         }
+
         public async Task<ServicesSummaryAdminView> FindSummaryById(int? summaryId)
         {
             if (summaryId == null)
@@ -127,9 +128,13 @@ namespace AutoService.WEB.Utils
             return result;
         }
 
-        public async Task RemoveSummary(int summaryId)
+        public async Task RemoveSummary(int summaryId, string userId, bool isAdmin)
         {
             var deletedSummary = await _db.ServicesSummaries.FindAsync(summaryId);
+            if (deletedSummary.UserId != userId && !isAdmin)
+            {
+                throw new InvalidOperationException();
+            }
             _db.ServicesSummaries.Remove(deletedSummary);
             await _db.SaveChangesAsync();
         }
@@ -186,6 +191,21 @@ namespace AutoService.WEB.Utils
             if (selectListItems.Count > 0)
             {
                 var editSummaryView = new EditSummaryView(view.SummaryId, view.Car.CarId, view.Date, servisesId, selectListItems);
+                return editSummaryView;
+            }
+            else
+            {
+                throw new Exception("List is empty");
+            }
+        }
+
+        public async Task<EditSummaryView> GetEditSummaryView(UserOrderView view)
+        {
+            var selectListItems = await GetAllServices();
+            var servisesId = GetServicesId(view.ServicesList);
+            if (selectListItems.Count > 0)
+            {
+                var editSummaryView = new EditSummaryView(view.OrderId, view.UserCar.CarId, DateTime.Parse(view.selectedDateTime), servisesId, selectListItems);
                 return editSummaryView;
             }
             else
@@ -251,6 +271,40 @@ namespace AutoService.WEB.Utils
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<List<UserOrderView>> GetAllUserOrders(string userId)
+        {
+            var userOrders = await _db.ServicesSummaries.Where(s => s.UserId == userId && !s.IsCompleted).OrderByDescending(s => s.DayOfWork).ToListAsync();
+            var result = new List<UserOrderView>();
+            foreach (var item in userOrders)
+            {
+                var serviceList = await _servicesLogic.GetServicesFromSummary(item.ServiceList);
+                var userCar = await _carLogic.GetUserCar(item.UserCarId);
+                result.Add(new UserOrderView(item.SummaryId, serviceList, item.TotalPrice, userCar, item.DayOfWork));
+            }
+            return result;
+        }
+
+        public async Task<UserOrderView> GetUserOrder(int? orderId, string userId)
+        {
+            if (orderId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var order = await _db.ServicesSummaries.FindAsync(orderId);
+            if (order == null)
+            {
+                throw new NullReferenceException();
+            }
+            if (order.UserId != userId)
+            {
+                throw new InvalidOperationException();
+            }
+            var serviceList = await _servicesLogic.GetServicesFromSummary(order.ServiceList);
+            var userCar = await _carLogic.GetUserCar(order.UserCarId);
+            var userOrder = new UserOrderView(order.SummaryId, serviceList, order.TotalPrice, userCar, order.DayOfWork);
+            return userOrder;
         }
     }
 }

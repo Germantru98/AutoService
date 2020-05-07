@@ -1,0 +1,10 @@
+﻿@using AutoService.WEB.Models
+@model List<UserOrderView>
+<div class="tab-pane fade mt-3 mb-4" id="orders">
+    <div class="row justify-content-around p-2">
+        @foreach (var order in Model)
+        {
+            @Html.Partial("UserOrderView",order)
+        }
+    </div>
+</div>

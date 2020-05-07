@@ -1,0 +1,55 @@
+﻿@using AutoService.WEB.Models
+@model EditSummaryView
+
+<div class="col-xl-5 col-md-7 col-sm-12 p-0">
+    <div class="card rounded shadow-sm h-100 m-2" style="max-height:750px;max-width:650px">
+        <h5 class="card-header bg-dark text-center text-white">Настройки</h5>
+        @using (@Html.BeginForm("ChangeSummaryInformation", "Manage", null, FormMethod.Post, new { @class = "validate" }))
+        {
+    <div class="card-body" style="height:641px">
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.SummaryId)
+        <div class="form-group">
+            <label class="col-form-label"><i class="fa fa-car mr-1 p-1"></i>Автомобиль:</label>
+            @Html.DropDownListFor(model => model.UserCarId, ViewBag.UserCars as SelectList, new { @class = "form-control" })
+        </div>
+        <div class="form-group">
+            <label class="col-form-label"><i class="fa fa-calendar mr-1 p-1"></i>Дата работ:</label><br />
+            @Html.EditorFor(model => model.DayOfWork)
+        </div>
+        <div class="card">
+            <div class="card-header bg-dark text-white text-center"><i class="fa fa-tasks mr-1 p-1"></i>Услуги:</div>
+            <div class="card-body">
+                <div class="form-group overflow-auto" style="max-height:350px">
+                    @if (Model.AllServices.Count > 0 && Model.AllServices != null)
+                    {
+                        int counter = 1;
+
+                        foreach (var item in Model.AllServices)
+                        {
+                            <div class="custom-control custom-checkbox m-2">
+                                <input type="checkbox" name="SelectedServices" value="@item.Value" class="custom-control-input"
+                                       @if (Model.SelectedServices.Contains(item.Value)) { <text> checked </text> } id="ServiceCheckBox+@counter" />
+                                <label class="custom-control-label" for="ServiceCheckBox+@counter">
+                                    @item.Text
+                                </label>
+                            </div>
+                            counter++;
+                        }
+                    }
+                    else
+                    {
+                        <h1>Error,Список услуг пуст</h1>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+            <div class="card-footer text-center">
+                <button type="submit" class="btn btn-dark btn-sm">
+                    <i class="fa fa-save mr-1 p-1"></i>Сохранить
+                </button>
+            </div>
+        }
+        </div>
+</div>

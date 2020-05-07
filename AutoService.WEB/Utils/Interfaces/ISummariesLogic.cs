@@ -11,7 +11,7 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task AddNewSummary(ServicesSummary newSummary);
 
-        Task RemoveSummary(int summaryId);
+        Task RemoveSummary(int summaryId, string userId, bool isAdmin);
 
         Task EditSummary(EditSummaryView editedSummary);
 
@@ -29,6 +29,12 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task<EditSummaryView> GetEditSummaryView(ServicesSummaryAdminView view);
 
+        Task<EditSummaryView> GetEditSummaryView(UserOrderView view);
+
         ServicesSummaryView GetServicesSummaryView(IEnumerable<Service> shopCart, int totalPrice);
+
+        Task<List<UserOrderView>> GetAllUserOrders(string userId);
+
+        Task<UserOrderView> GetUserOrder(int? orderId, string userId);
     }
 }

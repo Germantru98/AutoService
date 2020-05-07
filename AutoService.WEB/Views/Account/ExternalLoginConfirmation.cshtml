@@ -2,36 +2,36 @@
 @{
     ViewBag.Title = "Регистрация";
 }
-    <div class="text-center mt-3">
-        <h2>@ViewBag.Title.</h2>
-        <h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
-    </div>
+<div class="text-center mt-3">
+    <h2>@ViewBag.Title.</h2>
+    <h3>Связывание вашей учетной записи @ViewBag.LoginProvider.</h3>
+</div>
 
 <div class="card col-xl-5 col-md-7 col-sm-10 shadow-sm rounded mx-auto p-0 mt-4">
     <div class="card-header bg-dark text-white text-center"> <h4>Форма связывания</h4></div>
     @using (Html.BeginForm("ExternalLoginConfirmation", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { role = "form" }))
     {
-        <div class="card-body">
-            @Html.AntiForgeryToken()
-            <p class="text-info">
-                Вы успешно прошли проверку подлинности с помощью <strong>@ViewBag.LoginProvider</strong>
-                Введите имя пользователя на этом сайте ниже и нажмите кнопку "Зарегистрировать", чтобы завершить
-                вход.
-            </p>
-            <div class="form-group col-md-10 mx-auto">
-                @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-            </div>
-            <div class="form-group col-md-10 mx-auto">
-                @Html.LabelFor(m => m.RealName, new { @class = "col-form-label" })
-                    @Html.TextBoxFor(m => m.RealName, new { @class = "form-control " })
-                    @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
-            </div>
+    <div class="card-body">
+        @Html.AntiForgeryToken()
+        <p class="text-info">
+            Вы успешно прошли проверку подлинности с помощью <strong>@ViewBag.LoginProvider</strong>
+            Введите имя пользователя на этом сайте ниже и нажмите кнопку "Зарегистрировать", чтобы завершить
+            вход.
+        </p>
+        <div class="form-group col-md-10 mx-auto">
+            @Html.LabelFor(m => m.Email, new { @class = "col-form-label" })
+            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
         </div>
-        <div class="card-footer text-center">
-            <button type="submit" class="btn btn-dark"><i class="fa fa-check fa-lg p-1 mr-1"></i>Регистрация</button>
+        <div class="form-group col-md-10 mx-auto">
+            @Html.LabelFor(m => m.RealName, new { @class = "col-form-label" })
+            @Html.TextBoxFor(m => m.RealName, new { @class = "form-control " })
+            @Html.ValidationMessageFor(m => m.RealName, "", new { @class = "text-danger" })
         </div>
+    </div>
+    <div class="card-footer text-center">
+        <button type="submit" class="btn btn-dark"><i class="fa fa-check fa-lg p-1 mr-1"></i>Регистрация</button>
+    </div>
     }
 </div>
 

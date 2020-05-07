@@ -1,7 +1,6 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -21,6 +20,7 @@ namespace AutoService.WEB.Controllers
             _db = db;
             _servicesLogic = servicesLogic;
         }
+
         // GET: Services
         [AllowAnonymous]
         public async Task<ActionResult> Index(Messages? message)
@@ -29,6 +29,7 @@ namespace AutoService.WEB.Controllers
             ViewBag.StatusMessage = MessageGenerator(message);
             return View(services);
         }
+
         public enum Messages
         {
             UpdateSucces,
@@ -36,6 +37,7 @@ namespace AutoService.WEB.Controllers
             DeleteSuccess,
             Error
         }
+
         private string MessageGenerator(Messages? message)
         {
             return message == Messages.UpdateSucces ? "Услуга успешно обновлена"
@@ -44,8 +46,9 @@ namespace AutoService.WEB.Controllers
                 : message == Messages.Error ? "Ошибка"
                 : null;
         }
-            // GET: Services/Create
-            public ActionResult Create()
+
+        // GET: Services/Create
+        public ActionResult Create()
         {
             return PartialView("AddNewService");
         }

@@ -33,7 +33,6 @@ namespace AutoService.WEB.Utils
                 throw new NullReferenceException($"Объект с Id = {editView.Id} отсутствует в базе данных");
             }
             editedItem.ImageHref = editView.ImageHref;
-            editedItem.NewsId = editView.NewsId;
             editedItem.Title = editView.Title;
             editedItem.Description = editView.Description;
             _db.Entry(editedItem).State = EntityState.Modified;
@@ -84,12 +83,25 @@ namespace AutoService.WEB.Utils
 
         private HomeMainCarouselItem MapNewCarouselItemToMainHomeCarousleItem(AddNewCarouselItemView newItem)
         {
-            return new HomeMainCarouselItem(newItem.Title, newItem.Description, newItem.ImageHref, newItem.NewsId);
+            var result = new HomeMainCarouselItem() 
+            {
+                Title = newItem.Title,
+                Description = newItem.Description,
+                ImageHref = newItem.ImageHref
+            };
+            return result;
         }
 
         private HomeMainCarouselItemView MapCarousleItemToCarousleItemView(HomeMainCarouselItem item)
         {
-            return new HomeMainCarouselItemView(item.Id, item.Title, item.Description, item.ImageHref, item.NewsId);
+            return new HomeMainCarouselItemView() 
+            {
+               Id= item.Id,
+               Title = item.Title,
+               Description = item.Description,
+               ImageHref = item.ImageHref
+            };
+
         }
 
         public async Task<List<CarBrand>> GetCarBrandsCarousel()

@@ -65,6 +65,7 @@ namespace AutoService.WEB.Models
         {
             get { return shopCart; }
         }
+
         public int ShopCartItemsCounter()
         {
             return shopCart.Count();

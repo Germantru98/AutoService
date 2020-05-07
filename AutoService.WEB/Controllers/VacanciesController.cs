@@ -2,8 +2,6 @@
 using AutoService.WEB.Utils.Interfaces;
 using PagedList;
 using System;
-using System.Data.Entity;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -13,9 +11,11 @@ namespace AutoService.WEB.Controllers
     {
         private ApplicationDbContext _db;
         private IVacanciesLogic _vacanciesLogic;
+
         public VacanciesController()
         {
         }
+
         public VacanciesController(ApplicationDbContext db, IVacanciesLogic vacanciesLogic)
         {
             _db = db;
@@ -32,13 +32,15 @@ namespace AutoService.WEB.Controllers
             ViewBag.StatusMessage = MessageGenerator(message);
             return View(jobVacancies.ToPagedList(pageNumber, pageSize));
         }
-        public enum Message 
-        { 
+
+        public enum Message
+        {
             AddVacancySuccess,
             RemoveVacancySuccess,
             EditVacancySuccess,
             Error
         }
+
         private string MessageGenerator(Message? message)
         {
             return message == Message.AddVacancySuccess ? ""
@@ -46,8 +48,8 @@ namespace AutoService.WEB.Controllers
                 : message == Message.RemoveVacancySuccess ? ""
                 : message == Message.Error ? ""
                 : null;
-
         }
+
         // GET: Vacancies/Create
         [Authorize(Roles = "Admin")]
         public ActionResult Create()
@@ -65,7 +67,7 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _vacanciesLogic.AddNewVacancy(jobVacancy);
-                return RedirectToAction("Index",new { message = Message.AddVacancySuccess});
+                return RedirectToAction("Index", new { message = Message.AddVacancySuccess });
             }
             return RedirectToAction("Index", new { message = Message.Error });
         }
@@ -76,7 +78,7 @@ namespace AutoService.WEB.Controllers
         {
             try
             {
-                var vacancy =await  _vacanciesLogic.FindVacancy(id);
+                var vacancy = await _vacanciesLogic.FindVacancy(id);
                 return PartialView(vacancy);
             }
             catch (ArgumentNullException)

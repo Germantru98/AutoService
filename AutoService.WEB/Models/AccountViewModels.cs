@@ -70,7 +70,7 @@ namespace AutoService.WEB.Models
 
     public class RegisterViewModel
     {
-        [Required(ErrorMessage ="Требуется заполнить поле \"ФИО\"")]
+        [Required(ErrorMessage = "Требуется заполнить поле \"ФИО\"")]
         [Display(Name = "ФИО")]
         public string RealName { get; set; }
 
@@ -84,6 +84,7 @@ namespace AutoService.WEB.Models
         [DataType(DataType.Password)]
         [Display(Name = "Пароль")]
         public string Password { get; set; }
+
         [Required(ErrorMessage = "Требуется заполнить поле \"Подтверждение пароля\"")]
         [DataType(DataType.Password)]
         [Display(Name = "Подтверждение пароля")]

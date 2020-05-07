@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoService.WEB.Models
 {
@@ -21,30 +22,14 @@ namespace AutoService.WEB.Models
 
     public class HomeMainCarouselItem
     {
+        [ForeignKey("News")]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageHref { get; set; }
-        public int? NewsId { get; set; }
+        public virtual News News { get; set; }
         public HomeMainCarouselItem()
         {
-        }
-
-        public HomeMainCarouselItem(int id, string title, string description, string imageHref, int newsId)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            ImageHref = imageHref;
-            NewsId = newsId;
-        }
-
-        public HomeMainCarouselItem(string title, string description, string imageHref, int newsId)
-        {
-            Title = title;
-            Description = description;
-            ImageHref = imageHref;
-            NewsId = newsId;
         }
     }
 

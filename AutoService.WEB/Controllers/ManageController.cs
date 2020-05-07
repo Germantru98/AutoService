@@ -17,6 +17,7 @@ namespace AutoService.WEB.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ICarLogic _carLogic;
+        private ISummariesLogic _summariesLogic;
 
         public ManageController()
         {
@@ -28,9 +29,10 @@ namespace AutoService.WEB.Controllers
             SignInManager = signInManager;
         }
 
-        public ManageController(ICarLogic carLogic)
+        public ManageController(ICarLogic carLogic, ISummariesLogic summariesLogic)
         {
             _carLogic = carLogic;
+            _summariesLogic = summariesLogic;
         }
 
         public ApplicationSignInManager SignInManager
@@ -57,9 +59,6 @@ namespace AutoService.WEB.Controllers
             }
         }
 
-        //
-        // GET: /Manage/Index
-
         public async Task<ActionResult> Index(ManageMessageId? message)
         {
             if (User.IsInRole("Admin"))
@@ -79,7 +78,8 @@ namespace AutoService.WEB.Controllers
                 Cars = await _carLogic.GetAllUserCars(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                Orders = await _summariesLogic.GetAllUserOrders(userId)
             };
             return View(model);
         }
@@ -100,6 +100,8 @@ namespace AutoService.WEB.Controllers
                 : message == ManageMessageId.RemoveFromShopCart ? "Услуга была удалена из корзины"
                 : message == ManageMessageId.RemoveFromShopCartError ? "Ошибка при удалении услуги из корзины"
                 : message == ManageMessageId.ClearShopCart ? "Корзина очищена"
+                : message == ManageMessageId.RemoveOrderSuccess ? "Заказ удален"
+                : message == ManageMessageId.AccessDeny ? "Ошибка доступа"
                 : null;
         }
 
@@ -367,6 +369,10 @@ namespace AutoService.WEB.Controllers
                 {
                     _carLogic.Dispose();
                 }
+                if (_summariesLogic != null)
+                {
+                    _summariesLogic.Dispose();
+                }
             }
             base.Dispose(disposing);
         }
@@ -466,6 +472,93 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index", "Manage", new { message = ManageMessageId.EditCarError });
         }
 
+        public async Task<ActionResult> RemoveSummary(int? summaryId)
+        {
+            try
+            {
+                var userId = User.Identity.GetUserId();
+
+                var summary = await _summariesLogic.GetUserOrder(summaryId, userId);
+                return PartialView("RemoveOrderModalView", summary);
+            }
+            catch (ArgumentNullException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.Error });
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.Error });
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.AccessDeny });
+            }
+        }
+
+        [HttpPost, ActionName("RemoveSummary")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> RemoveSummaryConfirmed(int summaryId)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.Identity.GetUserId();
+                    var isAdmin = User.IsInRole("Admin");
+                    await _summariesLogic.RemoveSummary(summaryId, userId, isAdmin);
+                    return RedirectToAction("Index", new { message = ManageMessageId.RemoveOrderSuccess });
+                }
+                catch (InvalidOperationException)
+                {
+                    return RedirectToAction("Index", new { message = ManageMessageId.AccessDeny });
+                }
+            }
+            return RedirectToAction("Index", new { message = ManageMessageId.Error });
+        }
+
+        public async Task<ActionResult> EditSummary(int? summaryId)
+        {
+            try
+            {
+                if (summaryId == null)
+                {
+                    return RedirectToAction("Index", new { message = ManageMessageId.Error });
+                }
+                var userId = User.Identity.GetUserId();
+                var editedSummary = await _summariesLogic.GetUserOrder(summaryId, userId);
+                var userCars = await _carLogic.GetAllUserCars(userId);
+                SelectList carsSelectList = new SelectList(userCars, "CarId", "FullName");
+                var editView = await _summariesLogic.GetEditSummaryView(editedSummary);
+                ViewBag.UserCars = carsSelectList;
+                ViewBag.EditSummary = editView;
+                return View("EditSummaryView", editedSummary);
+            }
+            catch (ArgumentNullException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.Error });
+            }
+            catch (NullReferenceException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.Error });
+            }
+            catch (InvalidOperationException)
+            {
+                return RedirectToAction("Index", new { message = ManageMessageId.AccessDeny });
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeSummaryInformation(EditSummaryView summary)
+        {
+            if (ModelState.IsValid)
+            {
+                await _summariesLogic.EditSummary(summary);
+                return RedirectToAction("Index", new { message = ManageMessageId.EditOrderSucces });
+            }
+            return RedirectToAction("Index", new { message = ManageMessageId.Error });
+        }
+
         #region Вспомогательные приложения
 
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
@@ -523,7 +616,10 @@ namespace AutoService.WEB.Controllers
             RemoveFromShopCart,
             RemoveFromShopCartError,
             ClearShopCart,
-            Error
+            Error,
+            AccessDeny,
+            RemoveOrderSuccess,
+            EditOrderSucces
         }
 
         #endregion Вспомогательные приложения

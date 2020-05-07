@@ -5,22 +5,29 @@
     {
         @Html.AntiForgeryToken()
 
-
-        <div class="row justify-content-start mr-sm-0 mr-xl-1 mr-md-1 pl-2">
-            @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
-            {
-                <a class="btn btn-secondary btn-sm mr-1 ml-1" title="Корзина" href="@Url.Action("Index", "ShopCart")">
-                    <i class="fa fa-shopping-cart mr-1 p-1"></i><label class="m-0 badge-dark badge" id="counter"></label>
-                </a>
-            }
+    <div class="row justify-content-start mr-sm-0 mr-xl-1 mr-md-1 pl-2">
+        @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+        {
+            <a class="btn btn-secondary btn-sm mr-1 ml-1" title="Корзина" href="@Url.Action("Index", "ShopCart")">
+                <i class="fa fa-shopping-cart mr-1 p-1"></i><label class="m-0 badge-dark badge" id="counter"></label>
+            </a>
             <a href="@Url.Action("Index","Manage")" title="Аккаунт" class="btn btn-secondary btn-sm  mr-1 ml-1">
                 <i class="fa fa-home mr-1 p-1"></i>
                 Аккаунт
             </a>
-            <a class="btn btn-secondary btn-sm  mr-1 ml-1" href="javascript:document.getElementById('logoutForm').submit()" title="Выйти">
-                <i class="fa fa-sign-out mr-1 p-1"></i>Выйти
+        }
+        else
+        {
+            <a href="@Url.Action("Index","AdminMenu")" title="Аккаунт" class="btn btn-secondary btn-sm  mr-1 ml-1">
+                <i class="fa fa-gears mr-1 p-1"></i>
+                Настройки
             </a>
-        </div>
+        }
+
+        <a class="btn btn-secondary btn-sm  mr-1 ml-1" href="javascript:document.getElementById('logoutForm').submit()" title="Выйти">
+            <i class="fa fa-sign-out mr-1 p-1"></i>Выйти
+        </a>
+    </div>
     }
 }
 else

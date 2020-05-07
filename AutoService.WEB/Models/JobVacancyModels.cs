@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace AutoService.WEB.Models
+﻿namespace AutoService.WEB.Models
 {
     public class JobVacancy
     {

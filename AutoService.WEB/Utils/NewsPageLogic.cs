@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace AutoService.WEB.Utils
 {
     public class NewsPageLogic : INewsPageLogic
     {
-        ApplicationDbContext _db;
+        private ApplicationDbContext _db;
 
         public NewsPageLogic(ApplicationDbContext db)
         {
@@ -20,7 +19,11 @@ namespace AutoService.WEB.Utils
 
         public async Task AddNews(CreateNews news)
         {
-            var item = new News(news.Title, news.NewsText);
+            var item = new News()
+            {
+                Title = news.Title,
+                NewsText = news.NewsText
+            };
             _db.News.Add(item);
             await _db.SaveChangesAsync();
         }
@@ -52,15 +55,14 @@ namespace AutoService.WEB.Utils
             {
                 throw new NullReferenceException();
             }
-            var slides = await _db.HomeMainCarouselItems.Where(s => s.NewsId == newsId).ToListAsync();
-            if (slides.Count>0)
+            var slides = await _db.HomeMainCarouselItems.Where(s => s.News.Id == newsId).ToListAsync();
+            if (slides.Count > 0)
             {
                 _db.HomeMainCarouselItems.RemoveRange(slides);
             }
             _db.News.Remove(removedNews);
             await _db.SaveChangesAsync();
         }
-
 
         private bool disposed = false;
 
@@ -95,7 +97,6 @@ namespace AutoService.WEB.Utils
             }
             var newsView = new NewsView(news.Title, news.NewsText, news.DateOfCreation.ToShortDateString());
             return newsView;
-
         }
 
         public async Task<EditNews> StartEditNews(int? newsId)

@@ -8,13 +8,13 @@
  */
 .owl-theme .owl-nav {
     margin-top: 0;
-    height:40px;
+    height: 40px;
     text-align: center;
     font-size: 40px;
     margin-bottom: 10px;
-    justify-content:center;
-    align-items:center;
-    display:flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
 
     .owl-theme .owl-nav [class*='owl-'] {

@@ -1,0 +1,68 @@
+﻿@using AutoService.WEB.Models
+@model UserOrderView
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Вы уверенны, что хотите отменить текущий заказ?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-body">
+            <div class="card h-100">
+                <div class="card-header bg-dark">
+                    <h5 class="text-white text-center m-0">Заказ</h5>
+                </div>
+                <div class="p-4 pb-2">
+                    <img style="max-height:310px" class="card-img border rounded" src="@Model.UserCar.CarImageHref" alt="@Model.UserCar.FullName" title="@Model.UserCar.FullName" />
+                </div>
+                <div class="card-body pt-2">
+                    <div class="card">
+                        <div class="card-header text-center"><h6 class="m-0"><i class="fa fa-list p-1 mr-1"></i>Список оказываемых услуг</h6></div>
+                        <div class="card-body">
+                            <ol class="overflow-auto h-100">
+                                @foreach (var item in Model.ServicesList)
+                                {
+                                    <li>
+                                        @item.ToString()
+                                    </li>
+                                }
+                            </ol>
+                        </div>
+                    </div>
+                    <div class="row justify-content-between pr-3 pl-3 mt-2 mb-2">
+                        <div class="input-group text-right col-xl-5 col-md-5 col-sm-12 p-0 mt-1 mb-1" title="Общая стоимость оказываемых услуг">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="width:50px">
+                                    <i class="fa fa-rub p-1 mx-auto"></i>
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                @Model.TotalPrice
+                            </div>
+                        </div>
+                        <div class="input-group text-right col-xl-5 col-md-5 col-sm-12 p-0 mt-1 mb-1" title="Дата оказания услуг">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="width:50px">
+                                    <i class="fa fa-calendar p-1 mx-auto"></i>
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                @Model.selectedDateTime
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer">
+            <button class="btn btn-outline-danger" type="submit"><i class="fa fa-trash-o fa-lg mr-1 p-1"></i>Удалить</button>
+            <button type="button" class="btn btn-outline-dark" data-dismiss="modal"><i class="fa fa-window-close fa-lg mr-1 p-1"></i>Закрыть</button>
+        </div>
+    }
+</div>

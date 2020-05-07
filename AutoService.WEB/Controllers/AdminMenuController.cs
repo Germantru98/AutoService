@@ -1,5 +1,6 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Net;
 using System.Threading.Tasks;
@@ -44,6 +45,9 @@ namespace AutoService.WEB.Controllers
             RemoveDiscountSuccess,
             CompleteOrderFailure,
             Error,
+            AccessDeny,
+            CompleteOrderSucces,
+            RemoveOrderSuccess
         }
 
         // GET: AdminMenu
@@ -60,6 +64,9 @@ namespace AutoService.WEB.Controllers
                 : message == AdminMenuMessages.AddDiscountSuccess ? "Операция: \"Добавление скидки\" прошла успешно"
                 : message == AdminMenuMessages.CompleteOrderFailure ? "Ошибка, невозможно завершить заказ, так как дата работ не совпадает с текущей датой"
                 : message == AdminMenuMessages.Error ? "Ошибка"
+                : message == AdminMenuMessages.AccessDeny ? "Ошибка доступа"
+                : message == AdminMenuMessages.RemoveOrderSuccess ? "Операция: \"Удаление заказа\" прошла успешно"
+                : message == AdminMenuMessages.CompleteOrderSucces ? "Операция: \"Завершение заказа\" прошла успешно"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
             return View("AdminMenu", indexView);
@@ -177,7 +184,7 @@ namespace AutoService.WEB.Controllers
             try
             {
                 await _summariesLogic.CompleteSummary(summaryId);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.CompleteOrderSucces });
             }
             catch (ArgumentException)
             {
@@ -266,11 +273,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -278,8 +285,21 @@ namespace AutoService.WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> RemoveSummaryConfirmed(int summaryId)
         {
-            await _summariesLogic.RemoveSummary(summaryId);
-            return RedirectToAction("Index");
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = User.Identity.GetUserId();
+                    var isAdmin = User.IsInRole("Admin");
+                    await _summariesLogic.RemoveSummary(summaryId, userId, isAdmin);
+                    return RedirectToAction("Index", new { message = AdminMenuMessages.RemoveOrderSuccess });
+                }
+                catch (InvalidOperationException)
+                {
+                    return RedirectToAction("Index", new { message = AdminMenuMessages.AccessDeny });
+                }
+            }
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
 
         public async Task<ActionResult> EditSummary(int? summaryId)
@@ -322,7 +342,6 @@ namespace AutoService.WEB.Controllers
 
         public ActionResult SuccessOperation(string action)
         {
-
             return PartialView(action);
         }
 

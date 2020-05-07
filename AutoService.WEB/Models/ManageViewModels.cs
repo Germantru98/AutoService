@@ -34,6 +34,7 @@ namespace AutoService.WEB.Models
         public bool BrowserRemembered { get; set; }
 
         public List<CarView> Cars { get; set; }
+        public List<UserOrderView> Orders { get; set; }
     }
 
     public class ManageLoginsViewModel

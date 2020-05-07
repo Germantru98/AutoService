@@ -77,19 +77,19 @@
 @section Scripts {
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
     @Scripts.Render("~/scripts/jquery.validate.min.js")
-<script>
-    $('.validate').validate({
-        errorClass: "text-danger",
-        rules: {
-            DayOfWork: {
-                required: true
+    <script>
+        $('.validate').validate({
+            errorClass: "text-danger",
+            rules: {
+                DayOfWork: {
+                    required: true
+                }
+            },
+            messages: {
+                DayOfWork: {
+                    required: "Выберите дату выполнения работ"
+                }
             }
-        },
-        messages: {
-            DayOfWork: {
-                required: "Выберите дату выполнения работ"
-            }
-        }
-    });
-</script>
+        });
+    </script>
 }

@@ -1,10 +1,7 @@
 ﻿using AutoService.WEB.Models;
 using AutoService.WEB.Utils.Interfaces;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace AutoService.WEB.Controllers
@@ -17,9 +14,9 @@ namespace AutoService.WEB.Controllers
         {
             _newsPageLogic = newsPageLogic;
         }
+
         public NewsPageController()
         {
-
         }
 
         [Authorize(Roles = "Admin")]
@@ -29,6 +26,7 @@ namespace AutoService.WEB.Controllers
             var news = await _newsPageLogic.GetAllNews();
             return View(news);
         }
+
         public enum Message
         {
             createSuccess,
@@ -36,6 +34,7 @@ namespace AutoService.WEB.Controllers
             editSuccess,
             error
         }
+
         private string MessageGenerator(Message? message)
         {
             return message == Message.createSuccess ? "Новость успешно создана"
@@ -44,12 +43,13 @@ namespace AutoService.WEB.Controllers
                 : message == Message.error ? "Произошла ошибка"
                 : null;
         }
+
         public async Task<ActionResult> GetNews(int? newsId)
         {
             try
             {
                 var news = await _newsPageLogic.GetNews(newsId);
-                return View(news);
+                return View("UserNewsView", news);
             }
             catch (ArgumentNullException)
             {
@@ -60,10 +60,12 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index", new { message = Message.error });
             }
         }
+
         public ActionResult CreateNews()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateNews(CreateNews news)
@@ -75,6 +77,7 @@ namespace AutoService.WEB.Controllers
             }
             return RedirectToAction("Index", new { message = Message.error });
         }
+
         public async Task<ActionResult> RemoveNews(int? newsId)
         {
             try
@@ -91,6 +94,7 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index", new { message = Message.error });
             }
         }
+
         [HttpPost, ActionName("RemoveNews")]
         [ValidateAntiForgeryToken]
         public ActionResult RemoveNewsConfirmed(int newsId)
@@ -102,6 +106,7 @@ namespace AutoService.WEB.Controllers
             }
             return RedirectToAction("Index", new { message = Message.error });
         }
+
         public async Task<ActionResult> EditNews(int? newsId)
         {
             try
@@ -118,9 +123,10 @@ namespace AutoService.WEB.Controllers
                 return RedirectToAction("Index", new { message = Message.error });
             }
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult>EditNews(EditNews news)
+        public async Task<ActionResult> EditNews(EditNews news)
         {
             if (ModelState.IsValid)
             {
@@ -129,6 +135,7 @@ namespace AutoService.WEB.Controllers
             }
             return View(news);
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -138,6 +145,5 @@ namespace AutoService.WEB.Controllers
 
             base.Dispose(disposing);
         }
-
     }
 }

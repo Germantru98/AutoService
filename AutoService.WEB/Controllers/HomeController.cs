@@ -27,6 +27,7 @@ namespace AutoService.WEB.Controllers
             };
             return View(homeView);
         }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing)

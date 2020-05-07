@@ -4,7 +4,6 @@
     height: 100%;
 }
 
-
 .useradminbar {
     max-height: 500px;
 }
@@ -61,8 +60,9 @@
     max-width: 400px;
     padding: 15px;
     margin: auto;
-    text-align:center;
+    text-align: center;
 }
+
     .form-signin input[type="email"] {
         margin-bottom: -1px;
         border-bottom-right-radius: 0;
@@ -76,22 +76,27 @@
         padding: 10px;
         font-size: 16px;
     }
+
     .form-signin input[type="password"] {
         margin-bottom: 10px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
-.externalLogginButton{
-    width:45px;
+
+.externalLogginButton {
+    width: 45px;
 }
+
 .myCarouselItem {
     min-height: 220px;
     max-height: 580px;
 }
+
 .discountHomeCard {
     min-height: 220px;
     max-height: 540px;
 }
+
 .discountItem {
     max-width: 550px;
     max-height: 500px;
