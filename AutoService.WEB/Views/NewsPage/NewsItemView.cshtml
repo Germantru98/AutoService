@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            <a class="dialog btn btn-outline-danger" href="@Url.Action("RemoveNews","NewsPage", new { newsId = Model.Id})"><i class="fa fa-trash mr-1 p-1"></i>Удалить</a>
+            <a class="dialog btn btn-outline-danger" href="@Url.Action("RemoveNews","NewsPage", new {Model.Id})"><i class="fa fa-trash mr-1 p-1"></i>Удалить</a>
             <a class="btn btn-outline-dark" href="@Url.Action("EditNews","NewsPage", new { newsId = Model.Id})"><i class="fa fa-gear mr-1 p-1"></i>Изменить</a>
         </div>
     </div>

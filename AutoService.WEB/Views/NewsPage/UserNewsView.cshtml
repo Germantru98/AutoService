@@ -5,11 +5,17 @@
 
 <h2 class="text-center m-4">@Model.Title</h2>
 
-<div class="col-xl-10 mx-auto p-4" style="font-size:20px">
-    <div style="min-height:500px">@Model.NewsText</div>
+<div class="col-xl-11 mx-auto mb-2" style="font-size:20px">
+    <img class="img-fluid float-left mr-4 mb-2 position-relative" src="@Model.SlideImg" alt="@Model.Title" />
+    <div class="w-100">
+        @Model.NewsText
+    </div>
 </div>
-<div class="col-xl-10 mx-auto pr-0 pl-0">
+<div class="col-xl-11 mx-auto pr-0 pl-0">
     <div class="input-group text-right ml-auto col-xl-2 col-md-3 col-sm-4 p-0">
         <div class="input-group-prepend"><div class="input-group-text"><i class="fa fa-calendar p-1"></i></div></div><div class="form-control"> @Model.DateOfCreation</div>
     </div>
+</div>
+<div class="text-center m-3">
+    <a class="btn btn-dark btn-lg" href="@Url.Action("Index","Home")"><i class="fa fa-home mr-1 p-1"></i>На главную</a>
 </div>

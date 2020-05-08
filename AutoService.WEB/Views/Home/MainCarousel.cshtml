@@ -1,38 +1,24 @@
-﻿@model List<AutoService.WEB.Models.HomeMainCarouselItem>
+﻿@model List<AutoService.WEB.Models.Slide>
 
 <div class="mx-auto col-xl-8 m-2">
     <div id="carousel" class="carousel slide h-100" data-ride="carousel">
         <div class="carousel-inner">
             <div class="carousel-item active myCarouselItem">
-                @if (Model[0].NewsId == null)
-                {
-                    <img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[0].ImageHref" alt="Image" title="@Model[0].Title">
-                }
-                else
-                {
-                    <a href="@Url.Action("GetNews","NewsPage",new { Model[0].NewsId})"><img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[0].ImageHref" alt="Image" title="@Model[0].Title"></a>
-                }
+                <a href="@Url.Action("GetNews","NewsPage", new { newsId = Model[0].NewsId})"><img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[0].ImgHref" alt="Image" title="@Model[0].SlideTitle"></a>
                 <div class="carousel-caption">
-                    <h5>@Model[0].Title</h5>
-                    <p>@Model[0].Description</p>
+                    <h5>@Model[0].SlideTitle</h5>
+                    <p>@Model[0].SlideDescription</p>
                 </div>
             </div>
             @for (int i = 1; i < Model.Count; i++)
             {
-                <div class="carousel-item myCarouselItem">
-                    @if (Model[i].NewsId == null)
-                    {
-                        <img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[i].ImageHref" alt="Image" title="@Model[i].Title">
-                    }
-                    else
-                    {
-                        <a href="@Url.Action("GetNews","NewsPage",new { Model[i].NewsId})"><img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[i].ImageHref" alt="Image" title="@Model[i].Title"></a>
-                    }
-                    <div class="carousel-caption">
-                        <h5>@Model[i].Title</h5>
-                        <p>@Model[i].Description</p>
-                    </div>
-                </div>
+        <div class="carousel-item myCarouselItem">
+            <a href="@Url.Action("GetNews","NewsPage", new { newsId = Model[i].NewsId})"><img class="mx-auto d-block img-fluid w-100 myCarouselItem rounded" src="@Model[i].ImgHref" alt="Image" title="@Model[0].SlideTitle"></a>
+            <div class="carousel-caption">
+                <h5>@Model[i].SlideTitle</h5>
+                <p>@Model[i].SlideDescription</p>
+            </div>
+        </div>
             }
         </div>
         @if (Model.Count > 1)

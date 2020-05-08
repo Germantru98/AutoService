@@ -32,9 +32,6 @@
         <a class="nav-link" data-toggle="tab" href="#archive"><i class="fa fa-archive fa-lg p-1 mr-1"></i>Архив</a>
     </li>
     <li>
-        <a class="nav-link" data-toggle="tab" href="#news-tab"><i class="fa fa-newspaper-o fa-lg p-1 mr-1"></i>Слайды</a>
-    </li>
-    <li>
         <a class="nav-link" data-toggle="tab" href="#settings"><i class="fa fa-gears fa-lg p-1 mr-1"></i>Настройки сайта</a>
     </li>
 </ul>
@@ -47,9 +44,6 @@
     </div>
     <div class="tab-pane fade" id="archive">
         @Html.Partial("ArchiveSection", Model.Archive)
-    </div>
-    <div class="tab-pane fade" id="news-tab">
-        @Html.Partial("MainCarouselSection", Model.MainCarouselItems)
     </div>
     <div class="tab-pane fade" id="settings">
         @Html.Partial("SettingsSection", Model.SettingsView)

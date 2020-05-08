@@ -2,66 +2,96 @@
 @model ServiceView
 
 <div class="col-xl-3 col-md-5 col-sm-10 mt-2 mb-2">
-    <div class="card h-100 shadow-sm rounded mx-auto" style="max-height:400px;max-width:400px">
-        <img class="card-img h-50" src="@Model.ServiceImageHref" alt="...">
-        <div class="card-body text-center p-1" style="min-height:100px">
-            <div class="h5 m-1 p-1" style="min-height:40px">
-                @if (Model.Discount == null)
+    <div class="card shadow-sm rounded mx-auto">
+        <h5 class="card-header m-0 bg-dark text-center text-white" style="min-height:75px">
+            @if (Model.Discount == null)
+            {
+                @Model.ServiceName
+            }
+            else if (Model.Discount.isRelevant())
+            {
+                if (Model.Discount.Value <= 30)
                 {
-                    @Model.ServiceName
+                    @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
                 }
-                else if (Model.Discount.isRelevant())
+                else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
                 {
-                    if (Model.Discount.Value <= 30)
+                    @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                }
+                else
+                {
+                    @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                }
+            }
+            else
+            {
+                @Model.ServiceName
+            }
+        </h5>
+        <img style="max-height:230px" class="card-img h-50" src="@Model.ServiceImageHref" alt="...">
+        <div class="h-50">
+            <div class="card-body text-center p-1" style="height:120px">
+                <div class="card-text text-left p-2">
+                    @if (Model.Discount != null && Model.Discount.isRelevant())
                     {
-                        @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
-                    }
-                    else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
-                    {
-                        @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
+                        <div class="input-group text-center m-1 mx-auto" title="Сроки длительности акции">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text text-center" style="width:70px">
+                                    Цена:
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                @Model.PriceWithDiscount <i class="fa fa-ruble p-1"></i>
+                            </div>
+                        </div>
+                        <div class="input-group text-center m-1 mx-auto" title="Сроки длительности акции">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text" style="width:70px">
+                                    <i class="fa fa-calendar mx-auto"></i>
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                @Model.Discount.StartDate.ToShortDateString() - @Model.Discount.FinishDate.ToShortDateString()
+                            </div>
+                        </div>
                     }
                     else
                     {
-                        @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                        <div class="input-group text-center m-1">
+                            <div class="input-group-prepend">
+                                <div class="input-group-text text-center" style="width:70px">
+                                    Цена:
+                                </div>
+                            </div>
+                            <div class="form-control">
+                                @Model.Price <i class="fa fa-ruble p-1"></i>
+                            </div>
+                        </div>
                     }
-                }
-                else
-                {
-                    @Model.ServiceName
-                }
+                </div>
             </div>
-            <div class="card-text">
-                @if (Model.Discount != null && Model.Discount.isRelevant())
-                {
-                    <div>Цена: @Model.PriceWithDiscount <i class="fa fa-ruble p-1"></i></div>
-                }
-                else
-                {
-                    <div>Цена: @Model.Price <i class="fa fa-ruble p-1"></i></div>
-                }
-            </div>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="card-footer text-center">
+                    <a href="@Url.Action("Delete","Services", new { serviceId = Model.ServiceId })" class="m-1 dialog btn btn-dark">
+                        <i class="fa fa-trash mr-1 p-1"></i>Удалить
+                    </a>
+                    <a href="@Url.Action("Edit","Services", new { serviceId = Model.ServiceId })" class="m-1 dialog btn btn-dark">
+                        <i class="fa fa-gear mr-1 p-1"></i>Изменить
+                    </a>
+                </div>
+
+            }
+            else if (User.Identity.IsAuthenticated)
+            {
+                <div class="card-footer text-right">
+                    <a class="dialog btn btn-dark btn-sm addToCart" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
+                        <i class="fa fa-shopping-cart"></i>+
+                    </a>
+                </div>
+
+            }
         </div>
-
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="card-footer text-center">
-                <a href="@Url.Action("Delete","Services", new { serviceId = Model.ServiceId })" class="m-1 dialog btn btn-dark">
-                    <i class="fa fa-trash mr-1 p-1"></i>Удалить
-                </a>
-                <a href="@Url.Action("Edit","Services", new { serviceId = Model.ServiceId })" class="m-1 dialog btn btn-dark">
-                    <i class="fa fa-gear mr-1 p-1"></i>Изменить
-                </a>
-            </div>
-
-        }
-        else if (User.Identity.IsAuthenticated)
-        {
-            <div class="card-footer text-right">
-                <a class="dialog btn btn-dark btn-sm addToCart" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
-                    <i class="fa fa-shopping-cart"></i>+
-                </a>
-            </div>
-
-        }
     </div>
 </div>

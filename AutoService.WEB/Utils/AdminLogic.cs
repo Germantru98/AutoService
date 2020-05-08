@@ -30,9 +30,8 @@ namespace AutoService.WEB.Utils
             var currentOrders = await _summariesLogic.GetCurrentSummaries();
             var archive = await _summariesLogic.GetCompletedSummaries();
             var discounts = await _servicesLogic.GetAllServicesWithDiscount();
-            var mainHomeCarousel = await _homePageLogic.GetMainCarousel();
             var settingsView = await GetSettingsView();
-            var adminView = new AdminMenuView(discounts, currentOrders, archive, mainHomeCarousel, settingsView);
+            var adminView = new AdminMenuView(discounts, currentOrders, archive, settingsView);
             return adminView;
         }
 

@@ -18,5 +18,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<NewsView> GetNews(int? newsId);
 
         Task<EditNews> StartEditNews(int? newsId);
+
+        Task<List<Slide>> GetNewsSlides();
     }
 }

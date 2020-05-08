@@ -7,7 +7,7 @@ namespace AutoService.WEB.Utils.Interfaces
 {
     public interface IHomePageLogic : IDisposable
     {
-        Task<List<HomeMainCarouselItem>> GetMainCarousel();
+        Task<List<Slide>> GetMainCarousel();
 
         Task AddNewMainCarouselItem(AddNewCarouselItemView newItem);
 

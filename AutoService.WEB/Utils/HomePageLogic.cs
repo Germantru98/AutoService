@@ -10,12 +10,14 @@ namespace AutoService.WEB.Utils
     public class HomePageLogic : IHomePageLogic
     {
         private ApplicationDbContext _db;
-        private ServicesLogic _servicesLogic;
+        private IServicesLogic _servicesLogic;
+        private INewsPageLogic _newsPageLogic;
 
-        public HomePageLogic(ApplicationDbContext db, ServicesLogic servicesLogic)
+        public HomePageLogic(ApplicationDbContext db, IServicesLogic servicesLogic, INewsPageLogic newsPageLogic)
         {
             _db = db;
             _servicesLogic = servicesLogic;
+            _newsPageLogic = newsPageLogic;
         }
 
         public async Task AddNewMainCarouselItem(AddNewCarouselItemView item)
@@ -60,10 +62,9 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public async Task<List<HomeMainCarouselItem>> GetMainCarousel()
+        public async Task<List<Slide>> GetMainCarousel()
         {
-            var result = await _db.HomeMainCarouselItems.ToListAsync();
-            return result;
+            return await _newsPageLogic.GetNewsSlides();
         }
 
         public async Task RemoveMainCarouselItem(int? itemId)
@@ -83,7 +84,7 @@ namespace AutoService.WEB.Utils
 
         private HomeMainCarouselItem MapNewCarouselItemToMainHomeCarousleItem(AddNewCarouselItemView newItem)
         {
-            var result = new HomeMainCarouselItem() 
+            var result = new HomeMainCarouselItem()
             {
                 Title = newItem.Title,
                 Description = newItem.Description,
@@ -94,14 +95,13 @@ namespace AutoService.WEB.Utils
 
         private HomeMainCarouselItemView MapCarousleItemToCarousleItemView(HomeMainCarouselItem item)
         {
-            return new HomeMainCarouselItemView() 
+            return new HomeMainCarouselItemView()
             {
-               Id= item.Id,
-               Title = item.Title,
-               Description = item.Description,
-               ImageHref = item.ImageHref
+                Id = item.Id,
+                Title = item.Title,
+                Description = item.Description,
+                ImageHref = item.ImageHref
             };
-
         }
 
         public async Task<List<CarBrand>> GetCarBrandsCarousel()

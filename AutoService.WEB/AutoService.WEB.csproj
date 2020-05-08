@@ -253,6 +253,14 @@
     <Compile Include="Migrations\202005061745282_news.Designer.cs">
       <DependentUpon>202005061745282_news.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005080848307_workWithNews.cs" />
+    <Compile Include="Migrations\202005080848307_workWithNews.Designer.cs">
+      <DependentUpon>202005080848307_workWithNews.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202005081005358_newsVer3.cs" />
+    <Compile Include="Migrations\202005081005358_newsVer3.Designer.cs">
+      <DependentUpon>202005081005358_newsVer3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -522,7 +530,6 @@
     <Content Include="Views\AdminMenu\SummaryEditorView.cshtml" />
     <Content Include="Views\AdminMenu\ServiceNameWithDiscount.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarouselItemModalView.cshtml" />
-    <Content Include="Views\AdminMenu\MainCarouselSection.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarouselItem.cshtml" />
     <Content Include="Views\AdminMenu\EditCarouselItemModalView.cshtml" />
     <Content Include="Views\AdminMenu\SettingsSection.cshtml" />
@@ -580,6 +587,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005061745282_news.resx">
       <DependentUpon>202005061745282_news.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005080848307_workWithNews.resx">
+      <DependentUpon>202005080848307_workWithNews.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005081005358_newsVer3.resx">
+      <DependentUpon>202005081005358_newsVer3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

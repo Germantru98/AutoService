@@ -3,7 +3,6 @@ using AutoService.WEB.Utils.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace AutoService.WEB.Utils
@@ -11,6 +10,10 @@ namespace AutoService.WEB.Utils
     public class NewsPageLogic : INewsPageLogic
     {
         private ApplicationDbContext _db;
+
+        public NewsPageLogic()
+        {
+        }
 
         public NewsPageLogic(ApplicationDbContext db)
         {
@@ -22,7 +25,11 @@ namespace AutoService.WEB.Utils
             var item = new News()
             {
                 Title = news.Title,
-                NewsText = news.NewsText
+                NewsText = news.NewsText,
+                SlideDescription = news.SlideDescription,
+                SlideTitle = news.SlideTitle,
+                ImgHref = news.ImgHref,
+                DateOfCreation = DateTime.Today,
             };
             _db.News.Add(item);
             await _db.SaveChangesAsync();
@@ -33,6 +40,9 @@ namespace AutoService.WEB.Utils
             var news = await _db.News.FindAsync(editedNews.Id);
             news.Title = editedNews.Title;
             news.NewsText = editedNews.NewsText;
+            news.SlideTitle = editedNews.SlideTitle;
+            news.SlideDescription = editedNews.SlideDescription;
+            news.ImgHref = news.ImgHref;
             news.DateOfCreation = DateTime.Today;
             _db.Entry(news).State = EntityState.Modified;
             await _db.SaveChangesAsync();
@@ -55,13 +65,58 @@ namespace AutoService.WEB.Utils
             {
                 throw new NullReferenceException();
             }
-            var slides = await _db.HomeMainCarouselItems.Where(s => s.News.Id == newsId).ToListAsync();
-            if (slides.Count > 0)
-            {
-                _db.HomeMainCarouselItems.RemoveRange(slides);
-            }
             _db.News.Remove(removedNews);
             await _db.SaveChangesAsync();
+        }
+
+        public async Task<NewsView> GetNews(int? newsId)
+        {
+            if (newsId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var news = await _db.News.FindAsync(newsId);
+            if (news == null)
+            {
+                throw new NullReferenceException();
+            }
+            var newsView = new NewsView(news.Title, news.NewsText, news.DateOfCreation.ToShortDateString(), news.ImgHref);
+            return newsView;
+        }
+
+        public async Task<EditNews> StartEditNews(int? newsId)
+        {
+            if (newsId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var news = await _db.News.FindAsync(newsId);
+            if (news == null)
+            {
+                throw new NullReferenceException();
+            }
+            var newsView = new EditNews()
+            {
+                Id = news.Id,
+                Title = news.Title,
+                NewsText = news.NewsText,
+                SlideTitle = news.SlideTitle,
+                SlideDescription = news.SlideDescription,
+                ImgHref = news.ImgHref
+            };
+            return newsView;
+        }
+
+        public async Task<List<Slide>> GetNewsSlides()
+        {
+            var news = await _db.News.ToListAsync();
+            var result = new List<Slide>();
+            foreach (var item in news)
+            {
+                var slide = new Slide(item.Id, item.SlideTitle, item.SlideDescription, item.ImgHref);
+                result.Add(slide);
+            }
+            return result;
         }
 
         private bool disposed = false;
@@ -82,36 +137,6 @@ namespace AutoService.WEB.Utils
         {
             Dispose(true);
             GC.SuppressFinalize(this);
-        }
-
-        public async Task<NewsView> GetNews(int? newsId)
-        {
-            if (newsId == null)
-            {
-                throw new ArgumentNullException();
-            }
-            var news = await _db.News.FindAsync(newsId);
-            if (news == null)
-            {
-                throw new NullReferenceException();
-            }
-            var newsView = new NewsView(news.Title, news.NewsText, news.DateOfCreation.ToShortDateString());
-            return newsView;
-        }
-
-        public async Task<EditNews> StartEditNews(int? newsId)
-        {
-            if (newsId == null)
-            {
-                throw new ArgumentNullException();
-            }
-            var news = await _db.News.FindAsync(newsId);
-            if (news == null)
-            {
-                throw new NullReferenceException();
-            }
-            var newsView = new EditNews(news.Id, news.Title, news.NewsText);
-            return newsView;
         }
     }
 }

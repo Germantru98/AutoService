@@ -1,39 +1,58 @@
 ﻿@model AutoService.WEB.Models.ServiceView
-    <div class="card h-100 mx-auto discountItem"style="min-height:360px">
-        <img class="card-img-top img-fluid" style="max-height:300px" src="@Model.ServiceImageHref" alt="@Model.ServiceName" />
-        <div class="card-body text-center" style="min-height:80px">
-            <div class="h5">
-                @if (Model.Discount == null)
+<div class="card mx-auto h-100">
+    <div class="h-50">
+        <img class="card-img" src="@Model.ServiceImageHref" alt="@Model.ServiceName" />
+    </div>
+    <div class="h-50">
+        <div class="h5 bg-dark text-white text-center p-2">
+            @if (Model.Discount == null)
+            {
+                @Model.ServiceName
+            }
+            else if (Model.Discount.isRelevant())
+            {
+                if (Model.Discount.Value <= 30)
                 {
-                    @Model.ServiceName
+                    @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
                 }
-                else if (Model.Discount.isRelevant())
+                else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
                 {
-                    if (Model.Discount.Value <= 30)
-                    {
-                        @Model.ServiceName <span class="badge badge-success">-@Model.Discount.Value%</span>
-                    }
-                    else if (Model.Discount.Value > 30 && Model.Discount.Value < 60)
-                    {
-                        @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
-                    }
-                    else
-                    {
-                        @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
-                    }
+                    @Model.ServiceName <span class="badge badge-warning">-@Model.Discount.Value%</span>
                 }
                 else
                 {
-                    @Model.ServiceName
+                    @Model.ServiceName <span class="badge badge-danger">-@Model.Discount.Value%</span>
+                }
+            }
+            else
+            {
+                @Model.ServiceName
+            }
+        </div>
+        <div class="card-body text-center p-1">
+            <div>
+                <div>
+                    <label class="mr-1">Цена:</label>@Model.PriceWithDiscount<i class="fa fa-rub p-1"></i> (Выгода:@(Model.Price-Model.PriceWithDiscount)<i class="fa fa-rub p-1"></i>)
+                </div>
+                @if (User.Identity.IsAuthenticated && !User.IsInRole("Admin"))
+                {
+                    <a class="dialog btn btn-dark btn-sm addToCart mx-auto" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
+                        <i class="fa fa-shopping-cart"></i>+
+                    </a>
                 }
             </div>
         </div>
-        @if (User.Identity.IsAuthenticated&&!User.IsInRole("Admin"))
-        {
-            <div class="card-footer text-center">
-                <a class="dialog btn btn-dark btn-sm addToCart" href="@Url.Action("AddToCart","ShopCart",new { serviceId = Model.ServiceId })" title="Добавить в корзину">
-                    <i class="fa fa-shopping-cart"></i>+
-                </a>
+        <div class="card-footer bg-transparent border-0 p-1">
+            <div class="input-group text-center">
+                <div class="input-group-prepend">
+                    <div class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                    </div>
+                </div>
+                <div class="form-control">
+                    @Model.Discount.StartDate.ToShortDateString() - @Model.Discount.FinishDate.ToShortDateString()
+                </div>
             </div>
-        }
+        </div>
     </div>
+</div>

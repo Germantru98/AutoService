@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AutoService.WEB.Models
 {
@@ -8,7 +7,7 @@ namespace AutoService.WEB.Models
     {
         public List<CarBrand> CarBrands { get; set; }
         public List<ServiceView> Discounts { get; set; }
-        public List<HomeMainCarouselItem> HomeMainCarouselItems { get; set; }
+        public List<Slide> HomeMainCarouselItems { get; set; }
     }
 
     public class CarBrand
@@ -22,12 +21,11 @@ namespace AutoService.WEB.Models
 
     public class HomeMainCarouselItem
     {
-        [ForeignKey("News")]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string ImageHref { get; set; }
-        public virtual News News { get; set; }
+
         public HomeMainCarouselItem()
         {
         }

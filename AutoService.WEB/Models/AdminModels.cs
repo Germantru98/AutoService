@@ -9,15 +9,13 @@ namespace AutoService.WEB.Models
         public List<ServiceView> Discounts { get; set; }
         public List<ServicesSummaryAdminView> CurrentOrders { get; set; }
         public List<ServicesSummaryAdminView> Archive { get; set; }
-        public List<HomeMainCarouselItem> MainCarouselItems { get; set; }
         public SettingsView SettingsView { get; set; }
 
-        public AdminMenuView(List<ServiceView> discounts, List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> archive, List<HomeMainCarouselItem> mainCarouselItems, SettingsView settingsView)
+        public AdminMenuView(List<ServiceView> discounts, List<ServicesSummaryAdminView> currentOrders, List<ServicesSummaryAdminView> archive, SettingsView settingsView)
         {
             Discounts = discounts;
             CurrentOrders = currentOrders;
             Archive = archive;
-            MainCarouselItems = mainCarouselItems;
             SettingsView = settingsView;
         }
     }
