@@ -20,88 +20,9 @@ namespace AutoService.WEB.Utils
             _newsPageLogic = newsPageLogic;
         }
 
-        public async Task AddNewMainCarouselItem(AddNewCarouselItemView item)
-        {
-            var newItem = MapNewCarouselItemToMainHomeCarousleItem(item);
-            _db.HomeMainCarouselItems.Add(newItem);
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task EditMainCarouselItem(EditCarouselItemView editView)
-        {
-            var editedItem = await _db.HomeMainCarouselItems.FindAsync(editView.Id);
-            if (editedItem == null)
-            {
-                throw new NullReferenceException($"Объект с Id = {editView.Id} отсутствует в базе данных");
-            }
-            editedItem.ImageHref = editView.ImageHref;
-            editedItem.Title = editView.Title;
-            editedItem.Description = editView.Description;
-            _db.Entry(editedItem).State = EntityState.Modified;
-            await _db.SaveChangesAsync();
-        }
-
-        public async Task<HomeMainCarouselItemView> FindCarouselItem(int? itemId)
-        {
-            if (itemId == null)
-            {
-                throw new ArgumentNullException($"Параметр itemId = null");
-            }
-            else
-            {
-                var carouselItemFromDb = await _db.HomeMainCarouselItems.FindAsync(itemId);
-                if (carouselItemFromDb == null)
-                {
-                    throw new NullReferenceException($"Объект с itemId = {itemId} отсутствует в базе данных");
-                }
-                else
-                {
-                    var result = MapCarousleItemToCarousleItemView(carouselItemFromDb);
-                    return result;
-                }
-            }
-        }
-
         public async Task<List<Slide>> GetMainCarousel()
         {
             return await _newsPageLogic.GetNewsSlides();
-        }
-
-        public async Task RemoveMainCarouselItem(int? itemId)
-        {
-            if (itemId == null)
-            {
-                throw new ArgumentNullException("itemId = null");
-            }
-            var item = await _db.HomeMainCarouselItems.FindAsync(itemId);
-            if (item == null)
-            {
-                throw new NullReferenceException($"Объект с указанным itemId = {itemId} отсутствует в базе данных");
-            }
-            _db.HomeMainCarouselItems.Remove(item);
-            await _db.SaveChangesAsync();
-        }
-
-        private HomeMainCarouselItem MapNewCarouselItemToMainHomeCarousleItem(AddNewCarouselItemView newItem)
-        {
-            var result = new HomeMainCarouselItem()
-            {
-                Title = newItem.Title,
-                Description = newItem.Description,
-                ImageHref = newItem.ImageHref
-            };
-            return result;
-        }
-
-        private HomeMainCarouselItemView MapCarousleItemToCarousleItemView(HomeMainCarouselItem item)
-        {
-            return new HomeMainCarouselItemView()
-            {
-                Id = item.Id,
-                Title = item.Title,
-                Description = item.Description,
-                ImageHref = item.ImageHref
-            };
         }
 
         public async Task<List<CarBrand>> GetCarBrandsCarousel()

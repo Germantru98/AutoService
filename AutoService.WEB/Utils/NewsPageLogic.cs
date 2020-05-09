@@ -31,13 +31,13 @@ namespace AutoService.WEB.Utils
                 ImgHref = news.ImgHref,
                 DateOfCreation = DateTime.Today,
             };
-            _db.News.Add(item);
+            _db.NewsContext.Add(item);
             await _db.SaveChangesAsync();
         }
 
         public async Task EditNews(EditNews editedNews)
         {
-            var news = await _db.News.FindAsync(editedNews.Id);
+            var news = await _db.NewsContext.FindAsync(editedNews.Id);
             news.Title = editedNews.Title;
             news.NewsText = editedNews.NewsText;
             news.SlideTitle = editedNews.SlideTitle;
@@ -50,7 +50,7 @@ namespace AutoService.WEB.Utils
 
         public async Task<List<News>> GetAllNews()
         {
-            var result = await _db.News.ToListAsync();
+            var result = await _db.NewsContext.ToListAsync();
             return result;
         }
 
@@ -60,12 +60,12 @@ namespace AutoService.WEB.Utils
             {
                 throw new ArgumentNullException();
             }
-            var removedNews = await _db.News.FindAsync(newsId);
+            var removedNews = await _db.NewsContext.FindAsync(newsId);
             if (removedNews == null)
             {
                 throw new NullReferenceException();
             }
-            _db.News.Remove(removedNews);
+            _db.NewsContext.Remove(removedNews);
             await _db.SaveChangesAsync();
         }
 
@@ -75,7 +75,7 @@ namespace AutoService.WEB.Utils
             {
                 throw new ArgumentNullException();
             }
-            var news = await _db.News.FindAsync(newsId);
+            var news = await _db.NewsContext.FindAsync(newsId);
             if (news == null)
             {
                 throw new NullReferenceException();
@@ -90,7 +90,7 @@ namespace AutoService.WEB.Utils
             {
                 throw new ArgumentNullException();
             }
-            var news = await _db.News.FindAsync(newsId);
+            var news = await _db.NewsContext.FindAsync(newsId);
             if (news == null)
             {
                 throw new NullReferenceException();
@@ -109,7 +109,7 @@ namespace AutoService.WEB.Utils
 
         public async Task<List<Slide>> GetNewsSlides()
         {
-            var news = await _db.News.ToListAsync();
+            var news = await _db.NewsContext.ToListAsync();
             var result = new List<Slide>();
             foreach (var item in news)
             {

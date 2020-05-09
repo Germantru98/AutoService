@@ -135,9 +135,9 @@ namespace AutoService.WEB.Controllers
             var services = await _servicesLogic.SearchServicesByName(serviceName);
             if (services.Count <= 0)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = Messages.Error });
             }
-            return RedirectToAction("Index", new { message = Messages.Error });
+            return PartialView("ServicesSearch", services);
         }
 
         public async Task<ActionResult> GetServicesSortedByDiscount()

@@ -61,6 +61,7 @@ namespace AutoService.WEB.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public ActionResult CreateNews()
         {
             return View();
@@ -78,6 +79,7 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index", new { message = Message.error });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> RemoveNews(int? newsId)
         {
             try
@@ -107,6 +109,7 @@ namespace AutoService.WEB.Controllers
             return RedirectToAction("Index", new { message = Message.error });
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> EditNews(int? newsId)
         {
             try
@@ -138,11 +141,6 @@ namespace AutoService.WEB.Controllers
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing)
-            {
-                _newsPageLogic.Dispose();
-            }
-
             base.Dispose(disposing);
         }
     }

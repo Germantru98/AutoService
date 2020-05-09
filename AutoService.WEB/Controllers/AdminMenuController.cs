@@ -345,112 +345,6 @@ namespace AutoService.WEB.Controllers
             return PartialView(action);
         }
 
-        public async Task<ActionResult> AddNewHomeCarouselItem()
-        {
-            var allNews = await _newsPageLogic.GetAllNews();
-            ViewBag.AllNews = new SelectList(allNews, "Id", "Title");
-            return PartialView("AddNewCarouselItem");
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> AddNewHomeCarouselItem(AddNewCarouselItemView newItem)
-        {
-            if (ModelState.IsValid)
-            {
-                await _homePageLogic.AddNewMainCarouselItem(newItem);
-                return RedirectToAction("Index", new { message = AdminMenuMessages.AddNewMainCarouselItemSuccess });
-            }
-            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
-        }
-
-        public async Task<ActionResult> RemoveHomeCarouselItem(int? id)
-        {
-            try
-            {
-                var carouselItem = await _homePageLogic.FindCarouselItem(id);
-                return PartialView("RemoveCarouselItemModalView", carouselItem);
-            }
-            catch (ArgumentNullException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (NullReferenceException)
-            {
-                return HttpNotFound();
-            }
-        }
-
-        [HttpPost, ActionName("RemoveHomeCarouselItem")]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> RemoveCarouselItemConfirmed(int id)
-        {
-            try
-            {
-                await _homePageLogic.RemoveMainCarouselItem(id);
-                return RedirectToAction("Index", new { message = AdminMenuMessages.RemoveMainCarouselItemSuccess });
-            }
-            catch (ArgumentNullException)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            catch (NullReferenceException)
-            {
-                return HttpNotFound();
-            }
-        }
-
-        public async Task<ActionResult> EditHomeCarouselItem(int? id)
-        {
-            try
-            {
-                var item = await _homePageLogic.FindCarouselItem(id);
-                var editItemView = new EditCarouselItemView()
-                {
-                    Title = item.Title,
-                    Description = item.Description,
-                    ImageHref = item.ImageHref,
-                    NewsId = item.NewsId,
-                    Id = item.Id
-                };
-                if (item.NewsId != null)
-                {
-                    var news = await _newsPageLogic.GetNews(item.NewsId);
-                    ViewBag.News = news;
-                }
-                var allNews = await _newsPageLogic.GetAllNews();
-                ViewBag.AllNews = new SelectList(allNews, "Id", "Title");
-                return PartialView("EditCarouselItemModalView", editItemView);
-            }
-            catch (ArgumentNullException)
-            {
-                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
-            }
-            catch (NullReferenceException)
-            {
-                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
-            }
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> EditHomeCarouselItem(EditCarouselItemView item)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    await _homePageLogic.EditMainCarouselItem(item);
-                    return RedirectToAction("Index", new { message = AdminMenuMessages.SuccessMainCarouselItemEdit });
-                }
-                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
-            }
-            catch (NullReferenceException)
-            {
-                return HttpNotFound();
-            }
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddNewCarBrand(CarBrand newBrand)
@@ -516,7 +410,6 @@ namespace AutoService.WEB.Controllers
                 _summariesLogic.Dispose();
                 _newsPageLogic.Dispose();
             }
-
             base.Dispose(disposing);
         }
     }
