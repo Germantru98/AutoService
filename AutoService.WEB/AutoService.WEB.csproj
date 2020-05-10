@@ -534,7 +534,6 @@
     <Content Include="Views\AdminMenu\SummaryEditorView.cshtml" />
     <Content Include="Views\AdminMenu\ServiceNameWithDiscount.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarouselItemModalView.cshtml" />
-    <Content Include="Views\AdminMenu\EditCarouselItemModalView.cshtml" />
     <Content Include="Views\AdminMenu\SettingsSection.cshtml" />
     <Content Include="Views\AdminMenu\RemoveCarBrand.cshtml" />
     <Content Include="Views\AdminMenu\AddNewCarBrand.cshtml" />

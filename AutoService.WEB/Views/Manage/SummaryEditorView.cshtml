@@ -6,7 +6,7 @@
         <h5 class="card-header bg-dark text-center text-white">Настройки</h5>
         @using (@Html.BeginForm("ChangeSummaryInformation", "Manage", null, FormMethod.Post, new { @class = "validate" }))
         {
-    <div class="card-body" style="height:641px">
+    <div class="card-body p-2" style="height:641px">
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.SummaryId)
         <div class="form-group">
@@ -19,7 +19,7 @@
         </div>
         <div class="card">
             <div class="card-header bg-dark text-white text-center"><i class="fa fa-tasks mr-1 p-1"></i>Услуги:</div>
-            <div class="card-body">
+            <div class="card-body p-2">
                 <div class="form-group overflow-auto" style="max-height:350px">
                     @if (Model.AllServices.Count > 0 && Model.AllServices != null)
                     {
