@@ -1,18 +1,18 @@
 ﻿@using AutoService.WEB.Models
 @model EditSummaryView
 
-<div class="mx-auto collapse col-10 mt-4 checkServicesForm" id="summaryEditor">
+<div class=" col-xl-10 col-md-10 col-sm-12 p-0 mt-3 mb-3 mx-auto checkServicesForm collapse" id="summaryEditor">
     @using (@Html.BeginForm("ChangeSummaryInformation", "AdminMenu", null, FormMethod.Post, new { @class = "validate" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.SummaryId)
-        <div class="form-group col-7">
+        <div class="form-group">
             @Html.DropDownListFor(model => model.UserCarId, ViewBag.UserCars as SelectList, new { @class = "form-control checkServicesForm" })
         </div>
-        <div class="form-group col-3">
+        <div class="form-group">
             @Html.EditorFor(model => model.DayOfWork)
         </div>
-        <div class="form-group col-7 overflow-auto" style="max-height:400px">
+        <div class="form-group overflow-auto p-1" style="max-height:400px">
             @if (Model.AllServices.Count > 0 && Model.AllServices != null)
             {
                 int counter = 1;

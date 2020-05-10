@@ -4,7 +4,7 @@
         <div class="text-center m-2">
             <a href="@Url.Action("AddNewDiscount","AdminMenu")" class="dialog btn btn-lg btn-outline-success"><i class="mr-1 p-1 fa fa-plus-circle fa-lg"></i>Добавить скидку</a>
         </div>
-        <div class="row">
+        <div class="row justify-content-around">
             @foreach (var serviceWithDiscount in Model)
             {
                 @Html.Partial("DiscountAdminView", serviceWithDiscount)

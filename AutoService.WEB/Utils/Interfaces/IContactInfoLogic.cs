@@ -11,7 +11,7 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task<List<ContactItem>> getAllContactItems();
 
-        Task AddItem(ContactItem item);
+        Task AddItem(AddNewContactView item);
 
         Task RemoveItem(int? id);
 
@@ -20,5 +20,7 @@ namespace AutoService.WEB.Utils.Interfaces
         Task<ContactItem> FindItem(int? itemId);
 
         string[] GetContactItemsTypes();
+
+        Task<EditContactInformationView> GetEditContactInformationView();
     }
 }

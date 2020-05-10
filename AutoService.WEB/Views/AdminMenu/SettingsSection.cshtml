@@ -43,11 +43,8 @@
         </div>
     </div>
     <div class="card-footer">
-        <div class="text-center m-2">
-            <a class="btn btn-outline-success" data-toggle="collapse" href="#addNewCarBrand" role="button" aria-expanded="false" aria-controls="addNewCarBrand">
-                <i class="mr-1 p-1 fa fa-plus fa-lg"></i>Добавить
-            </a>
+        <div class="text-center">
+            <a class="btn btn-sm btn-success dialog" href="@Url.Action("AddNewCarBrand","AdminMenu")"><i class="fa fa-plus mr-1 p-1"></i>Добавить</a>
         </div>
-        @Html.Partial("AddNewCarBrand", new CarBrand())
     </div>
 </div>

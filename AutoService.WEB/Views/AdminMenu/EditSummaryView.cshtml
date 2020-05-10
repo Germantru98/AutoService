@@ -9,7 +9,7 @@
 </div>
 <h2 class="text-center mt-3">Изменение заказа</h2>
 
-<div class="card col-10 shadow rounded p-0 mt-4 mx-auto">
+<div class="card col-xl-10 col-md-10 col-sm-12 shadow-sm rounded p-0 mt-3 mb-3 mx-auto">
     <div class="row no-gutters">
         <div class="col-md-6">
             <img class="img-fluid" src="@Model.Car.CarImageHref" alt="Alternate Text" />
@@ -44,31 +44,33 @@
             </div>
             <div class="card w-100 border-0 mt-2">
                 <div class="card-header text-center font-weight-bold" style="background-color:#dbd7d2"><i class="fa fa-list p-1 mr-1"></i>Услуги</div>
-                <ol class="card-body overflow-auto" style="max-height:300px">
-                    @foreach (var service in Model.ServicesList)
-                    {
-                        <li>
-                            @service.ToString()
-                        </li>
-                    }
-                </ol>
+                <div class="card-body pl-2">
+                    <ol class="overflow-auto" style="max-height:300px">
+                        @foreach (var service in Model.ServicesList)
+                        {
+                            <li>
+                                @service.ToString()
+                            </li>
+                        }
+                    </ol>
+                </div>
             </div>
         </div>
     </div>
     <div class="text-center card-footer">
         @if (Model.Date == DateTime.Today)
         {
-            <a href="@Url.Action("CompleteSummary","AdminMenu",new {SummaryId = Model.SummaryId})" class="dialog btn btn-outline-success">
+            <a href="@Url.Action("CompleteSummary","AdminMenu",new {SummaryId = Model.SummaryId})" class="dialog btn btn-outline-success m-1 btn-sm">
                 <i class="fa fa-check fa-lg p-1 mr-1"></i>Завершить
             </a>
         }
-        <a class="btn btn-outline-primary" data-toggle="collapse" href="#summaryEditor" role="button" aria-expanded="false" aria-controls="summaryEditor">
-            <i class="fa fa-gear fa-lg p-1 mr-1"></i>Изменить
+        <a class="btn btn-outline-primary m-1 btn-sm" data-toggle="collapse" href="#summaryEditor" role="button" aria-expanded="false" aria-controls="summaryEditor">
+            <i class="fa fa-gear fa-lg p-1  mr-1"></i>Изменить
         </a>
-        <a href="@Url.Action("RemoveSummary","AdminMenu",new { SummaryId = Model.SummaryId})" class="dialog btn btn-outline-danger">
-            <i class="fa fa-trash-o fa-lg p-1 mr-1"></i>Удалить
+        <a href="@Url.Action("RemoveSummary","AdminMenu",new { SummaryId = Model.SummaryId})" class="dialog btn btn-outline-danger m-1 btn-sm">
+            <i class="fa fa-trash-o fa-lg p-1  mr-1"></i>Удалить
         </a>
-        <a href="@Url.Action("Index","AdminMenu")" class="btn btn-outline-dark">
+        <a href="@Url.Action("Index","AdminMenu")" class="btn btn-outline-dark m-1 btn-sm">
             <i class="fa fa-times-circle fa-lg p-1 mr-1"></i>Назад
         </a>
     </div>

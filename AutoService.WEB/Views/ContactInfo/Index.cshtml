@@ -3,13 +3,30 @@
     ViewBag.Title = "Контактная информация";
 }
 
-<h2 class="display-4 text-center">Контактная информация</h2>
+    <h2 class="display-4 text-center">
+        Контактная информация
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-dark" href="@Url.Action("EditContacts", "ContactInfo")">
+                <i class="fa fa-gear fa-lg"></i>
+            </a>
+        }
+    </h2>
 
 <div class="row d-flex">
-    <div class="col-xl-7 col-sm-12 ml-xl-auto mr-sm-0 ml-sm-0">
-        <div class="m-3 text-center p-2">
+    <div class="col-xl-7 col-sm-12 ml-xl-auto mr-sm-0 ml-sm-0 p-1">
+        <div class="m-3 text-center">
             <iframe src="@Model.YandexFrameSrc" class="w-100 h-100" frameborder="1" allowfullscreen="true" style="min-height:400px"></iframe>
-            <h4 class="mt-3">@Model.Address</h4>
+            <div class="input-group text-center m-1 mx-auto" title="Адрес">
+                <div class="input-group-prepend">
+                    <div class="input-group-text text-center">
+                        <i class="fa fa-map-marker"></i>
+                    </div>
+                </div>
+                <div class="form-control">
+                    @Model.Address
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-xl-4 p-3">
@@ -21,7 +38,7 @@
                 <a class="mr-2" href="@Model.InstagramHref"><img title="Instagram" src="@Model.InstagramImageHref" height="70" width="70"></a>
             </dd>
             <dt class="h4">
-                Телефоны
+                <i class="fa fa-phone-square"></i> Телефоны
             </dt>
             <dd>
                 @foreach (var item in Model.ContactPhones)
@@ -30,7 +47,7 @@
                 }
             </dd>
             <dt class="h4">
-                Почта
+                <i class="fa fa-envelope-square"></i> Почта
             </dt>
             <dd>
                 @foreach (var item in Model.ContactEmails)
@@ -41,9 +58,3 @@
         </dl>
     </div>
 </div>
-@if (User.IsInRole("Admin"))
-{
-    <div class="m-2 text-right">
-        @Html.ActionLink("Изменить", "EditContacts", "ContactInfo", null, new { @class = "btn btn-dark" })
-    </div>
-}

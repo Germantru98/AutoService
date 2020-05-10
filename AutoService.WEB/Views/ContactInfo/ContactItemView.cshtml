@@ -1,0 +1,24 @@
+﻿@model AutoService.WEB.Models.ContactItem
+<div class="card rounded m-2" style="max-width:250px;width:250px">
+    <div class="card-header bg-dark text-white">
+        <h5 class="text-center">
+            @Model.Name
+    </h5>
+</div>
+<div class="card-body text-center">
+    <div>
+        @Model.Value
+    </div>
+</div>
+<div class="card-footer text-center">
+    <a class="btn btn-danger btn-sm dialog" href="@Url.Action("RemoveItem","ContactInfo", new { itemId = Model.Id })"><i class="fa fa-trash mr-1 p-1"></i>Удалить</a>
+    @if (Model.isActive)
+    {
+        <a class="btn btn-secondary btn-sm" href="@Url.Action("SwitchStatus","ContactInfo", new { itemId = Model.Id })"><i class="fa fa-power-off mr-1 p-1"></i>Выкл</a>
+    }
+    else
+    {
+        <a class="btn btn-success btn-sm" href="@Url.Action("SwitchStatus","ContactInfo", new { itemId = Model.Id })"><i class="fa fa-power-off mr-1 p-1"></i>Вкл</a>
+    }
+</div>
+</div>

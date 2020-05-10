@@ -2,7 +2,6 @@
 using AutoService.WEB.Utils.Interfaces;
 using Microsoft.AspNet.Identity;
 using System;
-using System.Net;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
@@ -47,7 +46,8 @@ namespace AutoService.WEB.Controllers
             Error,
             AccessDeny,
             CompleteOrderSucces,
-            RemoveOrderSuccess
+            RemoveOrderSuccess,
+            EditOrderSuccess
         }
 
         // GET: AdminMenu
@@ -67,6 +67,7 @@ namespace AutoService.WEB.Controllers
                 : message == AdminMenuMessages.AccessDeny ? "Ошибка доступа"
                 : message == AdminMenuMessages.RemoveOrderSuccess ? "Операция: \"Удаление заказа\" прошла успешно"
                 : message == AdminMenuMessages.CompleteOrderSucces ? "Операция: \"Завершение заказа\" прошла успешно"
+                : message == AdminMenuMessages.EditOrderSuccess ? "Заказ успешно изменён"
                 : null;
             var indexView = await _adminLogic.GetAdminMenuView();
             return View("AdminMenu", indexView);
@@ -85,7 +86,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -105,7 +106,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -144,7 +145,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -169,11 +170,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -190,7 +191,7 @@ namespace AutoService.WEB.Controllers
             {
                 return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 return RedirectToAction("Index", new { message = AdminMenuMessages.CompleteOrderFailure });
             }
@@ -237,7 +238,7 @@ namespace AutoService.WEB.Controllers
                 var ordersByThePeriod = await _summariesLogic.GetCompletedSummariesByPeriod(period.StartDate, period.FinishDate);
                 return PartialView("SummariesBlockView", ordersByThePeriod);
             }
-            return HttpNotFound();
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
 
         [HttpPost]
@@ -261,7 +262,7 @@ namespace AutoService.WEB.Controllers
                 var ordersByDay = await _summariesLogic.GetCompletedSummariesByDate(date);
                 return PartialView("SummariesBlockView", ordersByDay);
             }
-            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
 
         public async Task<ActionResult> RemoveSummary(int? summaryId)
@@ -320,11 +321,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -335,14 +336,19 @@ namespace AutoService.WEB.Controllers
             if (ModelState.IsValid)
             {
                 await _summariesLogic.EditSummary(summary);
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { message = AdminMenuMessages.EditOrderSuccess });
             }
-            return HttpNotFound();
+            return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
         }
 
         public ActionResult SuccessOperation(string action)
         {
             return PartialView(action);
+        }
+
+        public ActionResult AddNewCarBrand()
+        {
+            return PartialView();
         }
 
         [HttpPost]
@@ -360,7 +366,7 @@ namespace AutoService.WEB.Controllers
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -373,11 +379,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 
@@ -392,11 +398,11 @@ namespace AutoService.WEB.Controllers
             }
             catch (ArgumentNullException)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
             catch (NullReferenceException)
             {
-                return HttpNotFound();
+                return RedirectToAction("Index", new { message = AdminMenuMessages.Error });
             }
         }
 

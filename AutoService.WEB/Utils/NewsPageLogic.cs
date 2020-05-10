@@ -42,7 +42,7 @@ namespace AutoService.WEB.Utils
             news.NewsText = editedNews.NewsText;
             news.SlideTitle = editedNews.SlideTitle;
             news.SlideDescription = editedNews.SlideDescription;
-            news.ImgHref = news.ImgHref;
+            news.ImgHref = editedNews.ImgHref;
             news.DateOfCreation = DateTime.Today;
             _db.Entry(news).State = EntityState.Modified;
             await _db.SaveChangesAsync();

@@ -1,10 +1,13 @@
 ﻿@using AutoService.WEB.Models
 @model EditNews
+@{
+    ViewBag.Title = "Изменение новости";
+}
 @using (Html.BeginForm("EditNews", "NewsPage", FormMethod.Post, new { @class = "validate" }))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
-    <div class="col-xl-5 col-md-7 col-sm-12 mx-auto mt-4">
+    <div class="col-xl-5 col-md-7 col-sm-12 mx-auto mt-4 mb-4 p-0">
         <div class="card mx-auto">
             <div class="card-header bg-dark text-white">
                 <h5 class="text-center">@Model.Title</h5>

@@ -1,44 +1,67 @@
 ﻿@model AutoService.WEB.Models.ServiceView
 
-    <div class="col-xl-4 col-md-6 col-sm-12">
-        <div class="card m-3 shadow rounded w-100 mx-auto">
-                <img class="card-img" src="@Model.ServiceImageHref" alt="Alternate Text" height="350" />
-            <div class="card-body adminDiscountCardBody">
-                <div class="text-center h5" style="min-height:50px; font-size:23px">@Model.ServiceName</div>
-                <div>
-                    <label>Дата начала акции: </label>
-                    @Model.Discount.StartDate.ToShortDateString()
+    <div class="col-xl-3 col-md-6 col-sm-8">
+        <div class="card m-3 shadow-sm rounded w-100 mx-auto">
+            <img class="card-img" src="@Model.ServiceImageHref" alt="Alternate Text" style="max-height:300px" />
+            <div class="text-center p-1 m-0 h4" style="min-height:50px;">@Model.ServiceName</div>
+            <div class="card-body p-2 text-center">
+                <div class="input-group m-1 mx-auto" title="Дата начала акции">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text text-center bg-dark text-white"style="width:42px">
+                            <i class="fa fa-calendar-check-o mx-auto"></i>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        @Model.Discount.StartDate.ToShortDateString()
+                    </div>
                 </div>
-                <div>
-                    <label>Дата окончания акции: </label>
-                    @Model.Discount.FinishDate.ToShortDateString()
+                <div class="input-group m-1 mx-auto" title="Дата окончания акции">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text text-center bg-dark text-white"style="width:42px">
+                            <i class="fa fa-calendar-times-o mx-auto"></i>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        @Model.Discount.FinishDate.ToShortDateString()
+                    </div>
                 </div>
-                <div>
-                    <label>Цена со скидкой: </label>
-                    @Model.PriceWithDiscount <label><i class="fa fa-ruble"></i></label>
+                <div class="input-group m-1 mx-auto" title="Цена, с учетом скидки">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text text-center bg-dark text-white" style="width:42px">
+                            <i class="fa fa-product-hunt mx-auto"></i>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        @Model.PriceWithDiscount<i class="fa fa-rub ml-1"></i>
+                    </div>
                 </div>
-                @Html.Partial("ServiceNameWithDiscount", Model.Discount.Value)
+                <div class="input-group m-1 mx-auto" title="Размер скидки">
+                    <div class="input-group-prepend">
+                        <div class="input-group-text text-center bg-dark text-white" style="width:42px">
+                            <i class="fa fa-percent mx-auto"></i>
+                        </div>
+                    </div>
+                    <div class="form-control">
+                        @Html.Partial("ServiceNameWithDiscount", Model.Discount.Value)
+                    </div>
+                </div>
             </div>
             @if (Model.DiscountRelevancy)
             {
                 <div class="card-footer text-center">
-                    <div class="btn-group">
-                        <a href="AdminMenu/ExtendDiscount/@Model.Discount.DiscountId" class="btn btn-outline-dark dialog">
+                        <a href="@Url.Action("ExtendDiscount","AdminMenu",new { id = Model.Discount.DiscountId})" class="btn btn-outline-dark dialog btn-sm">
                             <i class="fa fa-calendar-plus-o fa-lg p-1 mr-1"></i>Продлить
                         </a>
-                        <a href="@Url.Action("RemoveDiscount","AdminMenu", new { ServiceId = Model.ServiceId })" class="btn btn-outline-dark dialog">
+                        <a href="@Url.Action("RemoveDiscount","AdminMenu", new { ServiceId = Model.ServiceId })" class="btn btn-outline-dark dialog btn-sm">
                             <i class="fa fa-trash-o fa-lg p-1 mr-1"></i>Убрать
                         </a>
-                    </div>
                 </div>
             }
             else
             {
                 <div class="card-footer text-center bg-warning">
-                    <div class="btn-group">
                         @Html.ActionLink("Продлить", "ExtendDiscount", "AdminMenu", new { id = Model.Discount.DiscountId }, new { @class = "btn btn-outline-dark dialog" })
                         @Html.ActionLink("Убрать", "RemoveDiscount", "AdminMenu", new { Model.ServiceId }, new { @class = "btn btn-outline-dark dialog" })
-                    </div>
                     <div class="mt-2 bg-light rounded">Скидка не релевантна!</div>
                 </div>
             }

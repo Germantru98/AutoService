@@ -1,15 +1,15 @@
 ﻿@model int
-<div style="font-size:21px">
+<div>
     @if (Model <= 30)
     {
-        <p> Размер скидки: <span class="badge badge-success p-2">@Model <i class="fa fa-percent"></i></span></p>
+        <span class="badge badge-success p-1">@Model <i class="fa fa-percent"></i></span>
     }
     else if (Model > 30 && Model < 60)
     {
-        <p> Размер скидки: <span class="badge badge-warning  p-2">@Model <i class="fa fa-percent"></i></span></p>
+        <span class="badge badge-warning p-1">@Model <i class="fa fa-percent"></i></span>
     }
     else
     {
-        <p> Размер скидки: <span class="badge badge-danger  p-2">@Model <i class="fa fa-percent"></i></span></p>
+        <span class="badge badge-danger p-1">@Model <i class="fa fa-percent"></i></span>
     }
 </div>

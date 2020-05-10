@@ -3,7 +3,7 @@
     ViewBag.Title = "Регистрация";
 }
 
-<div class="col-xl-6 col-md-7 mx-auto mt-4">
+<div class="col-xl-6 col-md-7 mx-auto mt-4 p-0">
     <div class="card shadow-sm rounded">
         <div class="card-header bg-dark text-white text-center" style="font-size:20px">@ViewBag.Title</div>
         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { role = "form" }))

@@ -1,20 +1,54 @@
 ﻿@using AutoService.WEB.Models
 @model CarBrand
-
-<div class="col-6 mx-auto m-4 collapse" id="addNewCarBrand">
-    @using (@Html.BeginForm("AddNewCarBrand", "AdminMenu", null, FormMethod.Post, new { @class = "carbrandform" }))
+<div class="modal-content">
+    <!-- Заголовок модального окна -->
+    <div class="modal-header">
+        <h5 class="modal-title">Новый автобренд </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Основное содержимое модального окна -->
+    @using (Html.BeginForm("AddNewCarBrand", "AdminMenu", null, FormMethod.Post, new { @class = "carbrandform" }))
     {
-    @Html.AntiForgeryToken()
-    <div class="form-group ">
-        <label class="col-form-label">Название автобренда: </label>
-        @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
-    </div>
-    <div class="form-group">
-        <label class="col-form-label">Ссылка на лого бренда: </label>
-        @Html.EditorFor(model => model.ImageHref, new { htmlAttributes = new { @class = "form-control" } })
-    </div>
-    <div class=" text-center">
-        <button class="btn btn-outline-dark" type="submit"><i class="mr-1 p-1 fa fa-send"></i>Добавить</button>
-    </div>
+        @Html.AntiForgeryToken()
+        <div class="modal-body form-horizontal">
+            <div class="form-group ">
+                <label class="col-form-label">Название автобренда: </label>
+                @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+            <div class="form-group">
+                <label class="col-form-label">Ссылка на лого бренда: </label>
+                @Html.EditorFor(model => model.ImageHref, new { htmlAttributes = new { @class = "form-control" } })
+            </div>
+        </div>
+        <!-- Футер модального окна -->
+        <div class="modal-footer ">
+            <button class="btn btn-outline-dark" type="submit"><i class="mr-1 p-1 fa fa-send"></i>Добавить</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
+        </div>
     }
 </div>
+<script>
+    $('.carbrandform').validate({
+        errorClass: "text-danger",
+        rules: {
+            ImageHref: {
+                required: true,
+                url: true
+            },
+            BrandName: {
+                required: true
+            }
+        },
+        messages: {
+            ImageHref: {
+                required: "Поле с ссылкой на изображение должно быть заполненно",
+                url: "Поле должно содержать ссылку"
+            },
+            BrandName: {
+                required: "Поле название бренда не может быть пустым"
+            }
+        }
+    });
+</script>

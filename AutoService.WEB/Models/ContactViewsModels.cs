@@ -51,7 +51,6 @@ namespace AutoService.WEB.Models
     public class EditContactInformationView
     {
         public List<ContactItem> ContactItems { get; set; }
-        public AddNewContactView AddNewContactView { get; set; }
     }
 
     public class ContactItemView

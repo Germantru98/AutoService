@@ -30,11 +30,11 @@
         </h5>
         <img style="max-height:230px" class="card-img h-50" src="@Model.ServiceImageHref" alt="...">
         <div class="h-50">
-            <div class="card-body text-center p-1" style="height:120px">
-                <div class="card-text text-left p-2">
+            <div class="card-body text-center p-2" style="height:120px">
+                <div class="card-text">
                     @if (Model.Discount != null && Model.Discount.isRelevant())
                     {
-                        <div class="input-group text-center m-1 mx-auto" title="Сроки длительности акции">
+                        <div class="input-group m-1 mx-auto">
                             <div class="input-group-prepend">
                                 <div class="input-group-text text-center" style="width:70px">
                                     Цена:
@@ -44,9 +44,9 @@
                                 @Model.PriceWithDiscount <i class="fa fa-ruble p-1"></i>
                             </div>
                         </div>
-                        <div class="input-group text-center m-1 mx-auto" title="Сроки длительности акции">
+                        <div class="input-group m-1 mx-auto" title="Сроки длительности акции">
                             <div class="input-group-prepend">
-                                <div class="input-group-text" style="width:70px">
+                                <div class="input-group-text " style="width:70px">
                                     <i class="fa fa-calendar mx-auto"></i>
                                 </div>
                             </div>
@@ -57,9 +57,9 @@
                     }
                     else
                     {
-                        <div class="input-group text-center m-1">
+                        <div class="input-group m-1 mx-auto">
                             <div class="input-group-prepend">
-                                <div class="input-group-text text-center" style="width:70px">
+                                <div class="input-group-text" style="width:70px">
                                     Цена:
                                 </div>
                             </div>

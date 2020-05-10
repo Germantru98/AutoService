@@ -37,7 +37,7 @@
 </ul>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="discount-section">
-        @Html.Partial("DiscountsSection", Model.Discounts);
+        @Html.Partial("DiscountsSection", Model.Discounts)
     </div>
     <div class="tab-pane fade" id="current-orders">
         @Html.Partial("CurrentOrdersSection", Model.CurrentOrders)
@@ -95,28 +95,4 @@
             $('#statusMessage').modal('show');
         });
     </script>
-    <script>
-        $('.carbrandform').validate({
-            errorClass: "text-danger",
-            rules: {
-                ImageHref: {
-                    required: true,
-                    url: true
-                },
-                BrandName: {
-                    required: true
-                }
-            },
-            messages: {
-                ImageHref: {
-                    required: "Поле с ссылкой на изображение должно быть заполненно",
-                    url: "Поле должно содержать ссылку"
-                },
-                BrandName: {
-                    required: "Поле название бренда не может быть пустым"
-                }
-            }
-        });
-    </script>
-
 }

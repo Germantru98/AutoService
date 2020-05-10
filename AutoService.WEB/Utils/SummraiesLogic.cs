@@ -33,7 +33,7 @@ namespace AutoService.WEB.Utils
             var summaryFromDb = await _db.ServicesSummaries.FindAsync(summaryId);
             if (summaryFromDb.DayOfWork != today)
             {
-                throw new Exception("Ошибка,невозможно завершить заказ, так как дата работ не совпадает с текущей датой");
+                throw new InvalidOperationException("Ошибка,невозможно завершить заказ, так как дата работ не совпадает с текущей датой");
             }
             summaryFromDb.IsCompleted = true;
             var completedSummaryHistory = new CompletedSummariesHistory()

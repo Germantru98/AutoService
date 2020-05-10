@@ -11,7 +11,7 @@
         <div class="card-body pt-2">
             <div class="card">
                 <div class="card-header text-center" style="background-color:#e9ecef"><h6 class="m-0"><i class="fa fa-list p-1 mr-1"></i>Список оказываемых услуг</h6></div>
-                <div class="card-body" style="height:150px;max-height:200px">
+                <div class="card-body pl-2" style="height:150px;max-height:200px">
                     <ol class="overflow-auto h-100">
                         @foreach (var item in Model.ServicesList)
                         {
@@ -46,8 +46,8 @@
             </div>
         </div>
         <div class="card-footer text-center">
-            <a style="width:105px" class="btn btn-dark btn-sm" href="@Url.Action("EditSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-gear p-1 mr-1"></i>Изменить</a>
-            <a style="width:105px" class="dialog btn btn-dark btn-sm" href="@Url.Action("RemoveSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-trash p-1 mr-1"></i>Удалить</a>
+            <a  class="btn btn-dark btn-sm" href="@Url.Action("EditSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-gear p-1 mr-1"></i>Изменить</a>
+            <a  class="dialog btn btn-dark btn-sm" href="@Url.Action("RemoveSummary","Manage",new { summaryId = Model.OrderId})"><i class="fa fa-trash p-1 mr-1"></i>Удалить</a>
         </div>
     </div>
 </div>

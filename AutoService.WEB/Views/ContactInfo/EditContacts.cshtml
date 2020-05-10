@@ -1,70 +1,44 @@
 ﻿@using AutoService.WEB.Models
 @model EditContactInformationView
+@{
+    ViewBag.Title = "Изменение контактной информации";
+}
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<div>
-    <table class="table table-dark mr-auto ml-auto mt-2 col-7 ">
-        <tr class="bg-dark text-white text-center">
-            <td>Тип</td>
-            <td>Значение</td>
-            <td>Состояние</td>
-            <td>Действия</td>
-        </tr>
-        @foreach (var item in Model.ContactItems)
-        {
-        <tr class="bg-secondary">
-            <td>@item.Name</td>
-            <td>@item.Value</td>
-            <td class="text-center">
-                @if (@item.isActive)
-                    {
-                <a class="btn btn-success btn-circle"></a>
-                    }
-                    else
-                    {
-                <a class="btn btn-danger btn-circle"></a>
-                    }
-            </td>
-            <td class="text-center">
-                @Html.ActionLink("Удалить", "RemoveItem", new { itemId = item.Id }, new { @class = "dialog btn btn-dark" })
-                @if (item.isActive)
-                    {
-                @Html.ActionLink("Отключить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
-                    }
-                    else
-                    {
-                @Html.ActionLink("Включить", "SwitchStatus", new { itemId = item.Id }, new { @class = "btn btn-dark" })
-                    }
-            </td>
-        </tr>
-        }
-    </table>
-    <div class="text-right mr-auto ml-auto col-7 p-0 mb-2 mt-2">
-        <a class="btn btn-dark" data-toggle="collapse" href="#AddNewInfoForm" role="button" aria-expanded="false" aria-controls="collapseExample">
-            Добавить
-        </a>
+@if (ViewBag.StatusMessage != null)
+{
+    string message = ViewBag.StatusMessage as string;
+    if (!message.Contains("Ошибка"))
+    {
+        @Html.Partial("SuccessOperation")
+    }
+    else
+    {
+        @Html.Partial("ErrorModalView")
+    }
+
+}
+<div class="col-xl-7 col-md-8 col-sm-10 mx-auto mt-4 mb-4 p-0">
+    <div class="card rounded shadow-sm">
+        <h4 class="card-header bg-dark text-center text-white">Контактная информация <a class="btn btn-primary dialog btn-sm" href="@Url.Action("AddNewInfo")"><i class="fa fa-plus"></i></a></h4>
+        <div class="card-body">
+            <div class="row justify-content-center">
+                @foreach (var item in Model.ContactItems)
+                {
+                    @Html.Partial("ContactItemView", item)
+                }
+            </div>
+        </div>
     </div>
-</div>
-<div class="collapse m-2" id="AddNewInfoForm">
-    @Html.Partial("AddNewInfo", Model.AddNewContactView)
 </div>
 @section Scripts {
     @Scripts.Render("~/scripts/InvokeModalDialog.js")
     @Scripts.Render("~/scripts/jquery.validate.min.js")
     <script>
-        $('.validate').validate({
-            rules: {
-                Value: {
-                    required: true
-                }
-            },
-            messages: {
-                Value: {
-                    required: "Данное поле не может быть пустым"
-                }
-            }
+        $(window).on('load', function () {
+            $('#statusMessage').modal('show');
         });
     </script>
 }

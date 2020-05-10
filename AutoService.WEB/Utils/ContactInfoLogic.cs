@@ -93,12 +93,6 @@ namespace AutoService.WEB.Utils
             }
         }
 
-        public async Task AddItem(ContactItem item)
-        {
-            _db.Contacts.Add(item);
-            await _db.SaveChangesAsync();
-        }
-
         public async Task RemoveItem(int? id)
         {
             if (id == null)
@@ -187,6 +181,27 @@ namespace AutoService.WEB.Utils
         {
             Dispose(true);
             GC.SuppressFinalize(this);
+        }
+
+        public async Task<EditContactInformationView> GetEditContactInformationView()
+        {
+            var view = new EditContactInformationView()
+            {
+                ContactItems = await _db.Contacts.ToListAsync()
+            };
+            return view;
+        }
+
+        public async Task AddItem(AddNewContactView item)
+        {
+            var newItem = new ContactItem()
+            {
+                Name = item.Type,
+                Value = item.Value,
+                isActive = true
+            };
+            _db.Contacts.Add(newItem);
+            await _db.SaveChangesAsync();
         }
     }
 }

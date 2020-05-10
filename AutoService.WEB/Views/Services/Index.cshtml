@@ -17,11 +17,11 @@
     }
 
 }
-<h2 class="display-4 text-center">Услуги</h2>
+<h2 class="display-4 text-center mb-3">Услуги</h2>
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
 </div>
-<div class="row justify-content-center">
+<div class="row justify-content-sm-start justify-content-xl-center justify-content-md-center m-2">
     @using (Ajax.BeginForm("GetAllServices", new AjaxOptions { UpdateTargetId = "results" }))
     {
         <button class="btn btn-outline-primary m-1" type="submit"><i class="fa fa-book mr-1 p-1"></i>Все</button>
@@ -37,12 +37,13 @@
     @using (Ajax.BeginForm("SearchServicesByName", null, new AjaxOptions { UpdateTargetId = "results" }, new { @class = "form-inline" }))
     {
 
-        <div class="input-group-append">
-            <input type="text" class="form-control ml-2  mr-sm-1 h-auto" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
+        <div class="input-group-append ml-xl-2 ml-md-2 m-1">
+            <input type="text" class="form-control border border-primary h-auto mr-n1 text-primary" placeholder="Поиск по услуге" aria-describedby="button" name="serviceName">
             <button class="btn btn-primary" type="submit" id="button"><i class="fa fa-search mr-1 p-1"></i>Поиск</button>
         </div>
     }
 </div>
+
 <div class="row mt-2 mb-2 justify-content-sm-center justify-content-xl-start justify-content-md-around" id="results">
     @foreach (var service in Model)
     {

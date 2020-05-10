@@ -88,17 +88,6 @@
 }
 
 .myCarouselItem {
-    min-height: 220px;
+    min-height: 250px;
     max-height: 580px;
-}
-
-.discountHomeCard {
-    min-height: 220px;
-    max-height: 540px;
-}
-
-.discountItem {
-    max-width: 550px;
-    max-height: 500px;
-    min-height: 340px;
 }

@@ -3,8 +3,7 @@
 }
 
 @using AutoService.WEB.Models
-
-@model ContactItemView
+@model ContactItem
 
 <div class="modal-content">
     <!-- Заголовок модального окна -->
@@ -15,27 +14,24 @@
         </button>
     </div>
     <!-- Основное содержимое модального окна -->
-    <div class="modal-body text-center ">
+    <div class="modal-body">
         <div>
-            <div>
-                @Html.LabelFor(model => model.Type,new { @class = "font-weight-bold" }):
-                @Html.DisplayFor(model => model.Type)
+            <div class="m-1 mb-3">
+                <label class="font-weight-bold m-0"><i class="fa fa-bookmark mr-1 p-1"></i>Тип информации:</label><br />
+                @Html.DisplayFor(model => model.Name)
             </div>
-            <div>
-                @Html.LabelFor(model => model.Value, new { @class = "font-weight-bold" }):
+            <div class="m-1 mb-3">
+                <label class="font-weight-bold m-0"><i class="fa fa-sticky-note mr-1 p-1"></i>Содержание:</label><br />
                 @Html.DisplayFor(model => model.Value)
             </div>
         </div>
     </div>
-    <div class="modal-footer">
-        @using (Html.BeginForm())
-        {
-            @Html.AntiForgeryToken()
-
-            <div class="form-actions no-color">
-                <input type="submit" value="Удалить" class="btn btn-outline-danger" />
-            </div>
-        }
-        <button type="button" class="btn btn-outline-dark" data-dismiss="modal">Закрыть</button>
-    </div>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="modal-footer ">
+            <button class="btn btn-outline-danger" type="submit"><i class="mr-1 p-1 fa fa-trash"></i>Удалить</button>
+            <button type="button" class="btn btn-dark" data-dismiss="modal"><i class="mr-1 p-1 fa fa-window-close fa-lg"></i>Закрыть</button>
+        </div>
+    }
 </div>
