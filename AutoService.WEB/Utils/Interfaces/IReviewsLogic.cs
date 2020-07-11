@@ -13,10 +13,6 @@ namespace AutoService.WEB.Utils.Interfaces
 
         Task EditUserReview(EditUserReviewView editedView);
 
-        Task<UserReview> FindUserReview(int? reviewId);
-
-        Task<IEnumerable<UserReview>> GetUserViews();
-
         Task<List<UserReview>> GetAllReviews();
 
         Task<EditUserReviewView> StartEditUserReview(int? reviewId, string userId);

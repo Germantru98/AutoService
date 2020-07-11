@@ -26,9 +26,6 @@ namespace AutoService.WEB.Models
             PriceWithDiscount = price;
             ServiceImageHref = serviceImageHref;
         }
-
-        public int Counter { get; set; }
-
         public override string ToString()
         {
             if (Discount == null)

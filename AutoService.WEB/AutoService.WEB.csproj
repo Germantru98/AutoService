@@ -265,6 +265,10 @@
     <Compile Include="Migrations\202005090953282_deleteMCI.Designer.cs">
       <DependentUpon>202005090953282_deleteMCI.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202005171524256_1705.cs" />
+    <Compile Include="Migrations\202005171524256_1705.Designer.cs">
+      <DependentUpon>202005171524256_1705.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AdminModels.cs" />
@@ -599,6 +603,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202005090953282_deleteMCI.resx">
       <DependentUpon>202005090953282_deleteMCI.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202005171524256_1705.resx">
+      <DependentUpon>202005171524256_1705.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

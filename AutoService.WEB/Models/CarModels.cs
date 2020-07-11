@@ -9,7 +9,6 @@ namespace AutoService.WEB.Models
         public string Color { get; set; }
         public string Year { get; set; }
         public string CarImageHref { get; set; }
-
         public string ApplicationUserId { get; set; }
         public ApplicationUser ApplicationUser { get; set; }
     }

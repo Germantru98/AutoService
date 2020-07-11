@@ -90,4 +90,5 @@
 .myCarouselItem {
     min-height: 250px;
     max-height: 580px;
+    object-fit:cover;
 }

@@ -46,16 +46,6 @@ namespace AutoService.WEB.App_Start
             {
                 kernel.Bind<Func<IKernel>>().ToMethod(ctx => () => new Bootstrapper().Kernel);
                 kernel.Bind<IHttpModule>().To<HttpApplicationInitializationHttpModule>();
-                kernel.Bind<IServicesLogic>().To<ServicesLogic>();
-                kernel.Bind<IContactInfoLogic>().To<ContactInfoLogic>();
-                kernel.Bind<ApplicationDbContext>().ToSelf();
-                kernel.Bind<IReviewsLogic>().To<ReviewsLogic>();
-                kernel.Bind<IAdminLogic>().To<AdminLogic>();
-                kernel.Bind<ISummariesLogic>().To<SummraiesLogic>();
-                kernel.Bind<ICarLogic>().To<CarLogic>();
-                kernel.Bind<IHomePageLogic>().To<HomePageLogic>();
-                kernel.Bind<IVacanciesLogic>().To<VacanciesLogic>();
-                kernel.Bind<INewsPageLogic>().To<NewsPageLogic>();
                 RegisterServices(kernel);
                 return kernel;
             }
@@ -72,6 +62,16 @@ namespace AutoService.WEB.App_Start
         /// <param name="kernel">The kernel.</param>
         private static void RegisterServices(IKernel kernel)
         {
+            kernel.Bind<IServicesLogic>().To<ServicesLogic>();
+            kernel.Bind<IContactInfoLogic>().To<ContactInfoLogic>();
+            kernel.Bind<ApplicationDbContext>().ToSelf();
+            kernel.Bind<IReviewsLogic>().To<ReviewsLogic>();
+            kernel.Bind<IAdminLogic>().To<AdminLogic>();
+            kernel.Bind<ISummariesLogic>().To<SummraiesLogic>();
+            kernel.Bind<ICarLogic>().To<CarLogic>();
+            kernel.Bind<IHomePageLogic>().To<HomePageLogic>();
+            kernel.Bind<IVacanciesLogic>().To<VacanciesLogic>();
+            kernel.Bind<INewsPageLogic>().To<NewsPageLogic>();
         }
     }
 }

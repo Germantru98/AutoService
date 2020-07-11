@@ -88,7 +88,7 @@ namespace AutoService.WEB.Controllers
             {
                 return RedirectToAction("Index", new { message = Messages.Error });
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 return RedirectToAction("Index", new { message = Messages.Error });
             }
@@ -127,7 +127,7 @@ namespace AutoService.WEB.Controllers
             {
                 return RedirectToAction("Index", new { message = Messages.Error });
             }
-            catch (Exception)
+            catch (InvalidOperationException)
             {
                 return RedirectToAction("Index", new { message = Messages.Error });
             }
